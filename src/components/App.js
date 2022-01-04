@@ -5,17 +5,15 @@ export function App() {
   const [checkOne, setcheckOne] = useState(false);
   const [checkTwo, setcheckTwo] = useState(false);
   const [checkThree, setcheckThree] = useState(false);
-  const [budget, setBudget] = useState(0);
+  const [total, setTotal] = useState(0);
 
-  const handleOne = () => setcheckOne(!checkOne);
+  const handleCheck1 = () => setcheckOne(!checkOne);
+  const handleCheck2 = () => setcheckTwo(!checkTwo);
+  const handleCheck3 = () => setcheckThree(!checkThree);
   
-  const handleTwo = () => setcheckTwo(!checkTwo);
-
-  const handleThree = () => setcheckThree(!checkThree);
-  
-  function handleBudget(evt){
-    let serviceCost = Number(evt.target.value);
-    evt.target.checked ? setBudget(budget+serviceCost) : setBudget(budget-serviceCost)
+  function handleTotal(event){
+    let evtValue = Number(event.target.value);
+    (event.target.checked) ? setTotal(total+evtValue) : setTotal(total-evtValue)
   }
 
   return (
@@ -23,38 +21,41 @@ export function App() {
     <div>
       <Checkbox 
         check={checkOne} 
-        onChange={handleOne}
-        onClick={handleBudget}
-        value={400}
-        label='Layout (400€)' 
-      />
+        onChange={handleCheck1}
+        onClick={handleTotal}
+        value={400} 
+      >
+      Layout (400€)
+      </Checkbox>
       
       <Checkbox 
         check={checkTwo} 
-        onChange={handleTwo} 
-        onClick={handleBudget}
+        onChange={handleCheck2} 
+        onClick={handleTotal}
         value={300}
-        label='Seo (300€)' 
-      />
+      > 
+      Seo (300€)
+      </Checkbox>
 
       <Checkbox 
         check={checkThree} 
-        onChange={handleThree} 
-        onClick={handleBudget}
+        onChange={handleCheck3} 
+        onClick={handleTotal}
         value={200}
-        label='GoogleAdds (200€)'
-      />
+      >
+      GoogleAdds (200€)
+      </Checkbox>
     </div>
-  <p>Total price is {budget}</p>
+  <p>Total price is {total}</p>
   </>
   );
 };
 
-const Checkbox = ({check, onChange, onClick, value,label}) => {
+const Checkbox = ({check, onChange, onClick, value, children}) => {
   return (
     <label>
       <input type='checkbox' checked={check} onChange={onChange} onClick={onClick} value={value}/>
-      {label}
+      {children}
     </label>
   );
 }
