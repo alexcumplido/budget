@@ -1,45 +1,77 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 const Panel = styled.div`
-  width: 400px;
-  height: 150px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem;
+  gap: 1rem;
+  border: 1px solid #000000;
+  border-radius: 10px;
+`;
+
+const Form = styled.div`
+  width: 50%;
+  height: 50%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
-  border: 2px solid #000000;
-  border-radius: 10px;
+`;
+
+const InputBotones = styled.div`
+  display: flex;
 `;
 
 export function App() {
 
   let [total, setTotal] = useState(0);
-
+  //checkbox useState
   const [maquetar, setMaquetar] = useState(false);
   const [seo, setSeo] = useState(false);
   const [googleAdds, setGoogleAdds] = useState(false);
+
+  //Inputs useState
+  const [paginas, setPaginas] = useState(0);
+  const [idiomas, setIdiomas] = useState(0);
+
+  useEffect(() => {
+    const costoMaquetar = () => {
+      let costoTotal = 0;
+      let costoChecks = 0;
+
+      costoTotal = (Number(paginas) * Number(idiomas))*30;
+
+      if(maquetar) costoChecks += 400;
+      if(seo) costoChecks += 300
+      if(googleAdds) costoChecks += 200;
+
+      setTotal(costoTotal+costoChecks);
+    }
+    costoMaquetar();
+  }, [paginas, idiomas]);
 
   const handleMaquetar = () => setMaquetar(!maquetar);
   const handleSeo = () => setSeo(!seo);
   const handleGoogleAdds = () => setGoogleAdds(!googleAdds);
 
-  const [paginas, setPaginas] = useState(0);
-  const [idiomas, setIdiomas] = useState(0);
-  let [inputs, setInputs] = useState(0);
-
-  const handlePaginas = (e) => setPaginas(e.target.value);
-  const handleIdiomas = (e) => setIdiomas(e.target.value);
-
-  function handleInputs () {
-    setInputs((Number(paginas)*Number(idiomas))*30);
-    setTotal(total+inputs);
+  //Inputs handlers
+  const handlePaginas = (event) => {
+    setPaginas(event.target.value);
+  }
+  const handleIdiomas = (event) => {
+    setIdiomas(event.target.value);
   }
 
+  //Checkbox handlers
   function handleChecks(event){
     let checkName = event.target.name;
     let isCheck = event.target.checked;
-
+    
     if(checkName === 'maquetar' && isCheck) {
       setTotal(total+400);
     } else if (checkName === 'maquetar' && !isCheck) {
@@ -61,7 +93,7 @@ export function App() {
   }
 
   return (
-    <form>
+    <Form>
       <h3>Services </h3>
       <Checkbox 
         label='Web deployment (400€)'
@@ -73,8 +105,29 @@ export function App() {
     
       {maquetar && 
       <Panel>
-        <Input label='num. pages' value={paginas} onChange={handlePaginas} onClick={handleInputs}/>
-        <Input label='num. languages' value={idiomas} onChange={handleIdiomas} onClick={handleInputs}/> 
+          
+      <InputBotones>
+        <label htmlFor='paginas'>num páginas</label>
+        <button>-</button>
+        <Input
+          id='paginas' 
+          value={paginas} 
+          onChange={handlePaginas} 
+        />
+        <button>+</button>
+      </InputBotones>
+
+      <InputBotones>
+        <label htmlFor='idiomas'>num. idiomas</label>
+        <button>-</button>
+        <Input 
+          id='idiomas'
+          value={idiomas} 
+          onChange={handleIdiomas}
+        /> 
+        <button>+</button>
+      </InputBotones>
+
       </Panel>}
 
       <Checkbox 
@@ -84,7 +137,6 @@ export function App() {
         onChange={handleSeo} 
         onClick={handleChecks}
       /> 
-
       <Checkbox 
         label='Google Adds action (200€)'
         name='googleAdds' 
@@ -94,7 +146,7 @@ export function App() {
         value={200}
       />
       <p>Total price is {total}</p>
-    </form>
+    </Form>
   );
 };
 
@@ -107,11 +159,10 @@ const Checkbox = ({label, name, check, onChange, onClick,}) => {
   );
 }
 
-const Input = ({label, onChange, onClick}) => {
+const Input = ({onChange}) => {
   return (
     <label>
-      {label}
-      <input  type='text' onChange={onChange} onClick={onClick} min="0"/>
+      <input  type='text' onChange={onChange}/>
     </label>
   );
 }
