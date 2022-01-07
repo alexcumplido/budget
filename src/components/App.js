@@ -14,82 +14,109 @@ const Panel = styled.div`
 
 export function App() {
 
-  const [checkOne, setCheckOne] = useState(false);
-  const [checkTwo, setCheckTwo] = useState(false);
-  const [checkThree, setCheckThree] = useState(false);
-  const [inputOne, setInputOne] = useState(0);
-  const [inputTwo, setInputTwo] = useState(0);
-  const [total, setTotal] = useState(0);
+  let [total, setTotal] = useState(0);
 
-  const handleCheck1 = () => setCheckOne(!checkOne);
-  const handleCheck2 = () => setCheckTwo(!checkTwo);
-  const handleCheck3 = () => setCheckThree(!checkThree);
+  const [maquetar, setMaquetar] = useState(false);
+  const [seo, setSeo] = useState(false);
+  const [googleAdds, setGoogleAdds] = useState(false);
 
-  const handleInput1 = (e) => setInputOne(e.target.value);
-  const handleInput2 = (e) => setInputTwo(e.target.value);
+  const handleMaquetar = () => setMaquetar(!maquetar);
+  const handleSeo = () => setSeo(!seo);
+  const handleGoogleAdds = () => setGoogleAdds(!googleAdds);
 
-  function handleTotal(event){
-    let value = Number(event.target.value);
-    (event.target.checked) ? setTotal(total+value) : setTotal(total-value)
+  const [paginas, setPaginas] = useState(0);
+  const [idiomas, setIdiomas] = useState(0);
+  let [inputs, setInputs] = useState(0);
+
+  const handlePaginas = (e) => setPaginas(e.target.value);
+  const handleIdiomas = (e) => setIdiomas(e.target.value);
+
+  function handleInputs () {
+    setInputs((Number(paginas)*Number(idiomas))*30);
+    setTotal(total+inputs);
+  }
+
+  function handleChecks(event){
+    let checkName = event.target.name;
+    let isCheck = event.target.checked;
+
+    if(checkName === 'maquetar' && isCheck) {
+      setTotal(total+400);
+    } else if (checkName === 'maquetar' && !isCheck) {
+      setTotal(total-400);
+    }
+
+    if(checkName === 'seo' && isCheck ) {
+      setTotal(total+300)
+    } else if (checkName === 'seo' && !isCheck) {
+      setTotal(total-300)
+    }
+
+    if(checkName === 'googleAdds' && isCheck) {
+      setTotal(total+200)
+    } else if (checkName === 'googleAdds' && !isCheck) {
+      setTotal(total-200)
+    }
+
   }
 
   return (
-    <>
-      <div>
-        <h3>Services </h3>
-        <Checkbox 
-          label='Web deployment (400€)'
-          check={checkOne} 
-          onChange={handleCheck1}
-          onClick={handleTotal}
-          value={400} 
-        />
+    <form>
+      <h3>Services </h3>
+      <Checkbox 
+        label='Web deployment (400€)'
+        name='maquetar' 
+        check={maquetar} 
+        onChange={handleMaquetar}
+        onClick={handleChecks}
+      />
+    
+      {maquetar && 
+      <Panel>
+        <Input label='num. pages' value={paginas} onChange={handlePaginas} onClick={handleInputs}/>
+        <Input label='num. languages' value={idiomas} onChange={handleIdiomas} onClick={handleInputs}/> 
+      </Panel>}
 
-        {checkOne && 
-        <Panel>
-          <Input label='num. pages' value={inputOne} onChange={handleInput1}/>
-          <Input label='num. languages' value={inputTwo} onChange={handleInput2}/> 
-        </Panel>}
+      <Checkbox 
+        label='Seo Analysis (300€)'
+        name='seo' 
+        check={seo} 
+        onChange={handleSeo} 
+        onClick={handleChecks}
+      /> 
 
-        <Checkbox 
-          label='Seo Analysis (300€)'
-          check={checkTwo} 
-          onChange={handleCheck2} 
-          onClick={handleTotal}
-          value={300}
-        /> 
-
-        <Checkbox 
-          label='Google Adds action (200€)'
-          check={checkThree} 
-          onChange={handleCheck3} 
-          onClick={handleTotal}
-          value={200}
-        />
-
-    </div>
-    <p>Total price is {total}</p>
-  </>
+      <Checkbox 
+        label='Google Adds action (200€)'
+        name='googleAdds' 
+        check={googleAdds} 
+        onChange={handleGoogleAdds} 
+        onClick={handleChecks}
+        value={200}
+      />
+      <p>Total price is {total}</p>
+    </form>
   );
 };
 
-const Input = ({label, value, onChange}) => {
+const Checkbox = ({label, name, check, onChange, onClick,}) => {
   return (
     <label>
+      <input type='checkbox' name={name} checked={check} onChange={onChange} onClick={onClick}/>
       {label}
-      <input  type='number' value={value} onChange={onChange} min="0"/>
     </label>
   );
 }
 
-const Checkbox = ({label ,check, onChange, onClick, value}) => {
+const Input = ({label, onChange, onClick}) => {
   return (
     <label>
-      <input type='checkbox' checked={check} onChange={onChange} onClick={onClick} value={value}/>
       {label}
+      <input  type='text' onChange={onChange} onClick={onClick} min="0"/>
     </label>
   );
 }
+
+  // let webDeployValue = Number(inputOne)*Number(inputTwo)*30; 
 
   // const [inputs, setInputs] = useState({pages: '', languages: ''});
 
@@ -99,3 +126,7 @@ const Checkbox = ({label ,check, onChange, onClick, value}) => {
   //     [evt.target.name]: evt.target.value
   //   });
   // }
+
+
+
+  
