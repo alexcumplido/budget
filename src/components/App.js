@@ -174,17 +174,6 @@ const Input = ({onChange}) => {
   );
 }
 
-  // let webDeployValue = Number(inputOne)*Number(inputTwo)*30; 
-
-  // const [inputs, setInputs] = useState({pages: '', languages: ''});
-
-  // function handleInputs(evt) {
-  //   setInputs({
-  //     ...inputs, 
-  //     [evt.target.name]: evt.target.value
-  //   });
-  // }
-
 
 
   
