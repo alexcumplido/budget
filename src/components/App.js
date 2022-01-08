@@ -92,6 +92,13 @@ export function App() {
 
   }
 
+  const sumarInputs = () => {
+    setPaginas(paginas+1)
+  }
+  const restarInputs = () => {
+    setPaginas(paginas-1)
+  }
+
   return (
     <Form>
       <h3>Services </h3>
@@ -108,24 +115,24 @@ export function App() {
           
       <InputBotones>
         <label htmlFor='paginas'>num páginas</label>
-        <button>-</button>
+        <button onClick={restarInputs}>-</button>
         <Input
           id='paginas' 
           value={paginas} 
           onChange={handlePaginas} 
         />
-        <button>+</button>
+        <button onClick={sumarInputs}>+</button>
       </InputBotones>
 
       <InputBotones>
         <label htmlFor='idiomas'>num. idiomas</label>
-        <button>-</button>
+        <button onClick={restarInputs}>-</button>
         <Input 
           id='idiomas'
           value={idiomas} 
           onChange={handleIdiomas}
         /> 
-        <button>+</button>
+        <button onClick={sumarInputs}>+</button>
       </InputBotones>
 
       </Panel>}
