@@ -1,7 +1,7 @@
-export const Input = ({value, onChange}) => {
+export const Input = ({id, value, onChange}) => {
   return (
-    <label>
-      <input  type='text' value={value} onChange={onChange}/>
+    <label htmlFor={id}>
+      <input  type='text' id={id} name={id} value={value} onChange={onChange}/>
     </label>
   );
 }

@@ -1,33 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import styled from 'styled-components';
 import { Checkbox } from './Checkbox.js';
-import { Input} from './Input.js'
-
-const Panel = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0.5rem;
-  gap: 1rem;
-  border: 1px solid #000000;
-  border-radius: 10px;
-`;
-
-const Form = styled.div`
-  width: 50%;
-  height: 50%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
-`;
-
-const InputBotones = styled.div`
-  display: flex;
-`;
+import { Input} from './Input.js';
+import {Form} from './Style.js';
+import {Panel} from './Style.js'
+import {InputBotones} from './Style.js'
 
 export function App() {
   //checkbox useState and handlers
@@ -81,6 +57,7 @@ export function App() {
 
   //Añadir a total paginas
   useEffect(() => {
+    
     total = 0;
     let totalMaquetar = (paginas*idiomas)*30;
     if(maquetar) total += 400;
