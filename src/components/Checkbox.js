@@ -1,7 +1,7 @@
-export const Checkbox = ({label, name, check, onChange, onClick}) => {
+export const Checkbox = ({label, id, check, onChange, onClick}) => {
   return (
-    <label>
-      <input type='checkbox' name={name} checked={check} onChange={onChange} onClick={onClick}/>
+    <label htmlFor={id} >
+      <input type='checkbox' id={id} name={id} checked={check} onChange={onChange} onClick={onClick}/>
       {label}
     </label>
   );

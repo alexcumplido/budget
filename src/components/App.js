@@ -94,8 +94,8 @@ export function App() {
     <Form>
       <h3>Services </h3>
       <Checkbox 
-        label='Maquetar (400€)'
-        name='maquetar' 
+        label='Maquetar (400€)' 
+        id='maquetar'
         check={maquetar} 
         onChange={handleMaquetar}
         onClick={totalChecks}
@@ -128,14 +128,14 @@ export function App() {
 
       <Checkbox 
         label='Seo Analysis (300€)'
-        name='seo' 
+        id='seo'
         check={seo} 
         onChange={handleSeo} 
         onClick={totalChecks}
       /> 
       <Checkbox 
         label='Google Adds action (200€)'
-        name='googleAdds' 
+        id='googleAdds'
         check={googleAdds} 
         onChange={handleGoogleAdds} 
         onClick={totalChecks}
