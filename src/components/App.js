@@ -28,16 +28,50 @@ const InputBotones = styled.div`
 `;
 
 export function App() {
-
   let [total, setTotal] = useState(0);
-  //checkbox useState
+
+  //checkbox useState and handlers
   const [maquetar, setMaquetar] = useState(false);
   const [seo, setSeo] = useState(false);
   const [googleAdds, setGoogleAdds] = useState(false);
 
-  //Inputs useState
-  const [paginas, setPaginas] = useState(0);
-  const [idiomas, setIdiomas] = useState(0);
+  //Inputs useState and handlers
+  let [paginas, setPaginas] = useState(0);
+  let [idiomas, setIdiomas] = useState(0);
+
+  //handle Checks
+  const handleMaquetar = () => setMaquetar(!maquetar);
+  const handleSeo = () => setSeo(!seo);
+  const handleGoogleAdds = () => setGoogleAdds(!googleAdds);
+
+  // handle Inputs
+  const handlePaginas = (evt) => setPaginas(Number(evt.target.value));
+  const handleIdiomas = (evt) => setIdiomas(Number(evt.target.value));
+
+  //Checkbox summation
+  function totalChecks(evt){
+    let name = evt.target.name;
+    let chekced = evt.target.checked;
+    
+    if(name === 'maquetar' && chekced) {
+      setTotal(total+400);
+    } else if (name === 'maquetar' && !chekced) {
+      setTotal(total-400);
+    }
+
+    if(name === 'seo' && chekced ) {
+      setTotal(total+300)
+    } else if (name === 'seo' && !chekced) {
+      setTotal(total-300)
+    }
+
+    if(name === 'googleAdds' && chekced) {
+      setTotal(total+200)
+    } else if (name === 'googleAdds' && !chekced) {
+      setTotal(total-200)
+    }
+  }
+  
 
   useEffect(() => {
     const costoMaquetar = () => {
@@ -49,55 +83,26 @@ export function App() {
       if(maquetar) costoChecks += 400;
       if(seo) costoChecks += 300
       if(googleAdds) costoChecks += 200;
-
       setTotal(costoTotal+costoChecks);
     }
-    costoMaquetar();
+
+     costoMaquetar();
   }, [paginas, idiomas]);
 
-  const handleMaquetar = () => setMaquetar(!maquetar);
-  const handleSeo = () => setSeo(!seo);
-  const handleGoogleAdds = () => setGoogleAdds(!googleAdds);
+  //web paginas and idiomas inputs
+  const sumarPaginas = () => {
+    setPaginas(++paginas);  
+  } 
+  const restarPaginas = () => {
+    (paginas===0) ? setPaginas(paginas) : setPaginas(--paginas);
+  } 
 
-  //Inputs handlers
-  const handlePaginas = (event) => {
-    setPaginas(event.target.value);
-  }
-  const handleIdiomas = (event) => {
-    setIdiomas(event.target.value);
-  }
-
-  //Checkbox handlers
-  function handleChecks(event){
-    let checkName = event.target.name;
-    let isCheck = event.target.checked;
-    
-    if(checkName === 'maquetar' && isCheck) {
-      setTotal(total+400);
-    } else if (checkName === 'maquetar' && !isCheck) {
-      setTotal(total-400);
-    }
-
-    if(checkName === 'seo' && isCheck ) {
-      setTotal(total+300)
-    } else if (checkName === 'seo' && !isCheck) {
-      setTotal(total-300)
-    }
-
-    if(checkName === 'googleAdds' && isCheck) {
-      setTotal(total+200)
-    } else if (checkName === 'googleAdds' && !isCheck) {
-      setTotal(total-200)
-    }
-
-  }
-
-  const sumarInputs = () => {
-    setPaginas(paginas+1)
-  }
-  const restarInputs = () => {
-    setPaginas(paginas-1)
-  }
+  const sumarIdiomas = () => {
+    setIdiomas(++idiomas);
+  } 
+  const restarIdiomas = () => {
+    (idiomas===0) ? setIdiomas(idiomas) : setIdiomas(--idiomas);
+  } 
 
   return (
     <Form>
@@ -107,7 +112,7 @@ export function App() {
         name='maquetar' 
         check={maquetar} 
         onChange={handleMaquetar}
-        onClick={handleChecks}
+        onClick={totalChecks}
       />
     
       {maquetar && 
@@ -115,24 +120,25 @@ export function App() {
           
       <InputBotones>
         <label htmlFor='paginas'>num páginas</label>
-        <button onClick={restarInputs}>-</button>
+       <button onClick={sumarPaginas}>+</button>
         <Input
           id='paginas' 
           value={paginas} 
           onChange={handlePaginas} 
         />
-        <button onClick={sumarInputs}>+</button>
+        <button onClick={restarPaginas}>-</button>
+        
       </InputBotones>
 
       <InputBotones>
         <label htmlFor='idiomas'>num. idiomas</label>
-        <button onClick={restarInputs}>-</button>
+        <button onClick={sumarIdiomas}>+</button>
         <Input 
           id='idiomas'
           value={idiomas} 
           onChange={handleIdiomas}
         /> 
-        <button onClick={sumarInputs}>+</button>
+        <button onClick={restarIdiomas}>-</button>
       </InputBotones>
 
       </Panel>}
@@ -142,15 +148,14 @@ export function App() {
         name='seo' 
         check={seo} 
         onChange={handleSeo} 
-        onClick={handleChecks}
+        onClick={totalChecks}
       /> 
       <Checkbox 
         label='Google Adds action (200€)'
         name='googleAdds' 
         check={googleAdds} 
         onChange={handleGoogleAdds} 
-        onClick={handleChecks}
-        value={200}
+        onClick={totalChecks}
       />
       <p>Total price is {total}</p>
     </Form>
@@ -173,18 +178,6 @@ const Input = ({onChange}) => {
     </label>
   );
 }
-
-  // let webDeployValue = Number(inputOne)*Number(inputTwo)*30; 
-
-  // const [inputs, setInputs] = useState({pages: '', languages: ''});
-
-  // function handleInputs(evt) {
-  //   setInputs({
-  //     ...inputs, 
-  //     [evt.target.name]: evt.target.value
-  //   });
-  // }
-
 
 
   
