@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
+import { Form } from './Style.js';
 import { Checkbox } from './Checkbox.js';
-import { Input} from './Input.js';
-import {Form} from './Style.js';
-import {Panel} from './Style.js'
-import {InputBotones} from './Style.js'
+import { Panel } from './Style.js'
+import { InputButton } from './InputButton.js';
 
 export function App() {
   //checkbox useState and handlers
@@ -80,27 +79,24 @@ export function App() {
     
       {maquetar && 
       <Panel>
-          
-        <InputBotones>
-          <label htmlFor='paginas'>num páginas</label>
-          <button onClick={sumarPaginas}>+</button>
-          <Input 
+          <InputButton 
             id='paginas' 
+            label='num páginas'
             value={paginas} 
-            onChange={handlePaginas}/>
-          <button onClick={restarPaginas}>-</button>  
-        </InputBotones>
-
-        <InputBotones>
-          <label htmlFor='idiomas'>num. idiomas</label>
-          <button onClick={sumarIdiomas}>+</button>
-          <Input 
-            id='idiomas'
+            sumarInput={sumarPaginas}
+            restarInput={restarPaginas}
+            onChange={handlePaginas}
+          />
+        
+          <InputButton 
+            id='idiomas' 
+            label='num. idiomas'
             value={idiomas} 
-            onChange={handleIdiomas}/> 
-          <button onClick={restarIdiomas}>-</button>
-        </InputBotones>
-
+            sumarInput={sumarIdiomas}
+            restarInput={restarIdiomas}
+            onChange={handleIdiomas}
+          />
+    
       </Panel>}
 
       <Checkbox 

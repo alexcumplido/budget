@@ -22,6 +22,6 @@ export const Form = styled.div`
   gap: 1rem;
 `;
 
-export const InputBotones = styled.div`
+export const InputWrapper = styled.div`
   display: flex;
 `;
