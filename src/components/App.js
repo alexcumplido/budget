@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Form } from './Style.js';
 import { Checkbox } from './Checkbox.js';
 import { Panel } from './Style.js'
-import { InputButton } from './InputButton.js';
+import { InputWithButton } from './InputWithButton.js';
 
 export function App() {
   //checkbox useState and handlers
@@ -56,14 +56,12 @@ export function App() {
 
   //Añadir a total paginas
   useEffect(() => {
-    
     total = 0;
     let totalMaquetar = (paginas*idiomas)*30;
     if(maquetar) total += 400;
     if(seo) total += 300;
     if(googleAdds) total += 200;
     setTotal(total+totalMaquetar);
-
   }, [paginas, idiomas]);
 
   return (
@@ -76,27 +74,23 @@ export function App() {
         onChange={handleMaquetar}
         onClick={totalChecks}
       />
-    
+
       {maquetar && 
       <Panel>
-          <InputButton 
-            id='paginas' 
-            label='num páginas'
-            value={paginas} 
-            sumarInput={sumarPaginas}
-            restarInput={restarPaginas}
-            onChange={handlePaginas}
-          />
-        
-          <InputButton 
-            id='idiomas' 
-            label='num. idiomas'
-            value={idiomas} 
-            sumarInput={sumarIdiomas}
-            restarInput={restarIdiomas}
-            onChange={handleIdiomas}
-          />
-    
+        <InputWithButton 
+          id='paginas' 
+          value={paginas} 
+          onClickSumar={sumarPaginas}
+          onClickRestar={restarPaginas}
+          onChange={handlePaginas}
+        />
+        <InputWithButton 
+          id='idiomas' 
+          value={idiomas} 
+          onClickSumar={sumarIdiomas}
+          onClickRestar={restarIdiomas}
+          onChange={handleIdiomas}
+        />
       </Panel>}
 
       <Checkbox 
