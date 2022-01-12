@@ -15,26 +15,28 @@ export function App() {
   let [idiomas, setIdiomas] = useState(0);
 
   let [total, setTotal] = useState(0);
-
+    
   //handle Checks
-  const handleMaquetar = () => setMaquetar(!maquetar);
-  const handleSeo = () => setSeo(!seo);
-  const handleGoogleAdds = () => setGoogleAdds(!googleAdds);
-
+  function handleState (evt) {
+    let name = evt.target.id;
+    if(name==='maquetar') setMaquetar(!maquetar);
+    if(name==='seo') setSeo(!seo);
+    if(name==='googleAdds') setGoogleAdds(!googleAdds);
+  }
   //handle Inputs
   const handlePaginas = (evt) => setPaginas(Number(evt.target.value));
   const handleIdiomas = (evt) => setIdiomas(Number(evt.target.value));
 
   //Checkbox summation
   function totalChecks(evt){
-    let name = evt.target.name;
-    let chekced = evt.target.checked;
-    if(name === 'maquetar' && chekced) setTotal(total+400);
-    if(name === 'maquetar' && !chekced) setTotal(total-400);
-    if(name === 'seo' && chekced ) setTotal(total+300);
-    if(name === 'seo' && !chekced)  setTotal(total-300);
-    if(name === 'googleAdds' && chekced) setTotal(total+200);
-    if(name === 'googleAdds' && !chekced) setTotal(total-200);
+    let id = evt.target.id;
+    let check = evt.target.checked;
+    if(id === 'maquetar' && check) setTotal(total+400);
+    if(id === 'maquetar' && !check) setTotal(total-400);
+    if(id === 'seo' && check ) setTotal(total+300);
+    if(id === 'seo' && !check)  setTotal(total-300);
+    if(id === 'googleAdds' && check) setTotal(total+200);
+    if(id === 'googleAdds' && !check) setTotal(total-200);
   }
   
   //web paginas and idiomas inputs
@@ -71,7 +73,7 @@ export function App() {
         label='Maquetar (400€)' 
         id='maquetar'
         check={maquetar} 
-        onChange={handleMaquetar}
+        onChange={handleState}
         onClick={totalChecks}
       />
 
@@ -80,15 +82,15 @@ export function App() {
         <InputWithButton 
           id='paginas' 
           value={paginas} 
-          onClickSumar={sumarPaginas}
-          onClickRestar={restarPaginas}
+          onClickSuma={sumarPaginas}
+          onClickResta={restarPaginas}
           onChange={handlePaginas}
         />
         <InputWithButton 
           id='idiomas' 
           value={idiomas} 
-          onClickSumar={sumarIdiomas}
-          onClickRestar={restarIdiomas}
+          onClickSuma={sumarIdiomas}
+          onClickResta={restarIdiomas}
           onChange={handleIdiomas}
         />
       </Panel>}
@@ -97,14 +99,14 @@ export function App() {
         label='Seo Analysis (300€)'
         id='seo'
         check={seo} 
-        onChange={handleSeo} 
+        onChange={handleState} 
         onClick={totalChecks}
       /> 
       <Checkbox 
-        label='Google Adds action (200€)'
+        label='GoogleAdds action (200€)'
         id='googleAdds'
         check={googleAdds} 
-        onChange={handleGoogleAdds} 
+        onChange={handleState} 
         onClick={totalChecks}
       />
       <p>Total price is {total}</p>
