@@ -5,29 +5,55 @@ import { Panel } from './Style.js'
 import { InputWithButton } from './InputWithButton.js';
 
 export function App() {
-  //checkbox useState and handlers
+  let [total, setTotal] = useState(0);
+
+  //Checkbox
   const [maquetar, setMaquetar] = useState(false);
   const [seo, setSeo] = useState(false);
   const [googleAdds, setGoogleAdds] = useState(false);
 
-  //Inputs useState and handlers
+  //Inputs text 
   let [paginas, setPaginas] = useState(0);
   let [idiomas, setIdiomas] = useState(0);
 
-  let [total, setTotal] = useState(0);
+  let [btnStorage, setBtnStorage] = useState(false);
+  const handleBtnStorage = () => setBtnStorage(!btnStorage);
+ 
+  let formToStorage = {};
+  let formFromStorage;
+      
+  useEffect(()=>{
+    if(btnStorage) {
+      formToStorage = {
+        maquetar: maquetar,
+        seo: seo,
+        googleAdds: googleAdds,
+        idiomas: idiomas,
+        paginas: paginas,
+        total: total,
+      }
+      localStorage.setItem('form', JSON.stringify(formToStorage));
+    }
+  }, [btnStorage])
+
+  useEffect(()=>{
+    formFromStorage = JSON.parse(localStorage.getItem(('form')));
+    console.log(formFromStorage);
+  },[]);
+
     
-  //handle Checks
-  function handleState (evt) {
-    let name = evt.target.id;
-    if(name==='maquetar') setMaquetar(!maquetar);
-    if(name==='seo') setSeo(!seo);
-    if(name==='googleAdds') setGoogleAdds(!googleAdds);
+  //Checkbox handlers
+  function handleCheckState (evt) {
+    if(evt.target.id ==='maquetar') setMaquetar(!maquetar);
+    if(evt.target.id ==='seo') setSeo(!seo);
+    if(evt.target.id ==='googleAdds') setGoogleAdds(!googleAdds);
   }
-  //handle Inputs
+
+  //Inputs text handlers
   const handlePaginas = (evt) => setPaginas(Number(evt.target.value));
   const handleIdiomas = (evt) => setIdiomas(Number(evt.target.value));
 
-  //Checkbox summation
+  //Total summation from checkbox
   function totalChecks(evt){
     let id = evt.target.id;
     let check = evt.target.checked;
@@ -38,14 +64,8 @@ export function App() {
     if(id === 'googleAdds' && check) setTotal(total+200);
     if(id === 'googleAdds' && !check) setTotal(total-200);
   }
-  
-  //web paginas and idiomas inputs
-  const sumarPaginas = () => setPaginas(++paginas)  
-  const restarPaginas = () => (!paginas) ? setPaginas(paginas) : setPaginas(--paginas); 
-  const sumarIdiomas = () => setIdiomas(++idiomas);
-  const restarIdiomas = () => (!idiomas) ? setIdiomas(idiomas) : setIdiomas(--idiomas);
 
-  // clean state paginas e idiomas 
+ // clean state paginas e idiomas 
   useEffect(()=> {
     if(maquetar) {
       setPaginas(1);
@@ -56,7 +76,7 @@ export function App() {
     }
   },[maquetar]);
 
-  //Añadir a total paginas
+  //Total summation fom inputs and checkbox
   useEffect(() => {
     total = 0;
     let totalMaquetar = (paginas*idiomas)*30;
@@ -66,50 +86,27 @@ export function App() {
     setTotal(total+totalMaquetar);
   }, [paginas, idiomas]);
 
+  //Maquetar subinputs bottons 
+  const sumarPaginas = () => setPaginas(++paginas)  
+  const restarPaginas = () => (!paginas) ? setPaginas(paginas) : setPaginas(--paginas); 
+  const sumarIdiomas = () => setIdiomas(++idiomas);
+  const restarIdiomas = () => (!idiomas) ? setIdiomas(idiomas) : setIdiomas(--idiomas);
+
   return (
     <Form>
       <h3>Services </h3>
-      <Checkbox 
-        label='Maquetar (400€)' 
-        id='maquetar'
-        check={maquetar} 
-        onChange={handleState}
-        onClick={totalChecks}
-      />
+      <Checkbox label='Maquetar (400€)' id='maquetar' check={maquetar} onChange={handleCheckState} onClick={totalChecks}/>
 
       {maquetar && 
       <Panel>
-        <InputWithButton 
-          id='paginas' 
-          value={paginas} 
-          onClickSuma={sumarPaginas}
-          onClickResta={restarPaginas}
-          onChange={handlePaginas}
-        />
-        <InputWithButton 
-          id='idiomas' 
-          value={idiomas} 
-          onClickSuma={sumarIdiomas}
-          onClickResta={restarIdiomas}
-          onChange={handleIdiomas}
-        />
+        <InputWithButton id='paginas' value={paginas} onClickSuma={sumarPaginas} onClickResta={restarPaginas} onChange={handlePaginas}/>
+        <InputWithButton id='idiomas' value={idiomas} onClickSuma={sumarIdiomas} onClickResta={restarIdiomas} onChange={handleIdiomas}/>
       </Panel>}
 
-      <Checkbox 
-        label='Seo Analysis (300€)'
-        id='seo'
-        check={seo} 
-        onChange={handleState} 
-        onClick={totalChecks}
-      /> 
-      <Checkbox 
-        label='GoogleAdds action (200€)'
-        id='googleAdds'
-        check={googleAdds} 
-        onChange={handleState} 
-        onClick={totalChecks}
-      />
+      <Checkbox label='Seo Analysis (300€)' id='seo' check={seo} onChange={handleCheckState} onClick={totalChecks}/> 
+      <Checkbox label='GoogleAdds action (200€)' id='googleAdds' check={googleAdds} onChange={handleCheckState} onClick={totalChecks}/>
       <p>Total price is {total}</p>
+      <button onClick={handleBtnStorage}>Save Form</button>
     </Form>
   );
 };
