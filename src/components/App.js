@@ -19,9 +19,6 @@ export function App() {
   let [btnLocalStorage, setBtnLocalStorage] = useState(false);
   const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
  
- 
-  let formFromStorage;
-    
   //Checkbox handlers
   function onChangeChecks (evt) {
     if(evt.target.id ==='maquetar') setMaquetar(!maquetar);
@@ -34,7 +31,6 @@ export function App() {
   const handleIdiomas = (evt) => setIdiomas(parseInt(evt.target.value));
 
   //Total summation from checkbox
-  
   function totalChecks(evt){
     let id = evt.target.id;
     let check = evt.target.checked;
@@ -48,14 +44,13 @@ export function App() {
 
 //clean state paginas e idiomas 
   useEffect(()=> {
-    if(!maquetar) {
+    if(maquetar && !localStorage.getItem(('form'))) {
+      setPaginas(1);
+      setIdiomas(1);
+    } else if (!maquetar ) {
       setPaginas(0);
       setIdiomas(0);
-    } 
-    // else {
-    //   setPaginas(1);
-    //   setIdiomas(1);
-    // }
+    }
   },[maquetar]);
 
   //Total summation fom inputs and checkbox
@@ -91,8 +86,7 @@ export function App() {
 
   useEffect(()=>{
     if (localStorage.getItem(('form'))) {
-      formFromStorage = JSON.parse(localStorage.getItem(('form')));
-      console.log(formFromStorage);
+      let formFromStorage = JSON.parse(localStorage.getItem(('form')));
       setMaquetar(formFromStorage.maquetar);
       setSeo(formFromStorage.seo);
       setGoogleAdds(formFromStorage.googleAdds);
