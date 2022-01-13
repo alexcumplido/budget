@@ -16,44 +16,25 @@ export function App() {
   let [paginas, setPaginas] = useState(0);
   let [idiomas, setIdiomas] = useState(0);
 
-  let [btnStorage, setBtnStorage] = useState(false);
-  const handleBtnStorage = () => setBtnStorage(!btnStorage);
+  let [btnLocalStorage, setBtnLocalStorage] = useState(false);
+  const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
  
-  let formToStorage = {};
+ 
   let formFromStorage;
-      
-  useEffect(()=>{
-    if(btnStorage) {
-      formToStorage = {
-        maquetar: maquetar,
-        seo: seo,
-        googleAdds: googleAdds,
-        idiomas: idiomas,
-        paginas: paginas,
-        total: total,
-      }
-      localStorage.setItem('form', JSON.stringify(formToStorage));
-    }
-  }, [btnStorage])
-
-  useEffect(()=>{
-    formFromStorage = JSON.parse(localStorage.getItem(('form')));
-    console.log(formFromStorage);
-  },[]);
-
     
   //Checkbox handlers
-  function handleCheckState (evt) {
+  function onChangeChecks (evt) {
     if(evt.target.id ==='maquetar') setMaquetar(!maquetar);
     if(evt.target.id ==='seo') setSeo(!seo);
     if(evt.target.id ==='googleAdds') setGoogleAdds(!googleAdds);
   }
 
   //Inputs text handlers
-  const handlePaginas = (evt) => setPaginas(Number(evt.target.value));
-  const handleIdiomas = (evt) => setIdiomas(Number(evt.target.value));
+  const handlePaginas = (evt) => setPaginas(parseInt(evt.target.value));
+  const handleIdiomas = (evt) => setIdiomas(parseInt(evt.target.value));
 
   //Total summation from checkbox
+  
   function totalChecks(evt){
     let id = evt.target.id;
     let check = evt.target.checked;
@@ -65,15 +46,16 @@ export function App() {
     if(id === 'googleAdds' && !check) setTotal(total-200);
   }
 
- // clean state paginas e idiomas 
+//clean state paginas e idiomas 
   useEffect(()=> {
-    if(maquetar) {
-      setPaginas(1);
-      setIdiomas(1);
-    } else {
+    if(!maquetar) {
       setPaginas(0);
       setIdiomas(0);
-    }
+    } 
+    // else {
+    //   setPaginas(1);
+    //   setIdiomas(1);
+    // }
   },[maquetar]);
 
   //Total summation fom inputs and checkbox
@@ -92,10 +74,38 @@ export function App() {
   const sumarIdiomas = () => setIdiomas(++idiomas);
   const restarIdiomas = () => (!idiomas) ? setIdiomas(idiomas) : setIdiomas(--idiomas);
 
+  //local Storage operations
+  useEffect(()=>{
+    if(btnLocalStorage) {
+      let formToStorage = {
+        maquetar: maquetar,
+        seo: seo,
+        googleAdds: googleAdds,
+        idiomas: idiomas,
+        paginas: paginas,
+        total: total,
+      }
+      localStorage.setItem('form', JSON.stringify(formToStorage));
+    }
+  }, [btnLocalStorage])
+
+  useEffect(()=>{
+    if (localStorage.getItem(('form'))) {
+      formFromStorage = JSON.parse(localStorage.getItem(('form')));
+      console.log(formFromStorage);
+      setMaquetar(formFromStorage.maquetar);
+      setSeo(formFromStorage.seo);
+      setGoogleAdds(formFromStorage.googleAdds);
+      setPaginas(formFromStorage.paginas);
+      setIdiomas(formFromStorage.idiomas);
+      setTotal(formFromStorage.total);
+    }
+  },[]);
+
   return (
     <Form>
       <h3>Services </h3>
-      <Checkbox label='Maquetar (400€)' id='maquetar' check={maquetar} onChange={handleCheckState} onClick={totalChecks}/>
+      <Checkbox label='Maquetar (400€)' id='maquetar' check={maquetar} onChange={onChangeChecks} onClick={totalChecks}/>
 
       {maquetar && 
       <Panel>
@@ -103,10 +113,10 @@ export function App() {
         <InputWithButton id='idiomas' value={idiomas} onClickSuma={sumarIdiomas} onClickResta={restarIdiomas} onChange={handleIdiomas}/>
       </Panel>}
 
-      <Checkbox label='Seo Analysis (300€)' id='seo' check={seo} onChange={handleCheckState} onClick={totalChecks}/> 
-      <Checkbox label='GoogleAdds action (200€)' id='googleAdds' check={googleAdds} onChange={handleCheckState} onClick={totalChecks}/>
+      <Checkbox label='Seo Analysis (300€)' id='seo' check={seo} onChange={onChangeChecks} onClick={totalChecks}/> 
+      <Checkbox label='GoogleAdds action (200€)' id='googleAdds' check={googleAdds} onChange={onChangeChecks} onClick={totalChecks}/>
       <p>Total price is {total}</p>
-      <button onClick={handleBtnStorage}>Save Form</button>
+      <button onClick={onClickLocalStorage}>Save Form</button>
     </Form>
   );
 };
