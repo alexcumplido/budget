@@ -3,8 +3,11 @@ import { WrapperInputText } from './Style.js';
 export const InputWithButton = ({id, value, onChange, onClickSuma, onClickResta}) => {
   return (
       <WrapperInputText>
-        <label htmlFor={id}> {id} </label>
+        <label htmlFor={id}> 
+          {id} 
+        </label>
         <button onClick={onClickSuma}>+</button> 
+        
         <input  
           type='text' 
           id={id} 
