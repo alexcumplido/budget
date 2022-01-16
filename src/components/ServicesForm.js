@@ -6,14 +6,22 @@ import { InputWithButton } from './InputWithButton.js';
 
 export function ServicesForm() {
 
-  let [total, setTotal] = useState(0);
-
   const [checkState, setCheckState] = useState({
-    maquetar: false,
+    web: false,
     seo: false,
     googleAdds: false,
   });
+  
+  const [inputsWeb, setInputsWeb] = useState({
+    paginas: 0,
+    idiomas: 0,
+  })
 
+  let [total, setTotal] = useState(0);
+  let [btnLocalStorage, setBtnLocalStorage] = useState(false);
+
+ 
+  // Input Checkbox handlers
   function onChangeChecks (event) {
     setCheckState({ 
       ...checkState,
@@ -21,74 +29,64 @@ export function ServicesForm() {
     })
   }
 
-  const [inputsMaquetar, setInputsMaquetar] = useState({
-    paginas: 0,
-    idiomas: 0,
-  })
-
-  //Inputs text handlers
-  function handleInputsMaquetar(event) {
-    setInputsMaquetar({
-      ...inputsMaquetar,
+  // Input Text handlers
+  function handleInputsWeb(event) {
+    setInputsWeb({
+      ...inputsWeb,
       [event.target.id]: parseInt(event.target.value),
     })
   }
 
-  const sumarPaginas = () => setInputsMaquetar({
-    paginas: ++inputsMaquetar.paginas, idiomas: inputsMaquetar.idiomas,
-  });  
+  // Inputs buttons handlers
+  const sumarPaginas = () => setInputsWeb({...inputsWeb, paginas: ++inputsWeb.paginas,});  
 
   const restarPaginas = () => {
-    if(inputsMaquetar.paginas>1) {
-      setInputsMaquetar({ paginas: --inputsMaquetar.paginas, idiomas: inputsMaquetar.idiomas})
-    }
+    if(inputsWeb.paginas>1) {
+      setInputsWeb({ ...inputsWeb, paginas: --inputsWeb.paginas})}
   }
 
-  const sumarIdiomas = () => setInputsMaquetar({
-    paginas: inputsMaquetar.paginas, idiomas: ++inputsMaquetar.idiomas,
-  }); 
+  const sumarIdiomas = () => setInputsWeb({ ...inputsWeb,idiomas: ++inputsWeb.idiomas,}); 
 
   const restarIdiomas = () => {
-    if(inputsMaquetar.idiomas>1) {
-      setInputsMaquetar({ paginas: inputsMaquetar.paginas, idiomas: --inputsMaquetar.idiomas})
+    if(inputsWeb.idiomas>1) {
+      setInputsWeb({ ...inputsWeb, idiomas: --inputsWeb.idiomas})
     }
   }
 
+  const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
+
+  //Total calculation
+  useEffect(() => {
+      setTotal(total=0);
+      let totalWeb = (inputsWeb.paginas*inputsWeb.idiomas)*30;
+      if(checkState.web) setTotal(total+=400);
+      if(checkState.seo) setTotal(total+=300);
+      if(checkState.googleAdds) setTotal(total+=200);
+      setTotal(total+totalWeb);
+  }, [checkState, inputsWeb.paginas, inputsWeb.idiomas]);
+
+  //Input texts clean up
   useEffect(()=> {
-    if(checkState.maquetar && !localStorage.getItem(('form'))) {
-      setInputsMaquetar({ 
+    if(checkState.web && !localStorage.getItem(('form'))) {
+      setInputsWeb({ 
         paginas: 1, 
         idiomas: 1
       })
     } 
-    else if (!checkState.maquetar ) {
-      setInputsMaquetar({ 
+    else if (!checkState.web ) {
+      setInputsWeb({ 
         paginas: 0, 
         idiomas: 0
       })
     }
-  },[checkState.maquetar]);
+  },[checkState.web]);
 
-  useEffect(() => {
-      setTotal(total=0);
-      let totalMaquetar = (inputsMaquetar.paginas*inputsMaquetar.idiomas)*30;
-      if(checkState.maquetar) setTotal(total+=400);
-      if(checkState.seo) setTotal(total+=300);
-      if(checkState.googleAdds) setTotal(total+=200);
-      setTotal(total+totalMaquetar);
-  }, [checkState, inputsMaquetar.paginas, inputsMaquetar.idiomas]);
-
-  let [btnLocalStorage, setBtnLocalStorage] = useState(false);
-  const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
-  
+  //Local Storage operations
   useEffect(()=>{
     if(btnLocalStorage) {
       let formToStorage = {
-        maquetar: checkState.maquetar,
-        seo: checkState.seo,
-        googleAdds: checkState.googleAdds,
-        idiomas: inputsMaquetar.idiomas,
-        paginas: inputsMaquetar.paginas,
+        ...checkState,
+        ...inputsWeb,
         total: total,
       }
       localStorage.setItem('form', JSON.stringify(formToStorage));
@@ -99,11 +97,11 @@ export function ServicesForm() {
     if (localStorage.getItem(('form'))) {
       let formFromStorage = JSON.parse(localStorage.getItem(('form')));
       setCheckState({
-        maquetar: formFromStorage.maquetar,
+        web: formFromStorage.web,
         seo: formFromStorage.seo,
         googleAdds: formFromStorage.googleAdds,
       })
-      setInputsMaquetar({
+      setInputsWeb({
         paginas: formFromStorage.paginas,
         idiomas: formFromStorage.idiomas,
       })
@@ -115,24 +113,24 @@ export function ServicesForm() {
       <Form>
         <h3>Services </h3>
         <Checkbox 
-          label='Maquetar (400€)' 
-          id='maquetar' 
-          check={checkState.maquetar} 
+          label='Crear Web (400€)' 
+          id='web' 
+          check={checkState.web} 
           onChange={onChangeChecks} 
         />
-        {checkState.maquetar && <Panel>
+        {checkState.web && <Panel>
           <InputWithButton 
             id='paginas' 
-            value={inputsMaquetar.paginas} 
+            value={inputsWeb.paginas} 
             onClickSuma={sumarPaginas} 
             onClickResta={restarPaginas} 
-            onChange={handleInputsMaquetar}/>
+            onChange={handleInputsWeb}/>
           <InputWithButton 
             id='idiomas' 
-            value={inputsMaquetar.idiomas} 
+            value={inputsWeb.idiomas} 
             onClickSuma={sumarIdiomas} 
             onClickResta={restarIdiomas} 
-            onChange={handleInputsMaquetar}
+            onChange={handleInputsWeb}
           />
         </Panel>}
 
@@ -155,46 +153,3 @@ export function ServicesForm() {
   );
 };
 
-  // //Checkbox
-  // const [maquetar, setMaquetar] = useState(false);
-  // const [seo, setSeo] = useState(false);
-  // const [googleAdds, setGoogleAdds] = useState(false);
- 
-  // //Checkbox handlers
-  // function onChangeChecks (e) {
-  //   if(e.target.id ==='maquetar') setMaquetar(!maquetar);
-  //   if(e.target.id ==='seo') setSeo(!seo);
-  //   if(e.target.id ==='googleAdds') setGoogleAdds(!googleAdds);
-  // }
-
-  // //Total summation from checkbox
-  // function totalChecks(e){
-  //   let id = e.target.id;
-  //   let check = e.target.checked;
-  //   if(id === 'maquetar' && check) setTotal(total+400);
-  //   if(id === 'maquetar' && !check) setTotal(total-400);
-  //   if(id === 'seo' && check ) setTotal(total+300);
-  //   if(id === 'seo' && !check)  setTotal(total-300);
-  //   if(id === 'googleAdds' && check) setTotal(total+200);
-  //   if(id === 'googleAdds' && !check) setTotal(total-200);
-  // }
-
-  // useEffect(()=>{
-  //   total = 0;
-  //   if (checkState.maquetar) setTotal(total+=400);
-  //   if (checkState.seo) setTotal(total+=300);
-  //   if (checkState.googleAdds) setTotal(total+=200);
-  // }, [checkState] )
-
-  // //Inputs text   
-  // let [paginas, setPaginas] = useState(0);
-  // let [idiomas, setIdiomas] = useState(0);
-
-  // const handlePaginas = (e) => setPaginas(parseInt(e.target.value));
-  // const handleIdiomas = (e) => setIdiomas(parseInt(e.target.value));
-
-  // //Maquetar subinputs bottons 
-  // const sumarPaginas = () => setPaginas(++paginas)  
-  // const restarPaginas = () => (!paginas) ? setPaginas(paginas) : setPaginas(--paginas); 
-  // const sumarIdiomas = () => setIdiomas(++idiomas);
-  // const restarIdiomas = () => (!idiomas) ? setIdiomas(idiomas) : setIdiomas(--idiomas);
