@@ -11,16 +11,17 @@ export function ServicesForm() {
     seo: false,
     googleAdds: false,
   });
+  let {web, seo, googleAdds} = checkState;
   
   const [inputsWeb, setInputsWeb] = useState({
     paginas: 0,
     idiomas: 0,
   })
+  let {paginas, idiomas} = inputsWeb;
 
   let [total, setTotal] = useState(0);
   let [btnLocalStorage, setBtnLocalStorage] = useState(false);
 
- 
   // Input Checkbox handlers
   function onChangeChecks (event) {
     setCheckState({ 
@@ -37,49 +38,43 @@ export function ServicesForm() {
     })
   }
 
-  // Inputs buttons handlers
-  const sumarPaginas = () => setInputsWeb({...inputsWeb, paginas: ++inputsWeb.paginas,});  
+  // webInputs Panel buttons handlers
+  function sumarPaginas() {
+    setInputsWeb({...inputsWeb, paginas: ++paginas});  
+  } 
 
-  const restarPaginas = () => {
-    if(inputsWeb.paginas>1) {
-      setInputsWeb({ ...inputsWeb, paginas: --inputsWeb.paginas})}
+  function restarPaginas() {
+    if(paginas>1) setInputsWeb({...inputsWeb, paginas: --paginas})
   }
 
-  const sumarIdiomas = () => setInputsWeb({ ...inputsWeb,idiomas: ++inputsWeb.idiomas,}); 
-
-  const restarIdiomas = () => {
-    if(inputsWeb.idiomas>1) {
-      setInputsWeb({ ...inputsWeb, idiomas: --inputsWeb.idiomas})
-    }
+  function sumarIdiomas() {
+    setInputsWeb({...inputsWeb, idiomas: ++idiomas}); 
   }
 
+  function restarIdiomas() {
+    if(idiomas>1) setInputsWeb({...inputsWeb, idiomas: --idiomas})
+  }
+  
   const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
 
   //Total calculation
   useEffect(() => {
       setTotal(total=0);
-      let totalWeb = (inputsWeb.paginas*inputsWeb.idiomas)*30;
-      if(checkState.web) setTotal(total+=400);
-      if(checkState.seo) setTotal(total+=300);
-      if(checkState.googleAdds) setTotal(total+=200);
-      setTotal(total+totalWeb);
-  }, [checkState, inputsWeb.paginas, inputsWeb.idiomas]);
+      if(web) setTotal(total+=400);
+      if(seo) setTotal(total+=300);
+      if(googleAdds) setTotal(total+=200);
+      setTotal(total+((paginas*idiomas)*30));
+  }, [checkState, paginas, idiomas]);
 
   //Input texts clean up
   useEffect(()=> {
-    if(checkState.web && !localStorage.getItem(('form'))) {
-      setInputsWeb({ 
-        paginas: 1, 
-        idiomas: 1
-      })
+    if(web && !localStorage.getItem(('form'))) {
+      setInputsWeb({ paginas: 1, idiomas: 1})
     } 
-    else if (!checkState.web ) {
-      setInputsWeb({ 
-        paginas: 0, 
-        idiomas: 0
-      })
+    else if (!web ) {
+      setInputsWeb({ paginas: 0, idiomas: 0})
     }
-  },[checkState.web]);
+  },[web]);
 
   //Local Storage operations
   useEffect(()=>{
@@ -115,19 +110,19 @@ export function ServicesForm() {
         <Checkbox 
           label='Crear Web (400€)' 
           id='web' 
-          check={checkState.web} 
+          check={web} 
           onChange={onChangeChecks} 
         />
-        {checkState.web && <Panel>
+        {web && <Panel>
           <InputWithButton 
             id='paginas' 
-            value={inputsWeb.paginas} 
+            value={paginas} 
             onClickSuma={sumarPaginas} 
             onClickResta={restarPaginas} 
             onChange={handleInputsWeb}/>
           <InputWithButton 
             id='idiomas' 
-            value={inputsWeb.idiomas} 
+            value={idiomas} 
             onClickSuma={sumarIdiomas} 
             onClickResta={restarIdiomas} 
             onChange={handleInputsWeb}
@@ -137,13 +132,13 @@ export function ServicesForm() {
         <Checkbox 
           label='Seo Analysis (300€)' 
           id='seo' 
-          check={checkState.seo} 
+          check={seo} 
           onChange={onChangeChecks} 
         /> 
         <Checkbox 
           label='GoogleAdds action (200€)' 
           id='googleAdds' 
-          check={checkState.googleAdds} 
+          check={googleAdds} 
           onChange={onChangeChecks} 
         />
 
