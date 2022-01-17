@@ -11,15 +11,18 @@ export function ServicesForm() {
     seo: false,
     googleAdds: false,
   });
+
   let {web, seo, googleAdds} = checkState;
   
   const [inputsWeb, setInputsWeb] = useState({
     paginas: 0,
     idiomas: 0,
   })
+
   let {paginas, idiomas} = inputsWeb;
 
   let [total, setTotal] = useState(0);
+
   let [btnLocalStorage, setBtnLocalStorage] = useState(false);
 
   // Input Checkbox handlers
@@ -31,7 +34,7 @@ export function ServicesForm() {
   }
 
   // Input Text handlers
-  function handleInputsWeb(event) {
+  function onChangeInputs(event) {
     setInputsWeb({
       ...inputsWeb,
       [event.target.id]: parseInt(event.target.value),
@@ -64,7 +67,7 @@ export function ServicesForm() {
       if(seo) setTotal(total+=300);
       if(googleAdds) setTotal(total+=200);
       setTotal(total+((paginas*idiomas)*30));
-  }, [checkState, paginas, idiomas]);
+  },[checkState, paginas, idiomas]);
 
   //Input texts clean up
   useEffect(()=> {
@@ -79,30 +82,30 @@ export function ServicesForm() {
   //Local Storage operations
   useEffect(()=>{
     if(btnLocalStorage) {
-      let formToStorage = {
+      window.localStorage.setItem('form', JSON.stringify({
         ...checkState,
         ...inputsWeb,
         total: total,
-      }
-      localStorage.setItem('form', JSON.stringify(formToStorage));
+      }));
     }
+    setBtnLocalStorage(false);
   }, [btnLocalStorage])
 
   useEffect(()=>{
     if (localStorage.getItem(('form'))) {
-      let formFromStorage = JSON.parse(localStorage.getItem(('form')));
+      let formStorage = JSON.parse(localStorage.getItem(('form')));
       setCheckState({
-        web: formFromStorage.web,
-        seo: formFromStorage.seo,
-        googleAdds: formFromStorage.googleAdds,
+        web: formStorage.web,
+        seo: formStorage.seo,
+        googleAdds: formStorage.googleAdds,
       })
       setInputsWeb({
-        paginas: formFromStorage.paginas,
-        idiomas: formFromStorage.idiomas,
+        paginas: formStorage.paginas,
+        idiomas: formStorage.idiomas,
       })
-      setTotal(formFromStorage.total);
+      setTotal(formStorage.total);
     }
-  },[]);
+  }, []);
 
   return (
       <Form>
@@ -119,13 +122,13 @@ export function ServicesForm() {
             value={paginas} 
             onClickSuma={sumarPaginas} 
             onClickResta={restarPaginas} 
-            onChange={handleInputsWeb}/>
+            onChange={onChangeInputs}/>
           <InputWithButton 
             id='idiomas' 
             value={idiomas} 
             onClickSuma={sumarIdiomas} 
             onClickResta={restarIdiomas} 
-            onChange={handleInputsWeb}
+            onChange={onChangeInputs}
           />
         </Panel>}
 

@@ -29,3 +29,11 @@ export const WrapperInputText = styled.div`
 export const WrapperInputCheckbox = styled.div`
     display: flex;
 `;
+
+export const ModalBackground = styled.div`
+    width: 400px;
+    height: 100px;
+`;
+
+export const ModalPopupText =  styled.p`
+`;
