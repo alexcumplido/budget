@@ -147,6 +147,7 @@ export function ServicesForm() {
             onChange={onChangeInputsText}
           />
         </Panel>}
+          
 
         <Checkbox 
           label='Seo Analysis (300€)' 

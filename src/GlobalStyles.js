@@ -13,7 +13,12 @@ export const GlobalStyle = createGlobalStyle`
 
     body {
         margin: 0;
-        // width: 100vw;
-        // height: 90vh;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 `;

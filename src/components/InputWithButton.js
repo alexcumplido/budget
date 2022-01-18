@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { WrapperInputText } from './Style.js';
 import { ModalBackground } from './Style.js';
-import { ModalPopupText } from './Style.js';
+import { ModalText } from './Style.js';
 
 export const InputWithButton = ({ id, value, onChange, onClickSuma, onClickResta }) => {
   
@@ -27,7 +27,13 @@ let [showModal, setShowModal] = useState(false);
         <button onClick={onClickResta}>-</button>
         <button onClick={handleModal}> Info</button>
       </WrapperInputText>
-      {showModal && <Modal inputHelper={id} handleModal={handleModal}/>}
+      
+      {showModal && 
+        <Modal 
+          inputHelper={id} 
+          handleModal={handleModal}
+        />
+      }
     </>
     );
 }
@@ -35,9 +41,9 @@ let [showModal, setShowModal] = useState(false);
 function Modal ({ inputHelper, handleModal }) {
     return(
         <ModalBackground onClick={handleModal}>
-                <ModalPopupText onClick={handleModal}>
-                   Inserte el número de  {inputHelper} que tendrá tu web porfavor.
-                </ModalPopupText>
+                <ModalText onClick={handleModal}>
+                   Inserte el número de  <strong>{inputHelper}</strong> que tendrá tu web porfavor.
+                </ModalText>
         </ModalBackground>
     );
 }
