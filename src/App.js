@@ -1,6 +1,6 @@
 import { BrowserRouter , Route, Routes } from 'react-router-dom';
-import { Home } from './Home.js';
-import { ServicesForm } from './ServicesForm.js';
+import { Home } from './components/Home.js';
+import { ServicesForm } from './components/ServicesForm.js';
 
 export function App() {
   return (
@@ -14,6 +14,7 @@ export function App() {
                     path="/ServicesForm/" 
                     element={<ServicesForm/>}
                 />
+               
             </Routes> 
         </BrowserRouter>
   )

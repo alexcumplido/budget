@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Form = styled.div`
-    width: 50%;
+    width: 500px;
     margin: 5vh auto;
     display: flex;
     flex-direction: column;
@@ -10,7 +10,6 @@ export const Form = styled.div`
     padding: 0.5rem;
     border: 1px solid gray;
     border-radius: 5px;
-    
 `;
 
 export const Panel = styled.div`
@@ -39,6 +38,7 @@ export const ModalBackground = styled.div`
     display: flex;
     position: absolute;
     top: 0;
+    left: 0;
     justify-content: center;
     align-items: center;
     background: rgba(0,0,0,.5);
