@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 
 export const Form = styled.div`
-    border: 1px solid black;
-    width: 500px;
+    width: 50%;
+    margin: 5vh auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 1.5rem;
     padding: 0.5rem;
+    border: 1px solid gray;
+    border-radius: 5px;
     
 `;
-
 
 export const Panel = styled.div`
     margin: 2rem;
@@ -47,6 +48,6 @@ export const ModalText =  styled.p`
     padding: 2rem;
     border: 2px solid salmon;
     border-radius: 10px;
-    margin-top: 100px;
+    margin-bottom: 50px;
     background: white;
 `;
