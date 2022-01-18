@@ -3,7 +3,9 @@ import { WrapperInputText } from './Style.js';
 import { ModalBackground } from './Style.js';
 import { ModalPopupText } from './Style.js';
 
-export const InputWithButton = ({id, value, onChange, onClickSuma, onClickResta}) => {
+export const InputWithButton = ({ id, value, onChange, onClickSuma, onClickResta }) => {
+  
+// Puc carregar el Modal desde App ?
 let [showModal, setShowModal] = useState(false);
   function handleModal (){
     setShowModal(!showModal);
@@ -30,7 +32,7 @@ let [showModal, setShowModal] = useState(false);
     );
 }
 
-function Modal ({inputHelper, handleModal}) {
+function Modal ({ inputHelper, handleModal }) {
     return(
         <ModalBackground onClick={handleModal}>
                 <ModalPopupText onClick={handleModal}>

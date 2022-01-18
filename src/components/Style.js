@@ -1,25 +1,29 @@
 import styled from 'styled-components';
 
-export const Panel = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0.5rem;
-    gap: 1rem;
-    border: 1px solid #000000;
-    border-radius: 10px;
-`;
+
+
 
 export const Form = styled.div`
-    width: 50%;
-    height: 50%;
+    outline: 1px solid black;
+    margin: 0 auto;
+    position: relative;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // gap: 1rem;
+`;
+
+export const Panel = styled.div`
+    width: 80%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: 1rem;
     gap: 1rem;
+    border: 1px solid gray;
+    border-radius: 10px;
 `;
 
 export const WrapperInputText = styled.div`
@@ -31,9 +35,21 @@ export const WrapperInputCheckbox = styled.div`
 `;
 
 export const ModalBackground = styled.div`
-    width: 400px;
-    height: 100px;
+    outline: red 1px solid;
+    position: absolute; 
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const ModalPopupText =  styled.p`
+    border: 2px solid gray;
+    border-radius: 10px;
+    position: absolute;
+    top: 175px;
+    padding: 2rem;
+    background: white;
+    
 `;

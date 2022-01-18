@@ -34,7 +34,7 @@ export function ServicesForm() {
   }
 
   // Input Text handlers
-  function onChangeInputs(event) {
+  function onChangeInputsText(event) {
     setInputsWeb({
       ...inputsWeb,
       [event.target.id]: parseInt(event.target.value),
@@ -43,19 +43,29 @@ export function ServicesForm() {
 
   // webInputs Panel buttons handlers
   function sumarPaginas() {
-    setInputsWeb({...inputsWeb, paginas: ++paginas});  
+    setInputsWeb({
+      ...inputsWeb, 
+      paginas: ++paginas
+    });  
   } 
 
   function restarPaginas() {
-    if(paginas>1) setInputsWeb({...inputsWeb, paginas: --paginas})
+    if(paginas>1) setInputsWeb({
+      ...inputsWeb,
+      paginas: --paginas})
   }
 
   function sumarIdiomas() {
-    setInputsWeb({...inputsWeb, idiomas: ++idiomas}); 
+    setInputsWeb({
+      ...inputsWeb, 
+      idiomas: ++idiomas}); 
   }
 
   function restarIdiomas() {
-    if(idiomas>1) setInputsWeb({...inputsWeb, idiomas: --idiomas})
+    if(idiomas>1) setInputsWeb({
+      ...inputsWeb, 
+      idiomas: --idiomas
+    })
   }
   
   const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
@@ -72,10 +82,16 @@ export function ServicesForm() {
   //Input texts clean up
   useEffect(()=> {
     if(web && !localStorage.getItem(('form'))) {
-      setInputsWeb({ paginas: 1, idiomas: 1})
+      setInputsWeb({ 
+        paginas: 1, 
+        idiomas: 1
+      })
     } 
     else if (!web ) {
-      setInputsWeb({ paginas: 0, idiomas: 0})
+      setInputsWeb({ 
+        paginas: 0, 
+        idiomas: 0
+      })
     }
   },[web]);
 
@@ -122,13 +138,13 @@ export function ServicesForm() {
             value={paginas} 
             onClickSuma={sumarPaginas} 
             onClickResta={restarPaginas} 
-            onChange={onChangeInputs}/>
+            onChange={onChangeInputsText}/>
           <InputWithButton 
             id='idiomas' 
             value={idiomas} 
             onClickSuma={sumarIdiomas} 
             onClickResta={restarIdiomas} 
-            onChange={onChangeInputs}
+            onChange={onChangeInputsText}
           />
         </Panel>}
 
