@@ -5,6 +5,7 @@ import { Panel } from './Style.js'
 import { InputWithButton } from './InputWithButton.js';
 import { InputCustomer } from './InputCustomer.js'
 import { BudgetList } from './ListBudget.js';
+import { Wrapper } from './Style.js';
 
 export function ServicesForm() {
   const [checkState, setCheckState] = useState({
@@ -30,9 +31,6 @@ export function ServicesForm() {
   let {nameCustomer, nameBudget} = inputsCustomer;
   
   let [total, setTotal] = useState(0);
-
-  let [btnLocalStorage, setBtnLocalStorage] = useState(false);
-  let [btnRenderList, setBtnRenderList] = useState(false);
 
   const [budget, setBudget] = useState([]);
 
@@ -86,10 +84,6 @@ export function ServicesForm() {
     })
   }
 
-  // function onClickRenderBudget ()
-  
-  
-
   //Total calculation
   useEffect(() => {
       setTotal(total=0);
@@ -115,9 +109,7 @@ export function ServicesForm() {
     }
   },[web]);
 
-  //Local Storage operations
-
-  function onClickRenderList () {
+  function onClickSaveBudget () {
        setBudget([
           ...budget,
         {
@@ -125,12 +117,13 @@ export function ServicesForm() {
           ...inputsWeb,
           ...inputsCustomer,
           total: total,
+          date: new Date(),
         }
       ])
   }
   
-
-  //Local Storage operations
+  // Local Storage operations
+  // let [btnLocalStorage, setBtnLocalStorage] = useState(false);
   // const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
   // useEffect(()=>{
   //   if(btnLocalStorage) {
@@ -171,9 +164,9 @@ export function ServicesForm() {
   //   }
   // }, []);
  
-
   return (
-    <>
+   
+    <Wrapper>
       <Form>
         <h3>Services </h3>
         <Checkbox 
@@ -189,7 +182,7 @@ export function ServicesForm() {
             onClickSuma={sumarPaginas} 
             onClickResta={restarPaginas} 
             onChange={onChangeInputsText}/>
-          <InputWithButton 
+          <InputWithButton  
             id='idiomas' 
             value={idiomas} 
             onClickSuma={sumarIdiomas} 
@@ -226,11 +219,11 @@ export function ServicesForm() {
         />
 
         <p>Total price is {total}</p>
-        <button onClick={onClickRenderList}>Render List</button>
+        <button onClick={onClickSaveBudget}>Save Budget</button>
         {/* <button onClick={onClickLocalStorage}>Save Form</button> */}
       </Form>
-      <BudgetList/>
-      </>
+      <BudgetList data={budget}/>
+     </Wrapper>
   );
 };
 

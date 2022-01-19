@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
+export const Wrapper = styled.div`
+    display: flex;
+`;
+
 export const Form = styled.div`
     width: 500px;
-    margin: 5vh auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,4 +53,15 @@ export const ModalText =  styled.p`
     border-radius: 10px;
     margin-bottom: 50px;
     background: white;
+`;
+
+export const Dashboard = styled.div`
+    display: flex;
+    flex-direction: column;
+    border: 1px solid gray;
+    border-radius: 10px;    
+    font-size: 0.5rem;
+    ul {
+        list-style: none;
+    }
 `;
