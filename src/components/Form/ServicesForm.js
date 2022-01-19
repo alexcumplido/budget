@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Form } from './Style.js';
+
 import { Checkbox } from './Checkbox.js';
-import { Panel } from './Style.js'
+
 import { InputWithButton } from './InputWithButton.js';
 import { InputCustomer } from './InputCustomer.js'
-import { BudgetList } from './ListBudget.js';
-import { Wrapper } from './Style.js';
+import { BudgetList } from '../Budget/BudgetList.js';
+
+import { Form } from '../Style.js';
+import { Panel } from '../Style.js'
+import { Wrapper } from '../Style.js';
 
 export function ServicesForm() {
   const [checkState, setCheckState] = useState({
@@ -24,15 +27,15 @@ export function ServicesForm() {
   let {paginas, idiomas} = inputsWeb;
 
   const [inputsCustomer, setInputsCustomer] = useState({
-    nameCustomer: '',
+    nameUser: '',
     nameBudget: '',
   });
 
-  let {nameCustomer, nameBudget} = inputsCustomer;
+  let {nameUser, nameBudget} = inputsCustomer;
   
   let [total, setTotal] = useState(0);
 
-  const [budget, setBudget] = useState([]);
+  const [budgetSaved, setBudgetSaved] = useState([]);
 
   // Input Checkbox handlers
   function onChangeChecks (event) {
@@ -110,8 +113,8 @@ export function ServicesForm() {
   },[web]);
 
   function onClickSaveBudget () {
-       setBudget([
-          ...budget,
+       setBudgetSaved([
+          ...budgetSaved,
         {
           ...checkState,
           ...inputsWeb,
@@ -206,8 +209,8 @@ export function ServicesForm() {
 
         <InputCustomer
             label='Nombre cliente'
-            id='nameCustomer' 
-            value={nameCustomer} 
+            id='nameUser' 
+            value={nameUser} 
             onChange={onChangeInputCustomer}
         />
 
@@ -222,7 +225,7 @@ export function ServicesForm() {
         <button onClick={onClickSaveBudget}>Save Budget</button>
         {/* <button onClick={onClickLocalStorage}>Save Form</button> */}
       </Form>
-      <BudgetList data={budget}/>
+      <BudgetList data={budgetSaved} />
      </Wrapper>
   );
 };

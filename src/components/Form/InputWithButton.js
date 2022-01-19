@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { WrapperInputText } from './Style.js';
+import { WrapperInputText } from '../Style.js';
 import { Modal } from './Modal.js'
 
 

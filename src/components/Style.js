@@ -60,7 +60,7 @@ export const Dashboard = styled.div`
     flex-direction: column;
     border: 1px solid gray;
     border-radius: 10px;    
-    font-size: 0.5rem;
+    font-size: 0.6rem;
     ul {
         list-style: none;
     }
