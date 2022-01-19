@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dashboard } from '../Style';
 import { ListItems } from './ListItems.js';
 
 export function BudgetList( { data } ) {
     
-    let [budget, setBudget] = useState(data);
+    let [budget, setBudget] = useState([]);
     let [search, setSearch] = useState('');
+
     const setStateBudget = () => setBudget(data);
+
     const setStateSearch = (event) => setSearch(event.target.value);
 
     function filterName() {
@@ -22,18 +24,29 @@ export function BudgetList( { data } ) {
     }
 
     function filterSearch() {
-        let clonedArray = [...budget];
-        let filterSearch = clonedArray.filter((element)=> {
-            return element.nameBudget === search;
-        })
-        console.log(filterSearch);
-        if(filterSearch.length === 0) {
-            setStateBudget();
-        } else {
+        let searchExist = budget.find((element)=> element.nameUser === search);
+
+        if(searchExist) {
+            let filterSearch = [...budget].filter((element)=> element.nameBudget === search);
             setBudget(filterSearch);
+        } else {
+            setStateBudget();
         }
     }
- 
+
+    useEffect(()=>{
+        if(localStorage.getItem(('budget'))) {
+            let budgetStorage = JSON.parse(localStorage.getItem(('budget')));
+            setBudget(budgetStorage);
+        }
+    }, []);
+
+    useEffect(()=>{
+        if(budget) {
+            window.localStorage.setItem('budget', JSON.stringify(budget));
+        } 
+    });
+
     return (
         <Dashboard>
             <button onClick={setStateBudget}>Mostrat Budgets</button>

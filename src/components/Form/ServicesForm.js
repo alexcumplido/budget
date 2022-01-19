@@ -37,7 +37,7 @@ export function ServicesForm() {
 
   const [budgetSaved, setBudgetSaved] = useState([]);
 
-  // Input Checkbox handlers
+  
   function onChangeChecks (event) {
     setCheckState({ 
       ...checkState,
@@ -45,7 +45,6 @@ export function ServicesForm() {
     })
   }
 
-  // Input Text handlers
   function onChangeInputsText(event) {
     setInputsWeb({
       ...inputsWeb,
@@ -60,7 +59,6 @@ export function ServicesForm() {
     })
   }
 
-  // webInputs Panel buttons handlers
   function sumarPaginas() {
     setInputsWeb({
       ...inputsWeb, 
@@ -124,48 +122,36 @@ export function ServicesForm() {
         }
       ])
   }
-  
-  // Local Storage operations
-  // let [btnLocalStorage, setBtnLocalStorage] = useState(false);
-  // const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
-  // useEffect(()=>{
-  //   if(btnLocalStorage) {
-  //     window.localStorage.setItem('form', JSON.stringify({
-  //       ...checkState,
-  //       ...inputsWeb,
-  //       total: total,
-  //     }));
-  //   }
-  //   setBtnLocalStorage(false);
-  // }, [btnLocalStorage])
 
-  // //Local Storage operations
-  // useEffect(()=>{
-  //   if(btnLocalStorage) {
-  //     window.localStorage.setItem('form', JSON.stringify({
-  //       ...checkState,
-  //       ...inputsWeb,
-  //       total: total,
-  //     }));
-  //   }
-  //   setBtnLocalStorage(false);
-  // }, [btnLocalStorage])
 
-  // useEffect(()=>{
-  //   if (localStorage.getItem(('form'))) {
-  //     let formStorage = JSON.parse(localStorage.getItem(('form')));
-  //     setCheckState({
-  //       web: formStorage.web,
-  //       seo: formStorage.seo,
-  //       googleAdds: formStorage.googleAdds,
-  //     })
-  //     setInputsWeb({
-  //       paginas: formStorage.paginas,
-  //       idiomas: formStorage.idiomas,
-  //     })
-  //     setTotal(formStorage.total);
-  //   }
-  // }, []);
+  useEffect(()=>{
+    if (localStorage.getItem(('form'))) {
+      let formStorage = JSON.parse(localStorage.getItem(('form')));
+      setCheckState({
+        web: formStorage.web,
+        seo: formStorage.seo,
+        googleAdds: formStorage.googleAdds,
+      })
+      setInputsWeb({
+        paginas: formStorage.paginas,
+        idiomas: formStorage.idiomas,
+      })
+      setInputsCustomer({
+        nameUser: formStorage.nameUser,
+        nameBudget: formStorage.nameBudget,
+      })
+      setTotal(formStorage.total);
+    }
+  }, []);
+
+  useEffect(()=>{
+      window.localStorage.setItem('form', JSON.stringify({
+        ...checkState,
+        ...inputsWeb,
+        ...inputsCustomer,
+        total: total,
+      }));
+  })
  
   return (
    
@@ -223,7 +209,6 @@ export function ServicesForm() {
 
         <p>Total price is {total}</p>
         <button onClick={onClickSaveBudget}>Save Budget</button>
-        {/* <button onClick={onClickLocalStorage}>Save Form</button> */}
       </Form>
       <BudgetList data={budgetSaved} />
      </Wrapper>
