@@ -122,7 +122,22 @@ export function ServicesForm() {
         }
       ])
   }
+  
+  let [btnLocalStorage, setBtnLocalStorage] = useState(false);
+  const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
 
+  //How to make continuous localStorage without pages, idiomas being alterated ?
+  useEffect(()=>{
+    if(btnLocalStorage) {
+      window.localStorage.setItem('form', JSON.stringify({
+        ...checkState,
+        ...inputsWeb,
+        ...inputsCustomer,
+        total: total,
+      }));
+    }
+    setBtnLocalStorage(false);
+  }, [btnLocalStorage])
 
   useEffect(()=>{
     if (localStorage.getItem(('form'))) {
@@ -145,15 +160,6 @@ export function ServicesForm() {
   }, []);
 
   useEffect(()=>{
-      window.localStorage.setItem('form', JSON.stringify({
-        ...checkState,
-        ...inputsWeb,
-        ...inputsCustomer,
-        total: total,
-      }));
-  })
-
-  useEffect(()=>{
     if (localStorage.getItem(('budgetSaved'))) {
       let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
       setBudgetSaved(budgetSavedFromStorage);
@@ -165,7 +171,7 @@ export function ServicesForm() {
       window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
     }
   });
-
+ 
   return (
    
     <Wrapper>
@@ -222,9 +228,11 @@ export function ServicesForm() {
 
         <p>Total price is {total}</p>
         <button onClick={onClickSaveBudget}>Save Budget</button>
+        <button onClick={onClickLocalStorage}>Save Form</button>
       </Form>
       <BudgetList data={budgetSaved} />
      </Wrapper>
   );
 };
+
 
