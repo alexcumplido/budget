@@ -152,7 +152,20 @@ export function ServicesForm() {
         total: total,
       }));
   })
- 
+
+  useEffect(()=>{
+    if (localStorage.getItem(('budgetSaved'))) {
+      let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
+      setBudgetSaved(budgetSavedFromStorage);
+    }
+  }, []);
+
+  useEffect(()=>{
+    if(budgetSaved) {
+      window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
+    }
+  });
+
   return (
    
     <Wrapper>
