@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { Checkbox } from './Checkbox.js';
 import { InputWithButton } from './InputWithButton.js';
 import { Input } from '../Input.js'
@@ -8,6 +9,7 @@ import { Panel } from '../Style.js'
 import { Wrapper } from '../Style.js';
 
 export function ServicesForm() {
+  // const { history } = useHistory()
 
   //Use state
   const [checkState, setCheckState] = useState({
@@ -28,11 +30,10 @@ export function ServicesForm() {
 
   let [total, setTotal] = useState(0);
 
-  const [budgetSaved, setBudgetSaved] = useState([]);
+  let [budgetSaved, setBudgetSaved] = useState([]);
 
   let [btnLocalStorage, setBtnLocalStorage] = useState(false);
   
-
   // State handlers
   function onChangeChecks(event) {
     setCheckState({ 
@@ -130,7 +131,7 @@ export function ServicesForm() {
     }
   }, []);
 
-  //Local storage budgetSaving
+  // Local storage budgetSaving
   useEffect(()=>{
     if (localStorage.getItem(('budgetSaved'))) {
       let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
@@ -143,6 +144,12 @@ export function ServicesForm() {
       window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
     }
   });
+
+  useEffect(() => {
+    const URL = `/?web=${checkState.web}&seo=${checkState.seo}&googleAdds=${checkState.googleAdds}&numPaginas=${inputsWeb.paginas}&numIdiomas=${inputsWeb.idiomas}&user=${inputsCustomer.nameUser}&title=${inputsCustomer.nameBudget}&total=${total}`;
+    window.history.pushState(null, '', URL);
+  }, [checkState, inputsWeb, inputsCustomer, total]);
+  
  
   return (
    

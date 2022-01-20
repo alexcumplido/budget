@@ -63,7 +63,6 @@ export function BudgetList( { data } ) {
             <button onClick={filterDate}>Budget by Date</button>
             <button onClick={setStateBudget}>Reset filter</button>
             <Input id='search' name='search' value={search} onChange={setStateSearch}/>
-            {/* <input  type='text' id='search' name='search' value={search} onChange={setStateSearch}/> */}
             <button onClick={filterSearch}>Budget by Search</button>
             <ListItems budget={budget}/>
         </Dashboard>

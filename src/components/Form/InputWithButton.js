@@ -22,7 +22,7 @@ export const InputWithButton = ({ id, onChange, inputsWeb, setInputsWeb}) => {
       idiomas: ++inputsWeb.idiomas}); 
   }
 
-  const subtractPage= ()=> {
+  const subtractPage = ()=> {
     if(inputsWeb.paginas>1) setInputsWeb({
       ...inputsWeb,
       paginas: --inputsWeb.paginas})
@@ -41,15 +41,15 @@ export const InputWithButton = ({ id, onChange, inputsWeb, setInputsWeb}) => {
         <label htmlFor={id}> 
           {id} 
         </label>
-        <button onClick={ id === 'paginas'? addPage : addLanguage}>+</button> 
+        <button onClick={ id === 'paginas'? addPage : addLanguage }>+</button> 
         <input  
           type='text' 
           id={id} 
           name={id} 
-          value={id === 'paginas'? inputsWeb.paginas : inputsWeb.idiomas} 
+          value={ id === 'paginas'? inputsWeb.paginas : inputsWeb.idiomas } 
           onChange={onChange}
         />
-        <button onClick={id ==='paginas'? subtractPage : subtractLanguage}>-</button>
+        <button onClick={ id ==='paginas'? subtractPage : subtractLanguage }>-</button>
         <button onClick={handleModal}> Info</button>
       </WrapperInputText>
       

@@ -11,7 +11,7 @@ export function App() {
                     element={<Home/>}
                 />
                 <Route 
-                    path="/ServicesForm/" 
+                    path="/ServicesForm" 
                     element={<ServicesForm/>}
                 />
                
