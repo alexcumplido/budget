@@ -3,12 +3,36 @@ import { WrapperInputText } from '../Style.js';
 import { Modal } from './Modal.js'
 
 
-export const InputWithButton = ({ id, value, onChange, onClickSuma, onClickResta }) => {
+export const InputWithButton = ({ id, onChange, inputsWeb, setInputsWeb}) => {
   
-// Puc carregar el Modal desde App ?
-let [showModal, setShowModal] = useState(false);
-  function handleModal (){
-    setShowModal(!showModal);
+  let [showModal, setShowModal] = useState(false);
+  
+  const handleModal = ()=> setShowModal(!showModal)
+
+  const addPage = ()=>  {
+    setInputsWeb({
+      ...inputsWeb, 
+      paginas: ++inputsWeb.paginas
+    });  
+  } 
+
+  const addLanguage = ()=> {
+    setInputsWeb({
+      ...inputsWeb, 
+      idiomas: ++inputsWeb.idiomas}); 
+  }
+
+  const subtractPage= ()=> {
+    if(inputsWeb.paginas>1) setInputsWeb({
+      ...inputsWeb,
+      paginas: --inputsWeb.paginas})
+  }
+
+  const subtractLanguage = ()=> {
+    if(inputsWeb.idiomas>1) setInputsWeb({
+      ...inputsWeb, 
+      idiomas: --inputsWeb.idiomas
+    })
   }
 
   return (
@@ -17,15 +41,15 @@ let [showModal, setShowModal] = useState(false);
         <label htmlFor={id}> 
           {id} 
         </label>
-        <button onClick={onClickSuma}>+</button> 
+        <button onClick={ id === 'paginas'? addPage : addLanguage}>+</button> 
         <input  
           type='text' 
           id={id} 
           name={id} 
-          value={value} 
+          value={id === 'paginas'? inputsWeb.paginas : inputsWeb.idiomas} 
           onChange={onChange}
         />
-        <button onClick={onClickResta}>-</button>
+        <button onClick={id ==='paginas'? subtractPage : subtractLanguage}>-</button>
         <button onClick={handleModal}> Info</button>
       </WrapperInputText>
       

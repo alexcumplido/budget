@@ -1,6 +1,6 @@
-import { WrapperInputText } from '../Style.js';
+import { WrapperInputText } from './Style.js';
 
-export const InputCustomer = ({ label, id, value, onChange}) => {
+export const Input = ({ label, id, value, onChange}) => {
   return (
     <WrapperInputText>
        <label htmlFor={id}> 

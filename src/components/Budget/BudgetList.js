@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Dashboard } from '../Style';
 import { ListItems } from './ListItems.js';
-import { InputCustomer } from '../Form/InputCustomer';
+import { Input } from '../Input.js';
 
 export function BudgetList( { data } ) {
+    
     let  refData = useRef(data);
     let [budget, setBudget] = useState([]);
     let [search, setSearch] = useState('');
@@ -61,7 +62,7 @@ export function BudgetList( { data } ) {
             <button onClick={filterName}>Budget name A-z</button>
             <button onClick={filterDate}>Budget by Date</button>
             <button onClick={setStateBudget}>Reset filter</button>
-            <InputCustomer id='search' name='search' value={search} onChange={setStateSearch}/>
+            <Input id='search' name='search' value={search} onChange={setStateSearch}/>
             {/* <input  type='text' id='search' name='search' value={search} onChange={setStateSearch}/> */}
             <button onClick={filterSearch}>Budget by Search</button>
             <ListItems budget={budget}/>

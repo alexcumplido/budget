@@ -1,51 +1,47 @@
 import React, { useState, useEffect } from 'react';
-
 import { Checkbox } from './Checkbox.js';
-
 import { InputWithButton } from './InputWithButton.js';
-import { InputCustomer } from './InputCustomer.js'
+import { Input } from '../Input.js'
 import { BudgetList } from '../Budget/BudgetList.js';
-
 import { Form } from '../Style.js';
 import { Panel } from '../Style.js'
 import { Wrapper } from '../Style.js';
 
 export function ServicesForm() {
+
+  //Use state
   const [checkState, setCheckState] = useState({
     web: false,
     seo: false,
     googleAdds: false,
   });
-
-  let {web, seo, googleAdds} = checkState;
   
   const [inputsWeb, setInputsWeb] = useState({
     paginas: 0,
     idiomas: 0,
   });
-
-  let {paginas, idiomas} = inputsWeb;
-
+  
   const [inputsCustomer, setInputsCustomer] = useState({
     nameUser: '',
     nameBudget: '',
   });
 
-  let {nameUser, nameBudget} = inputsCustomer;
-  
   let [total, setTotal] = useState(0);
 
   const [budgetSaved, setBudgetSaved] = useState([]);
 
+  let [btnLocalStorage, setBtnLocalStorage] = useState(false);
   
-  function onChangeChecks (event) {
+
+  // State handlers
+  function onChangeChecks(event) {
     setCheckState({ 
       ...checkState,
       [event.target.id]: event.target.checked,
     })
   }
 
-  function onChangeInputsText(event) {
+  function onChangeInputsWeb(event) {
     setInputsWeb({
       ...inputsWeb,
       [event.target.id]: parseInt(event.target.value),
@@ -59,57 +55,35 @@ export function ServicesForm() {
     })
   }
 
-  function sumarPaginas() {
-    setInputsWeb({
-      ...inputsWeb, 
-      paginas: ++paginas
-    });  
+  function onClickLocalStorage () {
+    setBtnLocalStorage(!btnLocalStorage);
   } 
-
-  function restarPaginas() {
-    if(paginas>1) setInputsWeb({
-      ...inputsWeb,
-      paginas: --paginas})
-  }
-
-  function sumarIdiomas() {
-    setInputsWeb({
-      ...inputsWeb, 
-      idiomas: ++idiomas}); 
-  }
-
-  function restarIdiomas() {
-    if(idiomas>1) setInputsWeb({
-      ...inputsWeb, 
-      idiomas: --idiomas
-    })
-  }
 
   //Total calculation
   useEffect(() => {
-      setTotal(total=0);
-      if(web) setTotal(total+=500);
-      if(seo) setTotal(total+=300);
-      if(googleAdds) setTotal(total+=200);
-      setTotal(total+((paginas*idiomas)*30));
-  },[checkState, paginas, idiomas]);
+    setTotal(total=0);
+    if(checkState.web) setTotal(total+=500);
+    if(checkState.seo) setTotal(total+=300);
+    if(checkState.googleAdds) setTotal(total+=200);
+    setTotal(total+((inputsWeb.paginas*inputsWeb.idiomas)*30));
+  },[checkState, inputsWeb]);
 
   //Input texts clean up
   useEffect(()=> {
-    if(web && !localStorage.getItem(('form'))) {
+    if(checkState.web && !localStorage.getItem(('form'))) {
       setInputsWeb({ 
         paginas: 1, 
         idiomas: 1
       })
-    } 
-    else if (!web ) {
+    } else if (!checkState.web) {
       setInputsWeb({ 
         paginas: 0, 
         idiomas: 0
       })
     }
-  },[web]);
+  },[checkState.web]);
 
+  //local storage operations
   function onClickSaveBudget () {
        setBudgetSaved([
           ...budgetSaved,
@@ -122,9 +96,6 @@ export function ServicesForm() {
         }
       ])
   }
-  
-  let [btnLocalStorage, setBtnLocalStorage] = useState(false);
-  const onClickLocalStorage = () => setBtnLocalStorage(!btnLocalStorage);
 
   //How to make continuous localStorage without pages, idiomas being alterated ?
   useEffect(()=>{
@@ -159,6 +130,7 @@ export function ServicesForm() {
     }
   }, []);
 
+  //Local storage budgetSaving
   useEffect(()=>{
     if (localStorage.getItem(('budgetSaved'))) {
       let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
@@ -176,54 +148,53 @@ export function ServicesForm() {
    
     <Wrapper>
       <Form>
-        <h3>Services </h3>
+        <h3>Services</h3>
         <Checkbox 
           label='Crear Web (500€)' 
           id='web' 
-          check={web} 
+          check={checkState.web} 
           onChange={onChangeChecks} 
         />
-        {web && <Panel>
+        {checkState.web && 
+        <Panel>
           <InputWithButton 
             id='paginas' 
-            value={paginas} 
-            onClickSuma={sumarPaginas} 
-            onClickResta={restarPaginas} 
-            onChange={onChangeInputsText}/>
+            inputsWeb={inputsWeb}
+            setInputsWeb={setInputsWeb}
+            onChange={onChangeInputsWeb}/>
           <InputWithButton  
             id='idiomas' 
-            value={idiomas} 
-            onClickSuma={sumarIdiomas} 
-            onClickResta={restarIdiomas} 
-            onChange={onChangeInputsText}
+            inputsWeb={inputsWeb}
+            setInputsWeb={setInputsWeb}
+            onChange={onChangeInputsWeb}
           />
         </Panel>}
         
         <Checkbox 
           label='Seo Analysis (300€)' 
-          id='seo' 
-          check={seo} 
+          id={'seo'}
+          check={checkState.seo} 
           onChange={onChangeChecks} 
         /> 
         <Checkbox 
           label='GoogleAdds action (200€)' 
           id='googleAdds' 
-          check={googleAdds} 
+          check={checkState.googleAdds} 
           onChange={onChangeChecks} 
         />
 
-        <InputCustomer
-            label='Nombre cliente'
-            id='nameUser' 
-            value={nameUser} 
-            onChange={onChangeInputCustomer}
+        <Input
+          label='Nombre cliente'
+          id='nameUser' 
+          value={inputsCustomer.nameUser} 
+          onChange={onChangeInputCustomer}
         />
 
-       <InputCustomer
-            label='Título presupuesto'
-            id='nameBudget' 
-            value={nameBudget} 
-            onChange={onChangeInputCustomer}
+       <Input
+          label='Título presupuesto'
+          id='nameBudget' 
+          value={inputsCustomer.nameBudget} 
+          onChange={onChangeInputCustomer}
         />
 
         <p>Total price is {total}</p>
