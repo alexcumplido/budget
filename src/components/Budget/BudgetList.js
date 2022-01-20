@@ -1,15 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Dashboard } from '../Style';
 import { ListItems } from './ListItems.js';
+import { InputCustomer } from '../Form/InputCustomer';
 
 export function BudgetList( { data } ) {
-    
+    let  refData = useRef(data);
     let [budget, setBudget] = useState([]);
     let [search, setSearch] = useState('');
 
-    const setStateBudget = () => setBudget(data);
+    const setStateBudget = () => {
+        setBudget(data);
+        handleRef();
+    }
 
     const setStateSearch = (event) => setSearch(event.target.value);
+
+    function handleRef () {
+        refData.current = data;
+    }
 
     function filterName() {
         let filterName = [...budget];
@@ -24,10 +32,10 @@ export function BudgetList( { data } ) {
     }
 
     function filterSearch() {
-        let searchExist = budget.find((element)=> element.nameUser === search);
+        let searchExist = refData.current.find((element)=> element.nameUser === search);
 
         if(searchExist) {
-            let filterSearch = [...budget].filter((element)=> element.nameBudget === search);
+            let filterSearch = [...refData.current].filter((element)=> element.nameBudget === search);
             setBudget(filterSearch);
         } else {
             setStateBudget();
@@ -53,7 +61,8 @@ export function BudgetList( { data } ) {
             <button onClick={filterName}>Budget name A-z</button>
             <button onClick={filterDate}>Budget by Date</button>
             <button onClick={setStateBudget}>Reset filter</button>
-            <input  type='text' id='search' name='search' value={search} onChange={setStateSearch}/>
+            <InputCustomer id='search' name='search' value={search} onChange={setStateSearch}/>
+            {/* <input  type='text' id='search' name='search' value={search} onChange={setStateSearch}/> */}
             <button onClick={filterSearch}>Budget by Search</button>
             <ListItems budget={budget}/>
         </Dashboard>
