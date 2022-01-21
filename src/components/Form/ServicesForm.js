@@ -67,14 +67,15 @@ export function ServicesForm() {
     setTotal(total+((inputsWeb.paginas*inputsWeb.idiomas)*30));
   },[checkState, inputsWeb]);
 
-  //Input texts clean up
+  // Input texts clean up
   useEffect(()=> {
-    if(checkState.web && !localStorage.getItem(('form'))) {
-      setInputsWeb({ 
-        paginas: 1, 
-        idiomas: 1
-      })
-    } else if (!checkState.web) {
+    // if(checkState.web && !localStorage.getItem(('form'))) {
+    //   setInputsWeb({ 
+    //     paginas: 1, 
+    //     idiomas: 1
+    //   })
+    // } 
+    if (!checkState.web) {
       setInputsWeb({ 
         paginas: 0, 
         idiomas: 0
@@ -82,7 +83,7 @@ export function ServicesForm() {
     }
   },[checkState.web]);
 
-  //local storage operations
+  // local storage operations
   function onClickSaveBudget () {
        setBudgetSaved([
           ...budgetSaved,
@@ -97,53 +98,52 @@ export function ServicesForm() {
   }
 
   // How to make continuous localStorage without pages, idiomas being alterated ?
-  // useEffect(()=>{
-  //   if(btnLocalStorage) {
-  //     window.localStorage.setItem('form', JSON.stringify({
-  //       ...checkState,
-  //       ...inputsWeb,
-  //       ...inputsCustomer,
-  //       total: total,
-  //     }));
-  //   }
-  //   setBtnLocalStorage(false);
-  // }, [btnLocalStorage])
+  useEffect(()=>{
+    if(btnLocalStorage) {
+      window.localStorage.setItem('form', JSON.stringify({
+        ...checkState,
+        ...inputsWeb,
+        ...inputsCustomer,
+        total: total,
+      }));
+    }
+    setBtnLocalStorage(false);
+  }, [btnLocalStorage])
 
-  // useEffect(()=>{
-  //   if (localStorage.getItem(('form'))) {
-  //     let formStorage = JSON.parse(localStorage.getItem(('form')));
-  //     setCheckState({
-  //       web: formStorage.web,
-  //       seo: formStorage.seo,
-  //       googleAdds: formStorage.googleAdds,
-  //     })
-  //     setInputsWeb({
-  //       paginas: formStorage.paginas,
-  //       idiomas: formStorage.idiomas,
-  //     })
-  //     setInputsCustomer({
-  //       nameUser: formStorage.nameUser,
-  //       nameBudget: formStorage.nameBudget,
-  //     })
-  //     setTotal(formStorage.total);
-  //   }
-  // }, []);
+  useEffect(()=>{
+    if (localStorage.getItem(('form'))) {
+      let formStorage = JSON.parse(localStorage.getItem(('form')));
+      setCheckState({
+        web: formStorage.web,
+        seo: formStorage.seo,
+        googleAdds: formStorage.googleAdds,
+      })
+      setInputsWeb({
+        paginas: formStorage.paginas,
+        idiomas: formStorage.idiomas,
+      })
+      setInputsCustomer({
+        nameUser: formStorage.nameUser,
+        nameBudget: formStorage.nameBudget,
+      })
+      setTotal(formStorage.total);
+    }
+  }, []);
 
-  // useEffect(()=>{
-  //   if (localStorage.getItem(('budgetSaved'))) {
-  //     let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
-  //     setBudgetSaved(budgetSavedFromStorage);
-  //   }
-  // }, []);
+  useEffect(()=>{
+    if (localStorage.getItem(('budgetSaved'))) {
+      let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
+      setBudgetSaved(budgetSavedFromStorage);
+    }
+  }, []);
 
-  // useEffect(()=>{
-  //   if(budgetSaved) {
-  //     window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
-  //   }
-  // });
+  useEffect(()=>{
+    if(budgetSaved) {
+      window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
+    }
+  });
 
   // http://localhost:3000/ServicesForm?web=true&seo=false&googleAdds=false&paginas=1&idiomas=1&nameUser=alex&nameBudget=test&total=530
-
   useEffect(() => {
     let params = new URLSearchParams(window.location.search);
     let state = {};
@@ -167,9 +167,7 @@ export function ServicesForm() {
       {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total}
     ]
     const urlObject = new URL(window.location);
-    
     state.forEach( item => urlObject.searchParams.set(item.id, item.state));
-
     window.history.pushState({}, '', urlObject);
   });
     
