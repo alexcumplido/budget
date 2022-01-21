@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Checkbox } from './Checkbox.js';
 import { InputWithButton } from './InputWithButton.js';
 import { Input } from '../Input.js'
@@ -146,13 +147,32 @@ export function ServicesForm() {
   });
 
   useEffect(() => {
-    const URL = `/?web=${checkState.web}&seo=${checkState.seo}&googleAdds=${checkState.googleAdds}&numPaginas=${inputsWeb.paginas}&numIdiomas=${inputsWeb.idiomas}&user=${inputsCustomer.nameUser}&title=${inputsCustomer.nameBudget}&total=${total}`;
-    window.history.pushState(null, '', URL);
+    const state = [
+      {id:'web', state:checkState.web}, {id:'seo', state:checkState.seo}, {id:'googleAdds', state:checkState.googleAdds}, {id:'paginas', state:inputsWeb.paginas},
+      {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total},
+  ]
+    const urlObject = new URL(`http://localhost:3000/ServicesForm/`);
+
+    state.forEach( item => urlObject.searchParams.set(item.id, item.state));  
+
+    // const URL_OBJECT = new URL(`http://localhost:3000/ServicesForm/?web=${checkState.web}&seo=${checkState.seo}&googleAdds=${checkState.googleAdds}&numPaginas=${inputsWeb.paginas}&numIdiomas=${inputsWeb.idiomas}&user=${inputsCustomer.nameUser}&title=${inputsCustomer.nameBudget}&total=${total}`);
+
+    // const URL = `/ServicesForm/?web=${checkState.web}&seo=${checkState.seo}&googleAdds=${checkState.googleAdds}&numPaginas=${inputsWeb.paginas}&numIdiomas=${inputsWeb.idiomas}&user=${inputsCustomer.nameUser}&title=${inputsCustomer.nameBudget}&total=${total}`;
+
+
+    console.log(urlObject);
+
+    window.history.pushState(null, '', urlObject);
+
+    // urlObject.searchParams.set('web',`${checkState.web}`);
+    // console.log(urlObject.searchParams.get('web'));
+
   }, [checkState, inputsWeb, inputsCustomer, total]);
   
- 
+  
   return (
-   
+    <>
+    <Link to="/"> Home </Link>
     <Wrapper>
       <Form>
         <h3>Services</h3>
@@ -210,6 +230,7 @@ export function ServicesForm() {
       </Form>
       <BudgetList data={budgetSaved} />
      </Wrapper>
+     </>
   );
 };
 
