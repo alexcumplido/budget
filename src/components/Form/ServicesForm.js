@@ -97,79 +97,85 @@ export function ServicesForm() {
   }
 
   // How to make continuous localStorage without pages, idiomas being alterated ?
-  useEffect(()=>{
-    if(btnLocalStorage) {
-      window.localStorage.setItem('form', JSON.stringify({
-        ...checkState,
-        ...inputsWeb,
-        ...inputsCustomer,
-        total: total,
-      }));
-    }
-    setBtnLocalStorage(false);
-  }, [btnLocalStorage])
+  // useEffect(()=>{
+  //   if(btnLocalStorage) {
+  //     window.localStorage.setItem('form', JSON.stringify({
+  //       ...checkState,
+  //       ...inputsWeb,
+  //       ...inputsCustomer,
+  //       total: total,
+  //     }));
+  //   }
+  //   setBtnLocalStorage(false);
+  // }, [btnLocalStorage])
 
-  useEffect(()=>{
-    if (localStorage.getItem(('form'))) {
-      let formStorage = JSON.parse(localStorage.getItem(('form')));
-      setCheckState({
-        web: formStorage.web,
-        seo: formStorage.seo,
-        googleAdds: formStorage.googleAdds,
-      })
-      setInputsWeb({
-        paginas: formStorage.paginas,
-        idiomas: formStorage.idiomas,
-      })
-      setInputsCustomer({
-        nameUser: formStorage.nameUser,
-        nameBudget: formStorage.nameBudget,
-      })
-      setTotal(formStorage.total);
-    }
-  }, []);
-
-  useEffect(()=>{
-    if (localStorage.getItem(('budgetSaved'))) {
-      let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
-      setBudgetSaved(budgetSavedFromStorage);
-    }
-  }, []);
-
-  useEffect(()=>{
-    if(budgetSaved) {
-      window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
-    }
-  });
-
-
-  // useEffect(() => {
-  //     let params = new URLSearchParams(document.location.search);
-  //     const state = {};
-  //     for (const [key, value] of params) {
-  //       state[key] = value;;
-  //     };
-      
-  //     setCheckState({web: Boolean(state.web), seo: Boolean(state.seo), googleAdds: Boolean(state.googleAdds)});
-  //     setInputsWeb({paginas: state.paginas, idiomas: state.idiomas});
-  //     setInputsCustomer({nameUser: state.nameUser, nameBudget: state.nameBudget});
-  //     setTotal(total= state.total);
-
+  // useEffect(()=>{
+  //   if (localStorage.getItem(('form'))) {
+  //     let formStorage = JSON.parse(localStorage.getItem(('form')));
+  //     setCheckState({
+  //       web: formStorage.web,
+  //       seo: formStorage.seo,
+  //       googleAdds: formStorage.googleAdds,
+  //     })
+  //     setInputsWeb({
+  //       paginas: formStorage.paginas,
+  //       idiomas: formStorage.idiomas,
+  //     })
+  //     setInputsCustomer({
+  //       nameUser: formStorage.nameUser,
+  //       nameBudget: formStorage.nameBudget,
+  //     })
+  //     setTotal(formStorage.total);
+  //   }
   // }, []);
 
+  // useEffect(()=>{
+  //   if (localStorage.getItem(('budgetSaved'))) {
+  //     let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
+  //     setBudgetSaved(budgetSavedFromStorage);
+  //   }
+  // }, []);
+
+  // useEffect(()=>{
+  //   if(budgetSaved) {
+  //     window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
+  //   }
+  // });
+
+// http://localhost:3000/ServicesForm?web=true&seo=false&googleAdds=false&paginas=1&idiomas=1&nameUser=test&nameBudget=test&total=530
   useEffect(() => {
-    const state = [
-      {id:'web', state:checkState.web}, {id:'seo', state:checkState.seo}, {id:'googleAdds', state:checkState.googleAdds}, {id:'paginas', state:inputsWeb.paginas},
-      {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total}
-    ]
-    const urlObject = new URL(window.location);
+      let params = new URLSearchParams(window.location.search);
+      let state = {};
+      for (let [key, value] of params) {
+        if(value==='true'){
+          value = true;
+        } else if(value==='false'){
+          value = false;
+        }else {
+          value = value;
+        }
+        state[key] = value;;
+      };
+      
+      setCheckState({web: state.web, seo: state.seo, googleAdds: state.googleAdds});
+      setInputsWeb({paginas: state.paginas, idiomas: state.idiomas});
+      setInputsCustomer({nameUser: state.nameUser, nameBudget: state.nameBudget});
+      setTotal(total= state.total);
+
+  }, []);
+
+  // useEffect(() => {
+  //   const state = [
+  //     {id:'web', state:checkState.web}, {id:'seo', state:checkState.seo}, {id:'googleAdds', state:checkState.googleAdds}, {id:'paginas', state:inputsWeb.paginas},
+  //     {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total}
+  //   ]
+  //   const urlObject = new URL(window.location);
     
-    state.forEach( item => urlObject.searchParams.set(item.id, item.state));
+  //   state.forEach( item => urlObject.searchParams.set(item.id, item.state));
 
-    window.history.pushState({}, '', urlObject);
-  });
+  //   window.history.pushState({}, '', urlObject);
+  // });
 
-  // http://localhost:3000/ServicesForm?web=false&seo=true&googleAdds=true&paginas=5&idiomas=1000&nameUser=Alex&nameBudget=One&total=1000
     
   return (
     <>
