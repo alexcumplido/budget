@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Checkbox } from './Checkbox.js';
 import { InputWithButton } from './InputWithButton.js';
@@ -10,8 +9,6 @@ import { Panel } from '../Style.js'
 import { Wrapper } from '../Style.js';
 
 export function ServicesForm() {
-  // const { history } = useHistory()
-
   //Use state
   const [checkState, setCheckState] = useState({
     web: false,
@@ -70,20 +67,20 @@ export function ServicesForm() {
     setTotal(total+((inputsWeb.paginas*inputsWeb.idiomas)*30));
   },[checkState, inputsWeb]);
 
-  // //Input texts clean up
-  // useEffect(()=> {
-  //   if(checkState.web && !localStorage.getItem(('form'))) {
-  //     setInputsWeb({ 
-  //       paginas: 1, 
-  //       idiomas: 1
-  //     })
-  //   } else if (!checkState.web) {
-  //     setInputsWeb({ 
-  //       paginas: 0, 
-  //       idiomas: 0
-  //     })
-  //   }
-  // },[checkState.web]);
+  //Input texts clean up
+  useEffect(()=> {
+    if(checkState.web && !localStorage.getItem(('form'))) {
+      setInputsWeb({ 
+        paginas: 1, 
+        idiomas: 1
+      })
+    } else if (!checkState.web) {
+      setInputsWeb({ 
+        paginas: 0, 
+        idiomas: 0
+      })
+    }
+  },[checkState.web]);
 
   //local storage operations
   function onClickSaveBudget () {
@@ -146,31 +143,33 @@ export function ServicesForm() {
   });
 
 
-    useEffect(() => {
-      let params = new URLSearchParams(document.location.search);
-      const state = {};
-      for (const [key, value] of params) {
-        state[key] = value;;
-      };
+  // useEffect(() => {
+  //     let params = new URLSearchParams(document.location.search);
+  //     const state = {};
+  //     for (const [key, value] of params) {
+  //       state[key] = value;;
+  //     };
       
-      setCheckState({web: Boolean(state.web), seo: Boolean(state.seo), googleAdds: Boolean(state.googleAdds)});
-      setInputsWeb({paginas: state.paginas, idiomas: state.idiomas});
-      setInputsCustomer({nameUser: state.nameUser, nameBudget: state.nameBudget});
-      setTotal(total= state.total);
+  //     setCheckState({web: Boolean(state.web), seo: Boolean(state.seo), googleAdds: Boolean(state.googleAdds)});
+  //     setInputsWeb({paginas: state.paginas, idiomas: state.idiomas});
+  //     setInputsCustomer({nameUser: state.nameUser, nameBudget: state.nameBudget});
+  //     setTotal(total= state.total);
 
-  }, []);
+  // }, []);
 
   useEffect(() => {
     const state = [
       {id:'web', state:checkState.web}, {id:'seo', state:checkState.seo}, {id:'googleAdds', state:checkState.googleAdds}, {id:'paginas', state:inputsWeb.paginas},
       {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total}
     ]
-    const urlObject = new URL(document.location);
+    const urlObject = new URL(window.location);
+    
     state.forEach( item => urlObject.searchParams.set(item.id, item.state));
-    window.history.pushState(null, '', urlObject);
+
+    window.history.pushState({}, '', urlObject);
   });
 
-  http://localhost:3000/ServicesForm?web=false&seo=true&googleAdds=true&paginas=5&idiomas=1000&nameUser=Alex&nameBudget=One&total=1000
+  // http://localhost:3000/ServicesForm?web=false&seo=true&googleAdds=true&paginas=5&idiomas=1000&nameUser=Alex&nameBudget=One&total=1000
     
   return (
     <>
