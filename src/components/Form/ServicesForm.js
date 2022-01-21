@@ -142,40 +142,36 @@ export function ServicesForm() {
   //   }
   // });
 
-// http://localhost:3000/ServicesForm?web=true&seo=false&googleAdds=false&paginas=1&idiomas=1&nameUser=test&nameBudget=test&total=530
+  // http://localhost:3000/ServicesForm?web=true&seo=false&googleAdds=false&paginas=1&idiomas=1&nameUser=alex&nameBudget=test&total=530
+
   useEffect(() => {
-      let params = new URLSearchParams(window.location.search);
-      let state = {};
-      for (let [key, value] of params) {
-        if(value==='true'){
-          value = true;
-        } else if(value==='false'){
-          value = false;
-        }else {
-          value = value;
-        }
-        state[key] = value;;
-      };
-      
+    let params = new URLSearchParams(window.location.search);
+    let state = {};
+    for (let [key, value] of params) {
+      if (value === 'true') value = true;
+      if (value === 'false') value = false;
+      state[key] = value;;
+    };
+
+    if(state.web) {
       setCheckState({web: state.web, seo: state.seo, googleAdds: state.googleAdds});
       setInputsWeb({paginas: state.paginas, idiomas: state.idiomas});
       setInputsCustomer({nameUser: state.nameUser, nameBudget: state.nameBudget});
       setTotal(total= state.total);
-
+    }
   }, []);
 
-  // useEffect(() => {
-  //   const state = [
-  //     {id:'web', state:checkState.web}, {id:'seo', state:checkState.seo}, {id:'googleAdds', state:checkState.googleAdds}, {id:'paginas', state:inputsWeb.paginas},
-  //     {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total}
-  //   ]
-  //   const urlObject = new URL(window.location);
+  useEffect(() => {
+    const state = [
+      {id:'web', state:checkState.web}, {id:'seo', state:checkState.seo}, {id:'googleAdds', state:checkState.googleAdds}, {id:'paginas', state:inputsWeb.paginas},
+      {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total}
+    ]
+    const urlObject = new URL(window.location);
     
-  //   state.forEach( item => urlObject.searchParams.set(item.id, item.state));
+    state.forEach( item => urlObject.searchParams.set(item.id, item.state));
 
-  //   window.history.pushState({}, '', urlObject);
-  // });
-
+    window.history.pushState({}, '', urlObject);
+  });
     
   return (
     <>
