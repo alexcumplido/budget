@@ -70,20 +70,20 @@ export function ServicesForm() {
     setTotal(total+((inputsWeb.paginas*inputsWeb.idiomas)*30));
   },[checkState, inputsWeb]);
 
-  //Input texts clean up
-  useEffect(()=> {
-    if(checkState.web && !localStorage.getItem(('form'))) {
-      setInputsWeb({ 
-        paginas: 1, 
-        idiomas: 1
-      })
-    } else if (!checkState.web) {
-      setInputsWeb({ 
-        paginas: 0, 
-        idiomas: 0
-      })
-    }
-  },[checkState.web]);
+  // //Input texts clean up
+  // useEffect(()=> {
+  //   if(checkState.web && !localStorage.getItem(('form'))) {
+  //     setInputsWeb({ 
+  //       paginas: 1, 
+  //       idiomas: 1
+  //     })
+  //   } else if (!checkState.web) {
+  //     setInputsWeb({ 
+  //       paginas: 0, 
+  //       idiomas: 0
+  //     })
+  //   }
+  // },[checkState.web]);
 
   //local storage operations
   function onClickSaveBudget () {
@@ -99,7 +99,7 @@ export function ServicesForm() {
       ])
   }
 
-  //How to make continuous localStorage without pages, idiomas being alterated ?
+  // How to make continuous localStorage without pages, idiomas being alterated ?
   useEffect(()=>{
     if(btnLocalStorage) {
       window.localStorage.setItem('form', JSON.stringify({
@@ -132,7 +132,6 @@ export function ServicesForm() {
     }
   }, []);
 
-  // Local storage budgetSaving
   useEffect(()=>{
     if (localStorage.getItem(('budgetSaved'))) {
       let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
@@ -146,30 +145,33 @@ export function ServicesForm() {
     }
   });
 
+
+    useEffect(() => {
+      let params = new URLSearchParams(document.location.search);
+      const state = {};
+      for (const [key, value] of params) {
+        state[key] = value;;
+      };
+      
+      setCheckState({web: Boolean(state.web), seo: Boolean(state.seo), googleAdds: Boolean(state.googleAdds)});
+      setInputsWeb({paginas: state.paginas, idiomas: state.idiomas});
+      setInputsCustomer({nameUser: state.nameUser, nameBudget: state.nameBudget});
+      setTotal(total= state.total);
+
+  }, []);
+
   useEffect(() => {
     const state = [
       {id:'web', state:checkState.web}, {id:'seo', state:checkState.seo}, {id:'googleAdds', state:checkState.googleAdds}, {id:'paginas', state:inputsWeb.paginas},
-      {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total},
-  ]
-    const urlObject = new URL(`http://localhost:3000/ServicesForm/`);
-
-    state.forEach( item => urlObject.searchParams.set(item.id, item.state));  
-
-    // const URL_OBJECT = new URL(`http://localhost:3000/ServicesForm/?web=${checkState.web}&seo=${checkState.seo}&googleAdds=${checkState.googleAdds}&numPaginas=${inputsWeb.paginas}&numIdiomas=${inputsWeb.idiomas}&user=${inputsCustomer.nameUser}&title=${inputsCustomer.nameBudget}&total=${total}`);
-
-    // const URL = `/ServicesForm/?web=${checkState.web}&seo=${checkState.seo}&googleAdds=${checkState.googleAdds}&numPaginas=${inputsWeb.paginas}&numIdiomas=${inputsWeb.idiomas}&user=${inputsCustomer.nameUser}&title=${inputsCustomer.nameBudget}&total=${total}`;
-
-
-    console.log(urlObject);
-
+      {id:'idiomas', state:inputsWeb.idiomas}, {id:'nameUser', state:inputsCustomer.nameUser}, {id:'nameBudget', state:inputsCustomer.nameBudget},{id:'total', state: total}
+    ]
+    const urlObject = new URL(document.location);
+    state.forEach( item => urlObject.searchParams.set(item.id, item.state));
     window.history.pushState(null, '', urlObject);
+  });
 
-    // urlObject.searchParams.set('web',`${checkState.web}`);
-    // console.log(urlObject.searchParams.get('web'));
-
-  }, [checkState, inputsWeb, inputsCustomer, total]);
-  
-  
+  http://localhost:3000/ServicesForm?web=false&seo=true&googleAdds=true&paginas=5&idiomas=1000&nameUser=Alex&nameBudget=One&total=1000
+    
   return (
     <>
     <Link to="/"> Home </Link>
