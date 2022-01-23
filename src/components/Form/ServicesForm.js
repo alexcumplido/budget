@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import  { useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Checkbox } from './Checkbox.js';
 import { InputWithButton } from './InputWithButton.js';
@@ -142,15 +143,62 @@ export function ServicesForm() {
     }
   });
 
-  // http://localhost:3000/ServicesForm?web=true&seo=true&googleAdds=false&paginas=1&idiomas=1&nameUser=blake&nameBudget=blake&total=730
+  // URL MODIFICATION VANILLA JAVASCRIPT
+  // // http://localhost:3000/ServicesForm?web=true&seo=true&googleAdds=false&paginas=1&idiomas=1&nameUser=blake&nameBudget=blake&total=730
+  // useEffect(() => {
+  //   if(window.location.search) {
+  //     let params = new URLSearchParams(window.location.search);
+  //     let state = {};
+  //     for (let [key, value] of params) {
+  //       if (value === 'true') value = true;
+  //       if (value === 'false') value = false;
+  //       state[key] = value;
+  //     };
+
+  //     setCheckState({
+  //       web: state.web, 
+  //       seo: state.seo, 
+  //       googleAdds: state.googleAdds
+  //     });
+  //     setInputsWeb({
+  //       paginas: state.paginas, 
+  //       idiomas: state.idiomas
+  //     });
+  //     setInputsCustomer({
+  //       nameUser: state.nameUser, 
+  //       nameBudget: state.nameBudget
+  //     });
+  //     setTotal(total = state.total);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   const state = [
+  //     {id:'web', state:checkState.web}, 
+  //     {id:'seo', state:checkState.seo}, 
+  //     {id:'googleAdds', state:checkState.googleAdds}, 
+  //     {id:'paginas', state:inputsWeb.paginas},
+  //     {id:'idiomas', state:inputsWeb.idiomas}, 
+  //     {id:'nameUser', state:inputsCustomer.nameUser}, 
+  //     {id:'nameBudget', state:inputsCustomer.nameBudget},
+  //     {id:'total', state: total}
+  //   ]
+  //   const urlObject = new URL(window.location);
+  //   state.forEach( item => urlObject.searchParams.set(item.id, item.state));
+  //   window.history.pushState( {} , undefined, urlObject); // instead of '' can go undefined
+  // });
+
+  // ?web=${checkState.web}&seo=${checkState.seo}&googleAdds=${checkState.googleAdds}&paginas=${inputsWeb.paginas}&idiomas=${inputsWeb.idiomas}&nameUser=${inputsCustomer.nameUser}&nameBudget=${inputsCustomer.nameBudget}&total=${total}`
+  
+  const [searchParams, setSearchParams] = useSearchParams();
+
   useEffect(() => {
-    if(window.location.search) {
-      let params = new URLSearchParams(window.location.search);
+    if(searchParams.get('web')) {
       let state = {};
-      for (let [key, value] of params) {
+      for (let [key, value] of searchParams) {
         if (value === 'true') value = true;
         if (value === 'false') value = false;
-        state[key] = value;;
+        state[key] = value;
       };
 
       setCheckState({
@@ -171,21 +219,20 @@ export function ServicesForm() {
   }, []);
 
   useEffect(() => {
-    const state = [
-      {id:'web', state:checkState.web}, 
-      {id:'seo', state:checkState.seo}, 
-      {id:'googleAdds', state:checkState.googleAdds}, 
-      {id:'paginas', state:inputsWeb.paginas},
-      {id:'idiomas', state:inputsWeb.idiomas}, 
-      {id:'nameUser', state:inputsCustomer.nameUser}, 
-      {id:'nameBudget', state:inputsCustomer.nameBudget},
-      {id:'total', state: total}
-    ]
-    const urlObject = new URL(window.location);
-    state.forEach( item => urlObject.searchParams.set(item.id, item.state));
-    window.history.pushState( {} , '', urlObject);
-  });
-    
+    const queryString = `?`;
+    const query = new URLSearchParams(queryString);
+    query.append('web', checkState.web);
+    query.append('seo', checkState.seo);
+    query.append('googleAdds', checkState.googleAdds);
+    query.append('paginas', inputsWeb.paginas);
+    query.append('idiomas', inputsWeb.idiomas);
+    query.append('nameUser', inputsCustomer.nameUser);
+    query.append('nameBudget', inputsCustomer.nameBudget);
+    query.append('total', total);
+    setSearchParams(query);
+  },[checkState, inputsWeb, inputsCustomer, total]);
+
+
   return (
     <>
     <Link to="/"> Home </Link>
