@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import  { useSearchParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import  { Link, useSearchParams } from 'react-router-dom';
+
 import { Checkbox } from './Checkbox.js';
 import { InputWithButton } from './InputWithButton.js';
 import { Input } from '../Input.js'
+
 import { BudgetList } from '../Budget/BudgetList.js';
+
 import { Form } from '../Style.js';
 import { Panel } from '../Style.js'
 import { Wrapper } from '../Style.js';
 
 export function ServicesForm() {
-  //Use state
+  
   const [checkState, setCheckState] = useState({
     web: false,
     seo: false,
@@ -25,14 +27,17 @@ export function ServicesForm() {
   const [inputsCustomer, setInputsCustomer] = useState({
     nameUser: '',
     nameBudget: '',
+
   });
 
+
   let [total, setTotal] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+
 
   let [budgetSaved, setBudgetSaved] = useState([]);
-
   let [btnLocalStorage, setBtnLocalStorage] = useState(false);
-  
+
   // State handlers
   function onChangeChecks(event) {
     setCheckState({ 
@@ -59,7 +64,7 @@ export function ServicesForm() {
     setBtnLocalStorage(!btnLocalStorage);
   } 
 
-  //Total calculation
+  //REVIEW
   useEffect(() => {
     setTotal(total=0);
     if(checkState.web) setTotal(total+=500);
@@ -83,7 +88,9 @@ export function ServicesForm() {
   //   }
   // },[checkState.web]);
 
-  //local storage operations
+
+
+  // LOCAL STORAGE OPERATIONS
   function onClickSaveBudget () {
       setBudgetSaved([
         ...budgetSaved,
@@ -97,6 +104,7 @@ export function ServicesForm() {
     ])
   }
 
+  
   // How to make continuous localStorage without pages, idiomas being alterated ?
   useEffect(()=>{
     if(btnLocalStorage) {
@@ -109,6 +117,7 @@ export function ServicesForm() {
     }
     setBtnLocalStorage(false);
   }, [btnLocalStorage])
+
 
   useEffect(()=>{
     if (localStorage.getItem(('form'))) {
@@ -129,7 +138,9 @@ export function ServicesForm() {
       setTotal(formStorage.total);
     }
   }, []);
+  
 
+  // BUDGET IS SEND TO BUDGETLIST COMPONENT VIA LOCAL STORAGE
   useEffect(()=>{
     if (localStorage.getItem(('budgetSaved'))) {
       let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
@@ -143,64 +154,16 @@ export function ServicesForm() {
     }
   });
 
-  // URL MODIFICATION VANILLA JAVASCRIPT
-  // // http://localhost:3000/ServicesForm?web=true&seo=true&googleAdds=false&paginas=1&idiomas=1&nameUser=blake&nameBudget=blake&total=730
-  // useEffect(() => {
-  //   if(window.location.search) {
-  //     let params = new URLSearchParams(window.location.search);
-  //     let state = {};
-  //     for (let [key, value] of params) {
-  //       if (value === 'true') value = true;
-  //       if (value === 'false') value = false;
-  //       state[key] = value;
-  //     };
-
-  //     setCheckState({
-  //       web: state.web, 
-  //       seo: state.seo, 
-  //       googleAdds: state.googleAdds
-  //     });
-  //     setInputsWeb({
-  //       paginas: state.paginas, 
-  //       idiomas: state.idiomas
-  //     });
-  //     setInputsCustomer({
-  //       nameUser: state.nameUser, 
-  //       nameBudget: state.nameBudget
-  //     });
-  //     setTotal(total = state.total);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const state = [
-  //     {id:'web', state:checkState.web}, 
-  //     {id:'seo', state:checkState.seo}, 
-  //     {id:'googleAdds', state:checkState.googleAdds}, 
-  //     {id:'paginas', state:inputsWeb.paginas},
-  //     {id:'idiomas', state:inputsWeb.idiomas}, 
-  //     {id:'nameUser', state:inputsCustomer.nameUser}, 
-  //     {id:'nameBudget', state:inputsCustomer.nameBudget},
-  //     {id:'total', state: total}
-  //   ]
-  //   const urlObject = new URL(window.location);
-  //   state.forEach( item => urlObject.searchParams.set(item.id, item.state));
-  //   window.history.pushState( {} , undefined, urlObject); // instead of '' can go undefined
-  // });
-
-  // ?web=${checkState.web}&seo=${checkState.seo}&googleAdds=${checkState.googleAdds}&paginas=${inputsWeb.paginas}&idiomas=${inputsWeb.idiomas}&nameUser=${inputsCustomer.nameUser}&nameBudget=${inputsCustomer.nameBudget}&total=${total}`
-  
-  const [searchParams, setSearchParams] = useSearchParams();
-
+  // URL MODIFICATION
   useEffect(() => {
     if(searchParams.get('web')) {
       let state = {};
-      for (let [key, value] of searchParams) {
+      searchParams.forEach((value, key)=> {
         if (value === 'true') value = true;
         if (value === 'false') value = false;
         state[key] = value;
-      };
-
+      });
+  
       setCheckState({
         web: state.web, 
         seo: state.seo, 
@@ -219,18 +182,22 @@ export function ServicesForm() {
   }, []);
 
   useEffect(() => {
-    const queryString = `?`;
-    const query = new URLSearchParams(queryString);
-    query.append('web', checkState.web);
-    query.append('seo', checkState.seo);
-    query.append('googleAdds', checkState.googleAdds);
-    query.append('paginas', inputsWeb.paginas);
-    query.append('idiomas', inputsWeb.idiomas);
-    query.append('nameUser', inputsCustomer.nameUser);
-    query.append('nameBudget', inputsCustomer.nameBudget);
-    query.append('total', total);
+    const state = [
+      {id:'web', state:checkState.web}, 
+      {id:'seo', state:checkState.seo}, 
+      {id:'googleAdds', state:checkState.googleAdds}, 
+      {id:'paginas', state:inputsWeb.paginas},
+      {id:'idiomas', state:inputsWeb.idiomas}, 
+      {id:'nameUser', state:inputsCustomer.nameUser}, 
+      {id:'nameBudget', state:inputsCustomer.nameBudget},
+      {id:'total', state: total}
+    ]
+
+    const query = new URLSearchParams();
+    state.forEach( item => query.append(item.id, item.state));
     setSearchParams(query);
-  },[checkState, inputsWeb, inputsCustomer, total]);
+    
+  },[checkState, inputsWeb, inputsCustomer]);
 
 
   return (
