@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const DashboardWrapper = styled.div`
+export const Dashboard = styled.div`
     display: flex;
 `;
 
-export const FormWrapper = styled.div`
+export const Form = styled.div`
     width: 500px;
     display: flex;
     flex-direction: column;
@@ -55,7 +55,7 @@ export const ModalText =  styled.p`
     background: white;
 `;
 
-export const Dashboard = styled.div`
+export const BudgetWrapper = styled.div`
     display: flex;
     flex-direction: column;
     border: 1px solid gray;

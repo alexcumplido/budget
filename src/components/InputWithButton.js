@@ -1,7 +1,7 @@
 import { WrapperInputText } from './Style.js';
 import { Modal } from './Modal.js'
 
-export const InputWithButton = ({ id, value, onChange, addInput, subtractInput, handleModal, modal}) => {
+export const InputWithButton = ({ id, value, addInput, subtractInput, onChange,  modal, handleModal}) => {
   return (
     <>
       <WrapperInputText>
@@ -19,10 +19,9 @@ export const InputWithButton = ({ id, value, onChange, addInput, subtractInput, 
         <button onClick={subtractInput}>-</button>
         <button onClick={handleModal}> Info</button>
       </WrapperInputText>
-      
       {modal && 
         <Modal 
-          inputHelper={id} 
+          textModal={id} 
           handleModal={handleModal}
         />
       }

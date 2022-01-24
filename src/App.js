@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import  { Link, useSearchParams } from 'react-router-dom';
+import  { useSearchParams } from 'react-router-dom';
 
 import { Checkbox } from './components/Checkbox.js';
 import { InputWithButton } from './components/InputWithButton.js';
 import { Input } from './components/Input.js'
-
 import { BudgetList } from './components/BudgetList.js';
-  
-import { FormWrapper } from './components/Style.js';
+import { Form } from './components/Style.js';
 import { Panel } from './components/Style.js'
-import { DashboardWrapper } from './components/Style.js';
+import { Dashboard } from './components/Style.js';
 
 export function App() {
   //States.......................................................................
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   const [checkState, setCheckState] = useState({
     web: false,
     seo: false,
@@ -32,9 +32,8 @@ export function App() {
   let [total, setTotal] = useState(0);
 
   let [modal, setModal] = useState(false);
-  const handleModal = ()=> setModal(!modal)
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  let [budgetSaved, setBudgetSaved] = useState([]);
 
   //setStates....................................................................
   const onChangeChecks = (event) => {
@@ -48,7 +47,7 @@ export function App() {
     let value = parseInt(event.target.value);
     setInputsWeb({
       ...inputsWeb,
-      [event.target.id]: [(value<1) ? 1 : value]
+      [event.target.id]: (value<1) ? 1 : value,
     })
   }
 
@@ -84,7 +83,9 @@ export function App() {
       idiomas: --inputsWeb.idiomas
     })
   }
-  
+
+  const handleModal = ()=> setModal(!modal)
+
   //cleanUpInputs................................................................
   useEffect(()=> {
     if(checkState.web && !searchParams) {
@@ -97,7 +98,7 @@ export function App() {
         paginas: 0, 
         idiomas: 0
       })
-    }
+    } 
   },[checkState.web]);
 
   //calculations................................................................
@@ -109,8 +110,6 @@ export function App() {
     setTotal(total+((inputsWeb.paginas*inputsWeb.idiomas)*30));
   },[checkState, inputsWeb]);
 
-  let [budgetSaved, setBudgetSaved] = useState([]);
-  
   function onClickSaveBudget () {
       setBudgetSaved([
         ...budgetSaved,
@@ -125,15 +124,15 @@ export function App() {
   }
 
   useEffect(()=>{
-    if (localStorage.getItem(('budgetSaved'))) {
-      let budgetStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
+    if (localStorage.getItem(('budgetsForm'))) {
+      let budgetStorage = JSON.parse(localStorage.getItem(('budgetsForm')));
       setBudgetSaved(budgetStorage);
     }
   }, []);
 
   useEffect(()=>{
     if(budgetSaved) {
-      window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
+      window.localStorage.setItem('budgetsForm', JSON.stringify(budgetSaved));
     }
   });
   
@@ -213,12 +212,9 @@ export function App() {
     }));
   })
 
-
   return (
-    <>
-    <Link to="/"> Home </Link>
-    <DashboardWrapper>
-      <FormWrapper>
+    <Dashboard>
+      <Form>
         <h3>Services</h3>
         <Checkbox 
           label='Crear Web (500€)' 
@@ -236,7 +232,7 @@ export function App() {
             onChange={onChangeInputsWeb}
             modal={modal}
             handleModal={handleModal}
-            />
+          />
           <InputWithButton  
             id='idiomas' 
             value={inputsWeb.idiomas}
@@ -277,9 +273,8 @@ export function App() {
 
         <p>Total price is {total}</p>
         <button onClick={onClickSaveBudget}>Save Budget</button>
-      </FormWrapper>
+      </Form>
       <BudgetList data={budgetSaved} />
-     </DashboardWrapper>
-     </>
+    </Dashboard>
   );
 };
