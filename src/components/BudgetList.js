@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { Dashboard } from '../Style';
+import { Dashboard } from './Style.js';
 import { ListItems } from './ListItems.js';
-import { Input } from '../Input.js';
+import { Input } from './Input.js';
 
 export function BudgetList( { data } ) {
     
@@ -44,14 +44,15 @@ export function BudgetList( { data } ) {
     }
 
     useEffect(()=>{
-        if(localStorage.getItem(('arrayBudgets'))) {
-            setBudget(JSON.parse(localStorage.getItem(('arrayBudgets'))));
+        if(localStorage.getItem(('budget'))) {
+            let budgetStorage = JSON.parse(localStorage.getItem(('budget')));
+            setBudget(budgetStorage);
         }
     }, []);
 
     useEffect(()=>{
         if(budget) {
-            window.localStorage.setItem('arrayBudgets', JSON.stringify(budget));
+            window.localStorage.setItem('budget', JSON.stringify(budget));
         } 
     });
 

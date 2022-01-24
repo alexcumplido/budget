@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { GlobalStyle } from './GlobalStyles.js'
-import { App } from './App.js';
 import reportWebVitals from './utils/reportWebVitals';
+
+import { GlobalStyle } from './GlobalStyles.js'
+import { BrowserRouter , Route, Routes } from 'react-router-dom';
+import { App } from './App.js';
+import { Home } from './components/Home.js';
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle/>
-    <App />
+        <BrowserRouter>
+          <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/App" element={<App/>}/>
+        </Routes> 
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -16,3 +24,4 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+

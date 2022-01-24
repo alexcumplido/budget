@@ -1,4 +1,4 @@
-import { WrapperInputCheckbox } from '../Style.js';
+import { WrapperInputCheckbox } from './Style.js';
 
 export const Checkbox = ({id, check, onChange, label }) => {
   return (

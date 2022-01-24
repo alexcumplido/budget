@@ -1,4 +1,4 @@
-import { WrapperInputText } from '../Style.js';
+import { WrapperInputText } from './Style.js';
 import { Modal } from './Modal.js'
 
 export const InputWithButton = ({ id, value, onChange, addInput, subtractInput, handleModal, modal}) => {
