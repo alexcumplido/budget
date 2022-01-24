@@ -6,13 +6,14 @@ import { InputWithButton } from './InputWithButton.js';
 import { Input } from '../Input.js'
 
 import { BudgetList } from '../Budget/BudgetList.js';
-
+  
 import { FormWrapper } from '../Style.js';
 import { Panel } from '../Style.js'
 import { DashboardWrapper } from '../Style.js';
 
 export function Form() {
-  
+
+  //States.......................................................................
   const [checkState, setCheckState] = useState({
     web: false,
     seo: false,
@@ -30,20 +31,24 @@ export function Form() {
   });
 
   let [total, setTotal] = useState(0);
+
+  let [modal, setModal] = useState(false);
+  const handleModal = ()=> setModal(!modal)
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   let [budgetSaved, setBudgetSaved] = useState([]);
-  let [btnLocalStorage, setBtnLocalStorage] = useState(false);
+  //States.......................................................................
 
-  // State handlers
-  function onChangeChecks(event) {
+  //setStates....................................................................
+  const onChangeChecks = (event) => {
     setCheckState({ 
       ...checkState,
       [event.target.id]: event.target.checked,
     })
   }
 
-  function onChangeInputsWeb(event) {
+  const onChangeInputsWeb = (event) => {
     let value = parseInt(event.target.value);
     setInputsWeb({
       ...inputsWeb,
@@ -51,18 +56,57 @@ export function Form() {
     })
   }
 
-   function onChangeInputCustomer (event) {
+  const onChangeInputCustomer = (event) => {
     setInputsCustomer({ 
       ...inputsCustomer,
       [event.target.id]: event.target.value,
     })
   }
 
-  function onClickLocalStorage () {
-    setBtnLocalStorage(!btnLocalStorage);
+  const addPage = ()=>  {
+    setInputsWeb({
+      ...inputsWeb, 
+      paginas: ++inputsWeb.paginas
+    });  
   } 
 
-  //REVIEW
+  const addLanguage = ()=> {
+    setInputsWeb({
+      ...inputsWeb, 
+      idiomas: ++inputsWeb.idiomas}); 
+  }
+
+  const subtractPage = ()=> {
+    if(inputsWeb.paginas>1) setInputsWeb({
+      ...inputsWeb,
+      paginas: --inputsWeb.paginas})
+  }
+
+  const subtractLanguage = ()=> {
+    if(inputsWeb.idiomas>1) setInputsWeb({
+      ...inputsWeb, 
+      idiomas: --inputsWeb.idiomas
+    })
+  }
+  //setStates....................................................................
+  
+  //cleanUpInputs................................................................
+  useEffect(()=> {
+    if(checkState.web && !searchParams) {
+      setInputsWeb({ 
+        paginas: 1, 
+        idiomas: 1
+      })
+    } else if (!checkState.web) {
+      setInputsWeb({ 
+        paginas: 0, 
+        idiomas: 0
+      })
+    }
+  },[checkState.web]);
+  //cleanUpInputs................................................................
+
+  //calculations................................................................
   useEffect(() => {
     setTotal(total=0);
     if(checkState.web) setTotal(total+=500);
@@ -70,22 +114,10 @@ export function Form() {
     if(checkState.googleAdds) setTotal(total+=200);
     setTotal(total+((inputsWeb.paginas*inputsWeb.idiomas)*30));
   },[checkState, inputsWeb]);
+  //calculations................................................................
 
-  // useEffect(()=> {
-  //   if(checkState.web && !localStorage.getItem(('form'))) {
-  //     setInputsWeb({ 
-  //       paginas: 1, 
-  //       idiomas: 1
-  //     })
-  //   } else if (!checkState.web) {
-  //     setInputsWeb({ 
-  //       paginas: 0, 
-  //       idiomas: 0
-  //     })
-  //   }
-  // },[checkState.web]);
 
-  // LOCAL STORAGE OPERATIONS
+  //localStorage and URL Manipulation...........................................
   function onClickSaveBudget () {
       setBudgetSaved([
         ...budgetSaved,
@@ -99,65 +131,52 @@ export function Form() {
     ])
   }
 
-  // How to make continuous localStorage without pages, idiomas being alterated ?
-  // useEffect(()=>{
-  //   if(btnLocalStorage) {
-  //     window.localStorage.setItem('form', JSON.stringify({
-  //       ...checkState,
-  //       ...inputsWeb,
-  //       ...inputsCustomer,
-  //       total: total,
-  //     }));
-  //   }
-  //   setBtnLocalStorage(false);
-  // }, [btnLocalStorage])
+  //searchParams === true get URL , localStorage ===true get localStorage
+  useEffect(() => {
+    let locationSearch = window.location.search;
+    let formStorage = JSON.parse(localStorage.getItem(('form')));
 
-  // URL MODIFICATION
-  // useEffect(() => {
-  //   let locationSearch = window.location.search;
-  //   let formStorage = JSON.parse(localStorage.getItem(('form')));
-
-  //   if(locationSearch) {
-  //     let state = {};
-  //     searchParams.forEach((value, key)=> {
-  //       if (value === 'true') value = true;
-  //       if (value === 'false') value = false;
-  //       state[key] = value;
-  //     });
+    if(locationSearch) {
+      let state = {};
+      searchParams.forEach((value, key)=> {
+        if (value === 'true') value = true;
+        if (value === 'false') value = false;
+        state[key] = value;
+      });
   
-  //     setCheckState({
-  //       web: state.web, 
-  //       seo: state.seo, 
-  //       googleAdds: state.googleAdds
-  //     });
-  //     setInputsWeb({
-  //       paginas: state.paginas, 
-  //       idiomas: state.idiomas
-  //     });
-  //     setInputsCustomer({
-  //       nameUser: state.nameUser, 
-  //       nameBudget: state.nameBudget
-  //     });
-  //     setTotal(total = state.total);
-  //   } 
-  //   if(!locationSearch && formStorage) {
+      setCheckState({
+        web: state.web, 
+        seo: state.seo, 
+        googleAdds: state.googleAdds
+      });
+      setInputsWeb({
+        paginas: state.paginas, 
+        idiomas: state.idiomas
+      });
+      setInputsCustomer({
+        nameUser: state.nameUser, 
+        nameBudget: state.nameBudget
+      });
+      setTotal(total = state.total);
+    } 
+    if(!locationSearch && formStorage) {
 
-  //     setCheckState({
-  //       web: formStorage.web,
-  //       seo: formStorage.seo,
-  //       googleAdds: formStorage.googleAdds,
-  //     })
-  //     setInputsWeb({
-  //       paginas: formStorage.paginas,
-  //       idiomas: formStorage.idiomas,
-  //     })
-  //     setInputsCustomer({
-  //       nameUser: formStorage.nameUser,
-  //       nameBudget: formStorage.nameBudget,
-  //     })
-  //     setTotal(formStorage.total);
-  //   }
-  // }, []);
+      setCheckState({
+        web: formStorage.web,
+        seo: formStorage.seo,
+        googleAdds: formStorage.googleAdds,
+      })
+      setInputsWeb({
+        paginas: formStorage.paginas,
+        idiomas: formStorage.idiomas,
+      })
+      setInputsCustomer({
+        nameUser: formStorage.nameUser,
+        nameBudget: formStorage.nameBudget,
+      })
+      setTotal(formStorage.total);
+    }
+  }, []);
 
   useEffect(() => {
     const state = [
@@ -178,19 +197,30 @@ export function Form() {
   },[checkState, inputsWeb, inputsCustomer, total]);
 
 
-  // // BUDGET IS SEND TO BUDGETLIST COMPONENT VIA LOCAL STORAGE
-  // useEffect(()=>{
-  //   if (localStorage.getItem(('budgetSaved'))) {
-  //     let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
-  //     setBudgetSaved(budgetSavedFromStorage);
-  //   }
-  // }, []);
+  // BUDGET IS SEND TO BUDGETLIST COMPONENT VIA LOCAL STORAGE
+  useEffect(()=>{
+    if (localStorage.getItem(('budgetSaved'))) {
+      let budgetSavedFromStorage = JSON.parse(localStorage.getItem(('budgetSaved')));
+      setBudgetSaved(budgetSavedFromStorage);
+    }
+  }, []);
 
-  // useEffect(()=>{
-  //   if(budgetSaved) {
-  //     window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
-  //   }
-  // });
+  useEffect(()=>{
+    if(budgetSaved) {
+      window.localStorage.setItem('budgetSaved', JSON.stringify(budgetSaved));
+    }
+  });
+
+  //localSotrage remembers last preferences.....................................
+  useEffect(()=>{
+    window.localStorage.setItem('form', JSON.stringify({
+      ...checkState,
+      ...inputsWeb,
+      ...inputsCustomer,
+      total: total,
+    }));
+  })
+  //localSotrage remembers last preferences.....................................
 
   return (
     <>
@@ -208,14 +238,21 @@ export function Form() {
         <Panel>
           <InputWithButton 
             id='paginas' 
-            inputsWeb={inputsWeb}
-            setInputsWeb={setInputsWeb}
-            onChange={onChangeInputsWeb}/>
+            value={inputsWeb.paginas}
+            addInput={addPage}
+            subtractInput={subtractPage}
+            onChange={onChangeInputsWeb}
+            modal={modal}
+            handleModal={handleModal}
+            />
           <InputWithButton  
             id='idiomas' 
-            inputsWeb={inputsWeb}
-            setInputsWeb={setInputsWeb}
+            value={inputsWeb.idiomas}
+            addInput={addLanguage}
+            subtractInput={subtractLanguage}
             onChange={onChangeInputsWeb}
+            modal={modal}
+            handleModal={handleModal}
           />
         </Panel>}
         
@@ -248,7 +285,6 @@ export function Form() {
 
         <p>Total price is {total}</p>
         <button onClick={onClickSaveBudget}>Save Budget</button>
-        <button onClick={onClickLocalStorage}>Save Form</button>
       </FormWrapper>
       <BudgetList data={budgetSaved} />
      </DashboardWrapper>

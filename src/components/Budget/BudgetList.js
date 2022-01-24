@@ -44,15 +44,14 @@ export function BudgetList( { data } ) {
     }
 
     useEffect(()=>{
-        if(localStorage.getItem(('budget'))) {
-            let budgetStorage = JSON.parse(localStorage.getItem(('budget')));
-            setBudget(budgetStorage);
+        if(localStorage.getItem(('arrayBudgets'))) {
+            setBudget(JSON.parse(localStorage.getItem(('arrayBudgets'))));
         }
     }, []);
 
     useEffect(()=>{
         if(budget) {
-            window.localStorage.setItem('budget', JSON.stringify(budget));
+            window.localStorage.setItem('arrayBudgets', JSON.stringify(budget));
         } 
     });
 
