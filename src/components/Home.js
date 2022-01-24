@@ -7,7 +7,7 @@ export function Home() {
                 <Link to="/"> Home </Link>
             </li>
             <li>
-                <Link to="/ServicesForm"> Check our services </Link>
+                <Link to="/Form"> Check our services </Link>
             </li>
         </ul>
     )

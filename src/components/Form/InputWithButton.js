@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { WrapperInputText } from '../Style.js';
+
 import { Modal } from './Modal.js'
 
+import { WrapperInputText } from '../Style.js';
 
 export const InputWithButton = ({ id, onChange, inputsWeb, setInputsWeb}) => {
   
-  let [showModal, setShowModal] = useState(false);
-  
-  const handleModal = ()=> setShowModal(!showModal)
+  const [showModal, setShowModal] = useState(false);
+  const handleModal = () => setShowModal(!showModal)
 
   const addPage = ()=>  {
     setInputsWeb({
@@ -55,7 +55,7 @@ export const InputWithButton = ({ id, onChange, inputsWeb, setInputsWeb}) => {
       
       {showModal && 
         <Modal 
-          inputHelper={id} 
+          textModal={id} 
           handleModal={handleModal}
         />
       }

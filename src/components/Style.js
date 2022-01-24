@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const DashboardWrapper = styled.div`
     display: flex;
 `;
 
-export const Form = styled.div`
+export const FormWrapper = styled.div`
     width: 500px;
     display: flex;
     flex-direction: column;
