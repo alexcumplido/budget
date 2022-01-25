@@ -2,10 +2,27 @@ import styled from 'styled-components';
 
 
 export const HomeStyled = styled.div`
-    width: 80vw;
-
-    outline: 1px solid black;
+    width: 60%;
+    margin: 4rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+    border: 0.20rem solid black;
+    border-radius: 0.25rem;
 `;
+
+
+export const ButtonHome = styled.button`
+    margin: 0.5rem;
+    padding: 1rem;
+    font-size: 1.25rem;
+    border: 0.30rem solid salmon;
+    border-radius: 0.25rem;
+    background: white;
+`;
+
 
 export const Dashboard = styled.div`
     display: flex;

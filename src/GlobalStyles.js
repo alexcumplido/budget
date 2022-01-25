@@ -6,9 +6,8 @@ export const GlobalStyle = createGlobalStyle`
     *:before,
     *:after {
         box-sizing: border-box;
-        // padding: 0;
-        // margin: 0;
-        // font-family: 'Tomorrow', sans-serif;
+        font-family: 'Tomorrow', sans-serif;
+        text-decoration: none;
     }
 
     // NOT NECESSARY. ERASE AND CHECK MODAL SO NEW COMPONENTS ORGANIZATION
@@ -17,5 +16,10 @@ export const GlobalStyle = createGlobalStyle`
         width: 100vw;
         height: 100vh;
         position: absolute;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
     }
 `;
