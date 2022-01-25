@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+
+export const HomeStyled = styled.div`
+    width: 80vw;
+
+    outline: 1px solid black;
+`;
+
 export const Dashboard = styled.div`
     display: flex;
 `;
@@ -63,5 +70,6 @@ export const BudgetWrapper = styled.div`
     font-size: 0.6rem;
     ul {
         list-style: none;
+        
     }
 `;

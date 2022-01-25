@@ -9,7 +9,7 @@ export function BudgetList( { data } ) {
     let [search, setSearch] = useState('');
 
     const setStateSearch = (event) => setSearch(event.target.value);
-    const setStateBudget = () => setBudget(data);
+    const resetBudget = () => setBudget(data);
 
     const filterName = ()=> {
         let filterName = [...data].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
@@ -27,7 +27,7 @@ export function BudgetList( { data } ) {
             let filterSearch = [...data].filter((element)=> element.nameBudget === search);
             setBudget(filterSearch);
         } else {
-            setStateBudget();
+            resetBudget();
         }
     },[search])
 
@@ -45,10 +45,10 @@ export function BudgetList( { data } ) {
 
     return (
         <BudgetWrapper>
-            <button onClick={setStateBudget}>Display/Reset list</button>
-            <button onClick={filterName}>Budget name A-z</button>
-            <button onClick={filterDate}>Budget by Date</button>
-            <Input id='search' name='search' value={search} onChange={setStateSearch}/>
+            <button onClick={resetBudget}>Refresh</button>
+            <button onClick={filterName}>Filter A-Z</button>
+            <button onClick={filterDate}>Filter by date</button>
+            <Input id='search' label={'Search budgetName'} name='search' value={search} onChange={setStateSearch}/>
             <ListItems budget={budget}/>
         </BudgetWrapper>
     )

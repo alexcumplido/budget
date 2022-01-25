@@ -213,6 +213,10 @@ export function App() {
   })
 
   return (
+
+                //     <li>
+                //     <Link to="/"> Home </Link>
+                // </li>
     <Dashboard>
       <Form>
         <h3>Services</h3>
@@ -234,6 +238,7 @@ export function App() {
             handleModal={handleModal}
           />
           <InputWithButton  
+            id='idiomas' 
             value={inputsWeb.idiomas}
             addInput={addLanguage}
             subtractInput={subtractLanguage}
