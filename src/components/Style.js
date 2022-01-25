@@ -127,7 +127,6 @@ export const BudgetWrapper = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 0.6rem;
-    overflow-y: scroll;
 `;
 
 export const NavButtons = styled.div`
@@ -157,5 +156,29 @@ export const InputSearchStyled = styled.div`
     &: hover {
         color: yellow;
         font-weight: 600;
+`;
 
+export const UlStyled = styled.ul`
+    overflow-y: scroll;
+`;
+
+export const ListItem = styled.li`
+    display: flex;
+    flex-direction: column;
+    border: 0.10rem solid salmon;
+    margin: 0.10rem;
+`;
+
+export const HeadingListItem = styled.div`
+    display: flex;
+    gap: 1rem;
+`;
+
+export const BodyListItem = styled.div`
+`;
+
+export const FooterListItem = styled.div`
+        display: flex;
+        justify-content: flex-end;
+        font-weight: 600;
 `;
