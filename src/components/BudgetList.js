@@ -21,7 +21,7 @@ export function BudgetList( { data } ) {
         setBudget(filterDate);
     }
 
-    const filterSearch =()=> {
+    useEffect(()=>{
         let searchExist = [...data].find((element)=> element.nameUser === search);
         if(searchExist) {
             let filterSearch = [...data].filter((element)=> element.nameBudget === search);
@@ -29,7 +29,7 @@ export function BudgetList( { data } ) {
         } else {
             setStateBudget();
         }
-    }
+    },[search])
 
     useEffect(()=>{
         if(localStorage.getItem(('budgetList'))) {
@@ -49,7 +49,6 @@ export function BudgetList( { data } ) {
             <button onClick={filterName}>Budget name A-z</button>
             <button onClick={filterDate}>Budget by Date</button>
             <Input id='search' name='search' value={search} onChange={setStateSearch}/>
-            <button onClick={filterSearch}>Budget by Search</button>
             <ListItems budget={budget}/>
         </BudgetWrapper>
     )

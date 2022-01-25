@@ -234,7 +234,6 @@ export function App() {
             handleModal={handleModal}
           />
           <InputWithButton  
-            id='idiomas' 
             value={inputsWeb.idiomas}
             addInput={addLanguage}
             subtractInput={subtractLanguage}
