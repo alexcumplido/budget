@@ -4,8 +4,9 @@ import reportWebVitals from './utils/reportWebVitals';
 
 import { GlobalStyle } from './GlobalStyles.js'
 import { BrowserRouter , Route, Routes } from 'react-router-dom';
-import { App } from './App.js';
 import { Home } from './components/Home.js';
+import { App } from './App.js';
+
 
 ReactDOM.render(
   <React.StrictMode>

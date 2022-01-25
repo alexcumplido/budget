@@ -1,7 +1,9 @@
-import { WrapperInputPanel } from './Style.js';
-import { ButtonPanel } from './Style.js';
-import { ButtonModal } from './Style.js';
 import { Modal } from './Modal.js'
+import { 
+  WrapperInputPanel, 
+  ButtonPanel, 
+  ButtonModal, } from './Style.js';
+
 
 export const InputPanel = ({ id, value, addInput, subtractInput, onChange,  modal, handleModal}) => {
   return (

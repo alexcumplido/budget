@@ -1,5 +1,4 @@
-import { ModalBackground } from './Style.js';
-import { ModalText } from './Style.js';
+import { ModalBackground, ModalText } from './Style.js';
 
 export function Modal ({ textModal, handleModal }) {
     return(

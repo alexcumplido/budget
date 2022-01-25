@@ -5,10 +5,12 @@ import { Checkbox } from './components/Checkbox.js';
 import { InputPanel } from './components/InputPanel.js';
 import { Input } from './components/Input.js'
 import { BudgetList } from './components/BudgetList.js';
-import { Form } from './components/Style.js';
-import { Panel } from './components/Style.js'
-import { Dashboard } from './components/Style.js';
-import { ButtonSaveBudget } from './components/Style.js'
+import { 
+  Dashboard, 
+  Form, 
+  Panel, 
+  ButtonSaveBudget } from './components/Style.js';
+
 
 export function App() {
   //States.......................................................................
