@@ -8,12 +8,12 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         font-family: 'Tomorrow', sans-serif;
         text-decoration: none;
+        margin: 0;
+        pagging: 0;
     }
     
     body {
         margin: 0;
-        width: 100vw;
-        height: 100vh;
         font-size: 1rem;
     }
 

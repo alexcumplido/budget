@@ -1,8 +1,8 @@
-import { CheckboxStyed } from './Style.js';
+import { CheckboxForm } from './Style.js';
 
 export const Checkbox = ({id, check, onChange, label }) => {
   return (
-    <CheckboxStyed>  
+    <CheckboxForm>  
         <input 
           type='checkbox' 
           id={id} 
@@ -13,6 +13,6 @@ export const Checkbox = ({id, check, onChange, label }) => {
         <label htmlFor={id} > 
           {label} 
         </label>
-    </CheckboxStyed>
+    </CheckboxForm>
   );
 }

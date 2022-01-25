@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import  { useSearchParams } from 'react-router-dom';
 
 import { Checkbox } from './components/Checkbox.js';
-import { InputWithButton } from './components/InputWithButton.js';
+import { InputPanel } from './components/InputPanel.js';
 import { Input } from './components/Input.js'
 import { BudgetList } from './components/BudgetList.js';
 import { Form } from './components/Style.js';
@@ -229,7 +229,7 @@ export function App() {
         />
         {checkState.web && 
         <Panel>
-          <InputWithButton 
+          <InputPanel 
             id='paginas' 
             value={inputsWeb.paginas}
             addInput={addPage}
@@ -238,7 +238,7 @@ export function App() {
             modal={modal}
             handleModal={handleModal}
           />
-          <InputWithButton  
+          <InputPanel  
             id='idiomas' 
             value={inputsWeb.idiomas}
             addInput={addLanguage}

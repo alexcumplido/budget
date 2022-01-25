@@ -1,8 +1,8 @@
-import { InputStyled } from './Style.js';
+import { InputForm } from './Style.js';
 
 export const Input = ({ label, id, value, onChange}) => {
   return (
-    <InputStyled>
+    <InputForm>
        <label htmlFor={id}> 
           {label} 
         </label>
@@ -13,7 +13,7 @@ export const Input = ({ label, id, value, onChange}) => {
           value={value} 
           onChange={onChange}
         />
-    </InputStyled>
+    </InputForm>
     );
 }
 

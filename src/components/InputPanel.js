@@ -1,16 +1,16 @@
-import { WrapperInputsWeb } from './Style.js';
-import { ButtonStyled } from './Style.js';
+import { WrapperInputPanel } from './Style.js';
+import { ButtonPanel } from './Style.js';
 import { ButtonModal } from './Style.js';
 import { Modal } from './Modal.js'
 
-export const InputWithButton = ({ id, value, addInput, subtractInput, onChange,  modal, handleModal}) => {
+export const InputPanel = ({ id, value, addInput, subtractInput, onChange,  modal, handleModal}) => {
   return (
     <>
-      <WrapperInputsWeb>
+      <WrapperInputPanel>
         <label htmlFor={id}> 
           {id} 
         </label>
-        <ButtonStyled onClick={addInput}>+</ButtonStyled> 
+        <ButtonPanel onClick={addInput}>+</ButtonPanel> 
         <input  
           type='text' 
           id={id} 
@@ -18,9 +18,9 @@ export const InputWithButton = ({ id, value, addInput, subtractInput, onChange, 
           value={value} 
           onChange={onChange}
         />
-        <ButtonStyled onClick={subtractInput}>-</ButtonStyled>
+        <ButtonPanel onClick={subtractInput}>-</ButtonPanel>
         <ButtonModal onClick={handleModal}> Inf.</ButtonModal>
-      </WrapperInputsWeb>
+      </WrapperInputPanel>
       {modal && 
         <Modal 
           textModal={id} 

@@ -1,86 +1,96 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const HomeStyled = styled.div`
-    width: 60%;
+
+export const MainHome = styled.div`
+    width: 40vw;
     margin: 4rem auto;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1.5rem;
     text-align: center;
-    border: 0.20rem solid black;
+    border: 0.25rem solid #000;
     border-radius: 0.25rem;
 `;
 
-export const ButtonHome = styled.button`
+export const LinkHomeStyled = styled(Link)`
+    padding: 2rem;
     margin: 0.5rem;
-    padding: 1rem;
     font-size: 1.25rem;
-    border: 0.30rem solid salmon;
+    border: 0.25rem solid #000;
     border-radius: 0.25rem;
-    background: white;
+    background: #fa8072;
+    color: #fff;
+    &:hover{
+        border-color: #fa8072;
+        background: #000;
+    }
 `;
 
 export const Dashboard = styled.div`
-    width: 90vw;
-    height: 85vh;
+    width: 80vw;
+    height: 80vh;
+    margin: 4rem auto;
+    padding: 1rem;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-    padding: 1rem;
-    margin: 4rem auto;
 `;
 
 export const Form = styled.div`
-    width: 60%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    padding-left: 1rem;
+    padding: 1rem;
+    padding-top: 2rem;
 `;
 
-export const WrapperInputsWeb = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-`;
-
-export const CheckboxStyed = styled.div`
+export const CheckboxForm = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
 `;
 
 export const Panel = styled.div`
-    align-self: center; 
     width: 80%;
     margin: 0.25rem;
     padding: 0.25rem;
+    align-self: center; 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    border: 0.15rem solid black;
+    border: 0.15rem solid #000;
     border-radius: 0.5rem;
 `;
 
-export const ButtonStyled =  styled.button`
-    background: salmon;
-    color: white;
-    border: 0.25rem solid white;
+export const WrapperInputPanel = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+`;
+
+export const ButtonPanel =  styled.button`
+    background: #fa8072;
+    color: #fff;
+    border: 0.25rem solid #fff;
     border-radius: 0.5rem;
     width: 2rem;
     height: 2rem;
     &: hover {
-        color: yellow;
+        color: #fff30a;
     }
 `;
 
 export const ButtonModal=  styled.button`
-    width: 1.75rem;
-    height: 1.75rem;
-    background: gray;
-    border:none;
+    width: 1.70rem;
+    height: 1.70rem;
+    background: #dbdbdb;    
+    border: none;
     border-radius: 1rem;
 `;
 
@@ -98,32 +108,33 @@ export const ModalBackground = styled.div`
 
 export const ModalText =  styled.p`
     padding: 2rem;
-    border: 2px solid salmon;
+    border: 0.25rem solid #fa8072;
     border-radius: 10px;
     margin-bottom: 50px;
-    background: white;
+    background: #fff;
 `;
 
-export const ButtonSaveBudget = styled.button`
-    background: salmon;
-    color: white;
-    border: 0.15rem solid black;
-    border-radius: 0.5rem;
-    align-self: start;
-    padding: 0.5rem;
-     &: hover {
-        color: yellow;
-    }  
-`;
-
-export const InputStyled = styled.div`
+export const InputForm = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
 `;  
 
+export const ButtonSaveBudget = styled.button`
+    padding: 1rem;
+    align-self: start;
+    border: 0.15rem solid #000;
+    border-radius: 0.5rem;
+    color: #fff;
+    background: #fa8072;
+     &: hover {
+        color: #fff30a;
+    }  
+`;
+
 export const BudgetWrapper = styled.div`
-    width: 40%;
+    flex: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
     font-size: 0.6rem;
@@ -137,8 +148,8 @@ export const BtnNav = styled.button`
     flex: 1;
     padding: 0.5rem;
     border: none;
-    background: salmon;
-    color: white;
+    background: #fa8072;
+    color: #fff;
      &: hover {
         color: yellow;
         font-weight: 600;
@@ -148,13 +159,13 @@ export const InputSearchStyled = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: salmon;
+    background: #fa8072;
     padding: 0.5rem;
     border: none;
-    background: salmon;
-    color: white;
+    background: #fa8072;
+    color: #fff;
     &: hover {
-        color: yellow;
+        color: #fff30a;
         font-weight: 600;
 `;
 
@@ -165,7 +176,7 @@ export const UlStyled = styled.ul`
 export const ListItem = styled.li`
     display: flex;
     flex-direction: column;
-    border: 0.10rem solid salmon;
+    border: 0.10rem solid #fa8072;
     margin: 0.10rem;
 `;
 

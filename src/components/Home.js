@@ -1,22 +1,21 @@
-import { Link } from 'react-router-dom';
-import { HomeStyled } from './Style.js';
-import { ButtonHome } from './Style.js'
+import {  MainHome,  LinkHomeStyled } from './Style.js';
+
 
 export function Home() {
     return (
-        <HomeStyled>
+        <MainHome>
             <h1>Budget Application</h1>
             <ul>
-                <li> Customize services request </li>
-                <li> Store last session preferences</li>
-                <li> Save budgets and display them </li>
-                <li> Sort budgets alphabetically A-z </li>
-                <li> Sort budgets by Date </li>
-                <li> Filter budgets by budget name</li>
-                <li> Reset filters </li>
+                <li>Customize services request</li>
+                <li>Store last session preferences</li>
+                <li>Save, display and filter budgets</li>
+                <li>Sort alphabetically A-z</li>
+                <li>Sort by closest Date</li>
+                <li>Filter by budget name</li>
+                <li>Reset filters</li>
             </ul>
-            <ButtonHome><Link to="../App"> Dashboard </Link></ButtonHome>
+           <LinkHomeStyled to="../App"> Dashboard </LinkHomeStyled>
             <p>Maintaned by <a href='https://github.com/alexcumplido/'>Alexandre Cumplido Bou</a></p>
-        </HomeStyled>
+        </MainHome>
     )
 }
