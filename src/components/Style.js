@@ -38,6 +38,7 @@ export const Form = styled.div`
     flex-direction: column;
     gap: 1.5rem;
     padding-left: 1rem;
+    outline: 1px solid black;
 `;
 
 export const WrapperInputsWeb = styled.div`
@@ -54,7 +55,7 @@ export const CheckboxStyed = styled.div`
 
 export const Panel = styled.div`
     align-self: center; 
-    width: 60%;
+    width: 80%;
     margin: 0.25rem;
     padding: 0.25rem;
     display: flex;

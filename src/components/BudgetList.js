@@ -22,7 +22,7 @@ export function BudgetList( { data } ) {
     }
 
     useEffect(()=>{
-        let searchExist = [...data].find((element)=> element.nameUser === search);
+        let searchExist = [...data].find((element)=> element.nameBudget === search);
         if(searchExist) {
             let filterSearch = [...data].filter((element)=> element.nameBudget === search);
             setBudget(filterSearch);
