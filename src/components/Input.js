@@ -1,8 +1,8 @@
-import { WrapperInputText } from './Style.js';
+import { InputStyled } from './Style.js';
 
 export const Input = ({ label, id, value, onChange}) => {
   return (
-    <WrapperInputText>
+    <InputStyled>
        <label htmlFor={id}> 
           {label} 
         </label>
@@ -13,7 +13,7 @@ export const Input = ({ label, id, value, onChange}) => {
           value={value} 
           onChange={onChange}
         />
-    </WrapperInputText>
+    </InputStyled>
     );
 }
 

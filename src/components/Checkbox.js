@@ -1,8 +1,8 @@
-import { WrapperInputCheckbox } from './Style.js';
+import { CheckboxStyed } from './Style.js';
 
 export const Checkbox = ({id, check, onChange, label }) => {
   return (
-    <WrapperInputCheckbox>  
+    <CheckboxStyed>  
         <input 
           type='checkbox' 
           id={id} 
@@ -13,6 +13,6 @@ export const Checkbox = ({id, check, onChange, label }) => {
         <label htmlFor={id} > 
           {label} 
         </label>
-    </WrapperInputCheckbox>
+    </CheckboxStyed>
   );
 }

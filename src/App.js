@@ -8,6 +8,7 @@ import { BudgetList } from './components/BudgetList.js';
 import { Form } from './components/Style.js';
 import { Panel } from './components/Style.js'
 import { Dashboard } from './components/Style.js';
+import { ButtonSaveBudget } from './components/Style.js'
 
 export function App() {
   //States.......................................................................
@@ -262,21 +263,21 @@ export function App() {
         />
 
         <Input
-          label='Nombre cliente'
+          label='User name'
           id='nameUser' 
           value={inputsCustomer.nameUser} 
           onChange={onChangeInputCustomer}
         />
 
        <Input
-          label='Título presupuesto'
+          label='Budget name'
           id='nameBudget' 
           value={inputsCustomer.nameBudget} 
           onChange={onChangeInputCustomer}
         />
 
-        <p>Total price is {total}</p>
-        <button onClick={onClickSaveBudget}>Save Budget</button>
+        <p>Total price is <strong>{total}</strong>€</p>
+        <ButtonSaveBudget onClick={onClickSaveBudget}>Save Budget</ButtonSaveBudget>
       </Form>
       <BudgetList data={budgetSaved} />
     </Dashboard>

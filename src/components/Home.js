@@ -6,8 +6,6 @@ export function Home() {
     return (
         <HomeStyled>
             <h1>Budget Application</h1>
-
-        
             <ul>
                 <li> Customize services request </li>
                 <li> Store last session preferences</li>
@@ -17,9 +15,7 @@ export function Home() {
                 <li> Filter budgets by budget name</li>
                 <li> Reset filters </li>
             </ul>
-
             <ButtonHome><Link to="../App"> Dashboard </Link></ButtonHome>
-
             <p>Maintaned by <a href='https://github.com/alexcumplido/'>Alexandre Cumplido Bou</a></p>
         </HomeStyled>
     )

@@ -9,13 +9,12 @@ export const GlobalStyle = createGlobalStyle`
         font-family: 'Tomorrow', sans-serif;
         text-decoration: none;
     }
-
-    // NOT NECESSARY. ERASE AND CHECK MODAL SO NEW COMPONENTS ORGANIZATION
+    
     body {
         margin: 0;
         width: 100vw;
         height: 100vh;
-        position: absolute;
+        font-size: 1rem;
     }
 
     ul {
