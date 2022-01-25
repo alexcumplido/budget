@@ -23,9 +23,9 @@ export const LinkHomeStyled = styled(Link)`
     border-radius: 0.25rem;
     background: #fa8072;
     color: #fff;
-    &:hover{
-        border-color: #fa8072;
-        background: #000;
+   &: hover {
+        color: #000;
+        background: #fba69d;
     }
 `;
 
@@ -127,69 +127,78 @@ export const ButtonSaveBudget = styled.button`
     border-radius: 0.5rem;
     color: #fff;
     background: #fa8072;
-     &: hover {
-        color: #fff30a;
+    &: hover {
+        color: #000;
+        background: #fba69d;
     }  
 `;
 
-export const BudgetWrapper = styled.div`
+export const WrapperBudget = styled.div`
     flex: 1;
     height: 100%;
     display: flex;
     flex-direction: column;
-    font-size: 0.6rem;
+    font-size: 0.65rem;
 `;
 
-export const NavButtons = styled.div`
-   display: flex;
+export const GroupBtnBudget = styled.div`
+    display: flex;
 `;
 
-export const BtnNav = styled.button`
+export const BtnBudget = styled.button`
     flex: 1;
-    padding: 0.5rem;
+    padding: 1rem;
     border: none;
-    background: #fa8072;
     color: #fff;
-     &: hover {
-        color: yellow;
-        font-weight: 600;
+    background: #fa8072;
+    &: hover {
+        font-weight: 700;
+        color: #000;
+        background: #fba69d;
+    }
 `;
 
 export const InputSearchStyled = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #fa8072;
-    padding: 0.5rem;
-    border: none;
+    padding: 0.75rem;
+    padding-left: 3.5rem;
     background: #fa8072;
     color: #fff;
     &: hover {
-        color: #fff30a;
-        font-weight: 600;
+        font-weight: 700;
+        color: #000;
+        background: #fba69d;
+    }
 `;
 
-export const UlStyled = styled.ul`
+export const UlBudget = styled.ul`
     overflow-y: scroll;
 `;
 
-export const ListItem = styled.li`
+export const ListItem = styled.li`  
+    margin: 0.10rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
+    gap: 0.50rem;
     border: 0.10rem solid #fa8072;
-    margin: 0.10rem;
 `;
 
 export const HeadingListItem = styled.div`
     display: flex;
-    gap: 1rem;
+    justify-content: space-between;
 `;
 
-export const BodyListItem = styled.div`
+export const UlBodyListItem = styled.ul`
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 `;
 
 export const FooterListItem = styled.div`
-        display: flex;
-        justify-content: flex-end;
-        font-weight: 600;
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 600;
 `;

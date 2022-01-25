@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
-import { BudgetWrapper } from './Style.js';
-import { ListItems } from './ListItems.js';
 import { InputSearch } from './InputSearch.js';
-import { NavButtons, BtnNav } from './Style.js';
+import { ListItems } from './ListItems.js';
+import { 
+    WrapperBudget, 
+    GroupBtnBudget, 
+    BtnBudget } from './Style.js';
+
 
 export function BudgetList( { data } ) {
     
@@ -45,15 +48,15 @@ export function BudgetList( { data } ) {
     });
 
     return (
-        <BudgetWrapper>
-            <NavButtons>
-                <BtnNav onClick={resetBudget}>Refresh</BtnNav>
-                <BtnNav onClick={filterName}>Filter A-Z</BtnNav>
-                <BtnNav onClick={filterDate}>Filter date</BtnNav>
-            </NavButtons>
+        <WrapperBudget>
+            <GroupBtnBudget>
+                <BtnBudget onClick={resetBudget}>Refresh</BtnBudget>
+                <BtnBudget onClick={filterName}>Filter A-Z</BtnBudget>
+                <BtnBudget onClick={filterDate}>Filter date</BtnBudget>
+            </GroupBtnBudget>
             <InputSearch id='search' label={'Search budgetName'} name='search' value={search} onChange={setStateSearch}/>
             <ListItems budget={budget}/>
-        </BudgetWrapper>
+        </WrapperBudget>
     )
 }
         

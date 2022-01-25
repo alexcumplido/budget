@@ -1,5 +1,9 @@
-import { UlStyled } from './Style.js' 
-import { ListItem, HeadingListItem, BodyListItem, FooterListItem} from './Style.js' 
+import { 
+    UlBudget, 
+    ListItem, 
+    HeadingListItem, 
+    UlBodyListItem, 
+    FooterListItem } from './Style.js' 
 
 export function ListItems ({ budget }) {
 
@@ -11,13 +15,11 @@ export function ListItems ({ budget }) {
                     <p>Budget title: {element.nameBudget}</p>
                     <p>Date: {element.date.toString()}</p>
                 </HeadingListItem>
-                <BodyListItem>
-                <ul>
-                    <li>Web {element.web ? '500€': 'false'}, paginas: {element.paginas} idiomas: {element.idiomas} </li>
-                    <li>Seo: {element.seo ? '300€': 'false'}</li> 
-                    <li>GoogleAdds: {element.googleAdds ? '200€':'false'}</li>
-                </ul>
-                 </BodyListItem>
+                <UlBodyListItem>
+                    <li>Web {element.web ? '500€': '0€'}, num. pages: {element.paginas} num. languages: {element.idiomas}</li>
+                    <li>Seo: {element.seo ? '300€': '0€'}</li> 
+                    <li>GoogleAdds: {element.googleAdds ? '200€':'0€'}</li>
+                </UlBodyListItem>
                 <FooterListItem>    
                 <p>Price: {element.total}€</p>
                </FooterListItem>
@@ -25,8 +27,8 @@ export function ListItems ({ budget }) {
         );
     })
     return (
-        <UlStyled>
+        <UlBudget>
             {listItems}
-        </UlStyled>
+        </UlBudget>
     )
 } 
