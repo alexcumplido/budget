@@ -29,7 +29,6 @@ export const Dashboard = styled.div`
     gap: 1rem;
     padding: 1rem;
     margin: 4rem auto;
-    outline: 1px solid black;
 `;
 
 export const Form = styled.div`
@@ -38,7 +37,6 @@ export const Form = styled.div`
     flex-direction: column;
     gap: 1.5rem;
     padding-left: 1rem;
-    outline: 1px solid black;
 `;
 
 export const WrapperInputsWeb = styled.div`
@@ -125,10 +123,39 @@ export const InputStyled = styled.div`
 `;  
 
 export const BudgetWrapper = styled.div`
+    width: 40%;
     display: flex;
     flex-direction: column;
-    border: 1px solid gray;
-    border-radius: 10px;    
     font-size: 0.6rem;
-    overflow: scroll;
+    overflow-y: scroll;
+`;
+
+export const NavButtons = styled.div`
+   display: flex;
+`;
+
+export const BtnNav = styled.button`
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    background: salmon;
+    color: white;
+     &: hover {
+        color: yellow;
+        font-weight: 600;
+`;
+
+export const InputSearchStyled = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: salmon;
+    padding: 0.5rem;
+    border: none;
+    background: salmon;
+    color: white;
+    &: hover {
+        color: yellow;
+        font-weight: 600;
+
 `;
