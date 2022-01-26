@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import  { useSearchParams } from 'react-router-dom';
-
+import  { useSearchParams, Link } from 'react-router-dom';
 import { Checkbox } from './components/Checkbox.js';
 import { InputPanel } from './components/InputPanel.js';
 import { Input } from './components/Input.js'
@@ -216,9 +215,8 @@ export function App() {
   })
 
   return (
-    //<li>
-    //  <Link to="/"> Home </Link>
-    //</li>
+    <>
+    <Link to="/"> Home </Link>
     <Dashboard>
       <Form>
         <h3>Services</h3>
@@ -282,5 +280,6 @@ export function App() {
       </Form>
       <BudgetList data={budgetSaved} />
     </Dashboard>
+    </>
   );
 };
