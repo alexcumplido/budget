@@ -5,9 +5,9 @@ import {
     UlBodyListItem, 
     FooterListItem } from './Style.js' 
 
-export function ListItems ({ budget }) {
+export function ListItems ({ data }) {
 
-    let listItems = budget.map((element, index) => {
+    let listItems = data.map((element, index) => {
         return (
             <ListItem key={index}>
                 <HeadingListItem>

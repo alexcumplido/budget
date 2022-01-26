@@ -55,7 +55,7 @@ export function BudgetList( { data } ) {
                 <BtnBudget onClick={filterDate}>Filter date</BtnBudget>
             </GroupBtnBudget>
             <InputSearch id='search' label={'Search budgetName'} name='search' value={search} onChange={setStateSearch}/>
-            <ListItems budget={budget}/>
+            <ListItems data={budget}/>
         </WrapperBudget>
     )
 }

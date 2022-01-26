@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './utils/reportWebVitals';
-
 import { GlobalStyle } from './GlobalStyles.js'
 import { BrowserRouter , Route, Routes } from 'react-router-dom';
 import { Home } from './components/Home.js';
