@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import  { useSearchParams, Link } from 'react-router-dom';
+
 import { Checkbox } from './components/Checkbox.js';
 import { InputPanel } from './components/InputPanel.js';
 import { Input } from './components/Input.js'
-import { BudgetList } from './components/BudgetList.js';
-import { 
-  Dashboard, 
-  Form, 
-  Panel, 
-  ButtonSaveBudget } from './components/Style.js';
+import { InputSearch } from './components/InputSearch.js';
+import { ListItems } from './components/ListItems.js'
+import { Dashboard, Form, Panel, ButtonSaveBudget } from './components/Style.js';
+import { WrapperBudget, GroupBtnBudget, BtnBudget,} from './components/Style.js' 
 
 
 export function App() {
+
   //States.......................................................................
   const [searchParams, setSearchParams] = useSearchParams();
   
@@ -35,14 +35,18 @@ export function App() {
 
   let [modal, setModal] = useState(false);
 
-  let [budgetSaved, setBudgetSaved] = useState([]);
+  let [budget, setBudget] = useState([]);
+
+  let [budgetList, setBudgetList] = useState([]);
+
+  let [search, setSearch] = useState('');
 
   //setStates....................................................................
   const onChangeChecks = (event) => {
     setCheckState({ 
       ...checkState,
       [event.target.id]: event.target.checked,
-    })
+    });
   }
 
   const onChangeInputsWeb = (event) => {
@@ -50,14 +54,14 @@ export function App() {
     setInputsWeb({
       ...inputsWeb,
       [event.target.id]: (value<1) ? 1 : value,
-    })
+    });
   }
 
   const onChangeInputCustomer = (event) => {
     setInputsCustomer({ 
       ...inputsCustomer,
       [event.target.id]: event.target.value,
-    })
+    });
   }
 
   const addPage = ()=>  {
@@ -70,23 +74,29 @@ export function App() {
   const addLanguage = ()=> {
     setInputsWeb({
       ...inputsWeb, 
-      idiomas: ++inputsWeb.idiomas}); 
+      idiomas: ++inputsWeb.idiomas
+    }); 
   }
 
   const subtractPage = ()=> {
     if(inputsWeb.paginas>1) setInputsWeb({
       ...inputsWeb,
-      paginas: --inputsWeb.paginas})
+      paginas: --inputsWeb.paginas
+    });
   }
 
   const subtractLanguage = ()=> {
     if(inputsWeb.idiomas>1) setInputsWeb({
       ...inputsWeb, 
       idiomas: --inputsWeb.idiomas
-    })
+    });
   }
 
   const handleModal = ()=> setModal(!modal)
+
+  const setStateSearch = (event) => setSearch(event.target.value);
+
+  const resetBudget = () => setBudgetList([...budget]);
 
   //cleanUpInputs................................................................
   useEffect(()=> {
@@ -94,12 +104,12 @@ export function App() {
       setInputsWeb({ 
         paginas: 1, 
         idiomas: 1
-      })
+      });
     } else if (!checkState.web) {
       setInputsWeb({ 
         paginas: 0, 
         idiomas: 0
-      })
+      });
     } 
   },[checkState.web]);
 
@@ -112,32 +122,6 @@ export function App() {
     setTotal(total+((inputsWeb.paginas*inputsWeb.idiomas)*30));
   },[checkState, inputsWeb]);
 
-  function onClickSaveBudget () {
-      setBudgetSaved([
-        ...budgetSaved,
-      {
-        ...checkState,
-        ...inputsWeb,
-        ...inputsCustomer,
-        total: total,
-        date: new Date(),
-      }
-    ])
-  }
-
-  useEffect(()=>{
-    if (localStorage.getItem(('budgetsForm'))) {
-      let budgetStorage = JSON.parse(localStorage.getItem(('budgetsForm')));
-      setBudgetSaved(budgetStorage);
-    }
-  }, []);
-
-  useEffect(()=>{
-    if(budgetSaved) {
-      window.localStorage.setItem('budgetsForm', JSON.stringify(budgetSaved));
-    }
-  });
-  
   //get localStorage || SearchParams............................................
   useEffect(() => {
     let locationSearch = window.location.search;
@@ -212,74 +196,139 @@ export function App() {
       ...inputsCustomer,
       total: total,
     }));
-  })
+  });
 
+  //Set array budgets into budgetState..........................................
+  function addBudget () {
+      setBudget([
+        ...budget,
+      {
+        ...checkState,
+        ...inputsWeb,
+        ...inputsCustomer,
+        total: total,
+        date: new Date(),
+      }
+    ]);
+  }
+
+  //Get from localStorage arrayBudgets stored...................................
+  useEffect(()=>{
+    if (localStorage.getItem(('budgetStorage'))) {
+      setBudget(JSON.parse(localStorage.getItem(('budgetStorage'))));
+    }
+  }, []);
+
+  //Every time budget state changes send it to localStorage.....................
+  useEffect(()=>{
+    window.localStorage.setItem('budgetStorage', JSON.stringify(budget));
+  },[budget]);
+
+  useEffect(()=>{
+    setBudgetList([...budget]);
+  },[budget])
+
+  const filterName = ()=> {
+    let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
+    setBudgetList(filterName);
+  }
+
+  const filterDate = ()=> {
+    let filterDate = [...budget].sort((a, b) => a.date < b.date ? 1 : -1);
+    setBudgetList(filterDate);
+  }
+
+  useEffect(()=>{
+    let searchExist = [...budget].find((element)=> element.nameBudget === search);
+    if(searchExist) {
+        let filterSearch = [...budget].filter((element)=> element.nameBudget === search);
+        setBudgetList(filterSearch);
+    } else {
+        resetBudget();
+    }
+  },[search]);
+
+  useEffect(()=>{
+    setBudgetList(JSON.parse(localStorage.getItem(('dataList'))));
+  }, []);
+
+  useEffect(()=>{
+    window.localStorage.setItem('dataList', JSON.stringify(budgetList));
+  },[budgetList]);
+
+ 
   return (
-    <>
-    <Link to="/"> Home </Link>
-    <Dashboard>
-      <Form>
-        <h3>Services</h3>
-        <Checkbox 
-          label='Crear Web (500€)' 
-          id='web' 
-          check={checkState.web} 
-          onChange={onChangeChecks} 
-        />
-        {checkState.web && 
-        <Panel>
-          <InputPanel 
-            id='paginas' 
-            value={inputsWeb.paginas}
-            addInput={addPage}
-            subtractInput={subtractPage}
-            onChange={onChangeInputsWeb}
-            modal={modal}
-            handleModal={handleModal}
+      <Dashboard>
+        <Link to="/"> Home </Link>
+        <Form>
+          <h3>Services</h3>
+          <Checkbox 
+            label='Crear Web (500€)' 
+            id='web' 
+            check={checkState.web} 
+            onChange={onChangeChecks} 
           />
-          <InputPanel  
-            id='idiomas' 
-            value={inputsWeb.idiomas}
-            addInput={addLanguage}
-            subtractInput={subtractLanguage}
-            onChange={onChangeInputsWeb}
-            modal={modal}
-            handleModal={handleModal}
+          {checkState.web && 
+          <Panel>
+            <InputPanel 
+              id='paginas' 
+              value={inputsWeb.paginas}
+              addInput={addPage}
+              subtractInput={subtractPage}
+              onChange={onChangeInputsWeb}
+              modal={modal}
+              handleModal={handleModal}
+            />
+            <InputPanel  
+              id='idiomas' 
+              value={inputsWeb.idiomas}
+              addInput={addLanguage}
+              subtractInput={subtractLanguage}
+              onChange={onChangeInputsWeb}
+              modal={modal}
+              handleModal={handleModal}
+            />
+          </Panel>}
+          
+          <Checkbox 
+            label='Seo Analysis (300€)' 
+            id={'seo'}
+            check={checkState.seo} 
+            onChange={onChangeChecks} 
+          /> 
+          <Checkbox 
+            label='GoogleAdds action (200€)' 
+            id='googleAdds' 
+            check={checkState.googleAdds} 
+            onChange={onChangeChecks} 
           />
-        </Panel>}
-        
-        <Checkbox 
-          label='Seo Analysis (300€)' 
-          id={'seo'}
-          check={checkState.seo} 
-          onChange={onChangeChecks} 
-        /> 
-        <Checkbox 
-          label='GoogleAdds action (200€)' 
-          id='googleAdds' 
-          check={checkState.googleAdds} 
-          onChange={onChangeChecks} 
-        />
+
+          <Input
+            label='User name'
+            id='nameUser' 
+            value={inputsCustomer.nameUser} 
+            onChange={onChangeInputCustomer}
+          />
 
         <Input
-          label='User name'
-          id='nameUser' 
-          value={inputsCustomer.nameUser} 
-          onChange={onChangeInputCustomer}
-        />
+            label='Budget name'
+            id='nameBudget' 
+            value={inputsCustomer.nameBudget} 
+            onChange={onChangeInputCustomer}
+          />
 
-       <Input
-          label='Budget name'
-          id='nameBudget' 
-          value={inputsCustomer.nameBudget} 
-          onChange={onChangeInputCustomer}
-        />
-
-        <p>Total price is <strong>{total}</strong>€</p>
-        <ButtonSaveBudget onClick={onClickSaveBudget}>Save Budget</ButtonSaveBudget>
-      </Form>
-      <BudgetList data={budgetSaved} />
-    </Dashboard>
-    </>
+          <p>Total price is <strong>{total}</strong>€</p>
+          <ButtonSaveBudget onClick={addBudget}>Add budget</ButtonSaveBudget>
+        </Form>
+        <WrapperBudget>
+          <GroupBtnBudget>
+            <BtnBudget onClick={resetBudget}>Refresh</BtnBudget>
+            <BtnBudget onClick={filterName}>Filter A-Z</BtnBudget>
+            <BtnBudget onClick={filterDate}>Filter date</BtnBudget>
+          </GroupBtnBudget>
+            <InputSearch id='search' label={'Search budgetName'} name='search' value={search} onChange={setStateSearch}/>
+            <ListItems data={ budgetList }></ListItems>
+        </WrapperBudget>
+      </Dashboard>
   );
 };
