@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import  { useSearchParams, Link } from 'react-router-dom';
-
 import { Checkbox } from './components/Checkbox.js';
 import { InputPanel } from './components/InputPanel.js';
 import { Input } from './components/Input.js'
+import { 
+  Dashboard, 
+  Form, 
+  Panel, 
+  ButtonSaveBudget } from './components/Style.js';
 import { InputSearch } from './components/InputSearch.js';
-import { ListItems } from './components/ListItems.js'
-import { Dashboard, Form, Panel, ButtonSaveBudget } from './components/Style.js';
-import { WrapperBudget, GroupBtnBudget, BtnBudget,} from './components/Style.js' 
+import { WrapperBudget, GroupBtnBudget, 
+  BtnBudget,
+  UlBudget, 
+  ListItem, 
+  HeadingListItem, 
+  UlBodyListItem, 
+  FooterListItem } from './components/Style.js' 
 
 
 export function App() {
@@ -229,13 +237,13 @@ export function App() {
   },[budget])
 
   const filterName = ()=> {
-    let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
-    setBudgetList(filterName);
+      let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
+      setBudgetList(filterName);
   }
 
   const filterDate = ()=> {
-    let filterDate = [...budget].sort((a, b) => a.date < b.date ? 1 : -1);
-    setBudgetList(filterDate);
+      let filterDate = [...budget].sort((a, b) => a.date < b.date ? 1 : -1);
+      setBudgetList(filterDate);
   }
 
   useEffect(()=>{
@@ -249,14 +257,35 @@ export function App() {
   },[search]);
 
   useEffect(()=>{
-    setBudgetList(JSON.parse(localStorage.getItem(('dataList'))));
+    if(localStorage.getItem(('dataList'))) {
+        setBudgetList(JSON.parse(localStorage.getItem(('dataList'))));
+    }
   }, []);
 
   useEffect(()=>{
-    window.localStorage.setItem('dataList', JSON.stringify(budgetList));
+  window.localStorage.setItem('dataList', JSON.stringify(budgetList));
   },[budgetList]);
 
- 
+  let listItems = budgetList.map((element, index) => {
+      return (
+          <ListItem key={index}>
+              <HeadingListItem>
+                  <p>Customer name: {element.nameUser}</p>
+                  <p>Budget title: {element.nameBudget}</p>
+                  <p>Date: {element.date.toString()}</p>
+              </HeadingListItem>
+              <UlBodyListItem>
+                  <li>Web {element.web ? '500€': '0€'}, num. pages: {element.paginas} num. languages: {element.idiomas}</li>
+                  <li>Seo: {element.seo ? '300€': '0€'}</li> 
+                  <li>GoogleAdds: {element.googleAdds ? '200€':'0€'}</li>
+              </UlBodyListItem>
+              <FooterListItem>    
+              <p>Price: {element.total}€</p>
+              </FooterListItem>
+          </ListItem>
+      );
+  })
+
   return (
       <Dashboard>
         <Link to="/"> Home </Link>
@@ -327,7 +356,9 @@ export function App() {
             <BtnBudget onClick={filterDate}>Filter date</BtnBudget>
           </GroupBtnBudget>
             <InputSearch id='search' label={'Search budgetName'} name='search' value={search} onChange={setStateSearch}/>
-            <ListItems data={ budgetList }></ListItems>
+            <UlBudget>
+                {listItems}
+            </UlBudget>
         </WrapperBudget>
       </Dashboard>
   );
