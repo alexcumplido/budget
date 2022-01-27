@@ -3,19 +3,10 @@ import  { useSearchParams, Link } from 'react-router-dom';
 import { Checkbox } from './components/Checkbox.js';
 import { InputPanel } from './components/InputPanel.js';
 import { Input } from './components/Input.js'
-import { 
-  Dashboard, 
-  Form, 
-  Panel, 
-  ButtonSaveBudget } from './components/Style.js';
+import { Dashboard, Form, Panel, ButtonSaveBudget } from './components/Style.js';
 import { InputSearch } from './components/InputSearch.js';
-import { WrapperBudget, GroupBtnBudget, 
-  BtnBudget,
-  UlBudget, 
-  ListItem, 
-  HeadingListItem, 
-  UlBodyListItem, 
-  FooterListItem } from './components/Style.js' 
+import { ListItems } from './components/ListItems.js'
+import { WrapperBudget, GroupBtnBudget, BtnBudget,} from './components/Style.js' 
 
 
 export function App() {
@@ -230,12 +221,13 @@ export function App() {
   //Every time budget state changes send it to localStorage.....................
   useEffect(()=>{
     window.localStorage.setItem('budgetStorage', JSON.stringify(budget));
-  },[budget]);
+  }, [budget]);
 
   useEffect(()=>{
     setBudgetList([...budget]);
-  },[budget])
+  }, [budget])
 
+  //Filters.....................................................................
   const filterName = ()=> {
     let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
     setBudgetList(filterName);
@@ -271,29 +263,12 @@ export function App() {
   window.localStorage.setItem('dataList', JSON.stringify(budgetList));
   },[budgetList]);
 
-  let listItems = budgetList.map((element, index) => {
-      return (
-          <ListItem key={index}>
-              <HeadingListItem>
-                  <p>Customer name: {element.nameUser}</p>
-                  <p>Budget title: {element.nameBudget}</p>
-                  <p>Date: {element.date.toString()}</p>
-              </HeadingListItem>
-              <UlBodyListItem>
-                  <li>Web {element.web ? '500€': '0€'}, num. pages: {element.paginas} num. languages: {element.idiomas}</li>
-                  <li>Seo: {element.seo ? '300€': '0€'}</li> 
-                  <li>GoogleAdds: {element.googleAdds ? '200€':'0€'}</li>
-              </UlBodyListItem>
-              <FooterListItem>    
-              <p>Price: {element.total}€</p>
-              </FooterListItem>
-          </ListItem>
-      );
-  })
+  
 
   return (
+    <>
+      <Link to="/"> Home </Link>
       <Dashboard>
-        <Link to="/"> Home </Link>
         <Form>
           <h3>Services</h3>
           <Checkbox 
@@ -343,8 +318,7 @@ export function App() {
             value={inputsCustomer.nameUser} 
             onChange={onChangeInputCustomer}
           />
-
-        <Input
+          <Input
             label='Budget name'
             id='nameBudget' 
             value={inputsCustomer.nameBudget} 
@@ -362,10 +336,9 @@ export function App() {
             <BtnBudget onClick={deleteList}>Delete list</BtnBudget>
           </GroupBtnBudget>
             <InputSearch id='search' label={'Search budgetName'} name='search' value={search} onChange={setStateSearch}/>
-            <UlBudget>
-                {listItems}
-            </UlBudget>
+            <ListItems data={budgetList}/>
         </WrapperBudget>
       </Dashboard>
+    </>
   );
 };
