@@ -237,13 +237,18 @@ export function App() {
   },[budget])
 
   const filterName = ()=> {
-      let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
-      setBudgetList(filterName);
+    let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
+    setBudgetList(filterName);
   }
 
   const filterDate = ()=> {
-      let filterDate = [...budget].sort((a, b) => a.date < b.date ? 1 : -1);
-      setBudgetList(filterDate);
+    let filterDate = [...budget].sort((a, b) => a.date < b.date ? 1 : -1);
+    setBudgetList(filterDate);
+  }
+
+  const deleteList = () => {
+    setBudget([]);
+    setBudgetList([]);
   }
 
   useEffect(()=>{
@@ -351,9 +356,10 @@ export function App() {
         </Form>
         <WrapperBudget>
           <GroupBtnBudget>
-            <BtnBudget onClick={resetBudget}>Refresh</BtnBudget>
+            <BtnBudget onClick={resetBudget}>Reset</BtnBudget>
             <BtnBudget onClick={filterName}>Filter A-Z</BtnBudget>
             <BtnBudget onClick={filterDate}>Filter date</BtnBudget>
+            <BtnBudget onClick={deleteList}>Delete list</BtnBudget>
           </GroupBtnBudget>
             <InputSearch id='search' label={'Search budgetName'} name='search' value={search} onChange={setStateSearch}/>
             <UlBudget>
