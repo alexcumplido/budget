@@ -8,7 +8,6 @@ import { InputSearch } from './components/InputSearch.js';
 import { ListItems } from './components/ListItems.js'
 import { WrapperBudget, GroupBtnBudget, BtnBudget,} from './components/Style.js' 
 
-
 export function App() {
 
   //States.......................................................................
@@ -40,7 +39,7 @@ export function App() {
 
   let [search, setSearch] = useState('');
 
-  //setStates....................................................................
+  //State handlers.................................................................
   const onChangeChecks = (event) => {
     setCheckState({ 
       ...checkState,
@@ -66,28 +65,28 @@ export function App() {
   const addPage = ()=>  {
     setInputsWeb({
       ...inputsWeb, 
-      paginas: ++inputsWeb.paginas
+      paginas: ++inputsWeb.paginas,
     });  
   } 
 
   const addLanguage = ()=> {
     setInputsWeb({
       ...inputsWeb, 
-      idiomas: ++inputsWeb.idiomas
+      idiomas: ++inputsWeb.idiomas,
     }); 
   }
 
   const subtractPage = ()=> {
     if(inputsWeb.paginas>1) setInputsWeb({
       ...inputsWeb,
-      paginas: --inputsWeb.paginas
+      paginas: --inputsWeb.paginas,
     });
   }
 
   const subtractLanguage = ()=> {
     if(inputsWeb.idiomas>1) setInputsWeb({
       ...inputsWeb, 
-      idiomas: --inputsWeb.idiomas
+      idiomas: --inputsWeb.idiomas,
     });
   }
 
@@ -96,6 +95,27 @@ export function App() {
   const setStateSearch = (event) => setSearch(event.target.value);
 
   const resetBudget = () => setBudgetList([...budget]);
+
+  //Budget filters.....................................................................
+  const filterUserName = ()=> {
+    let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
+    setBudgetList(filterName);
+  }
+
+  const filterDate = ()=> {
+    let filterDate = [...budget].sort((a, b) => a.date < b.date ? 1 : -1);
+    setBudgetList(filterDate);
+  }
+
+  const filterBudgetName = () => {
+    let filterSearch = [...budget].filter((element)=> element.nameBudget === search);
+    setBudgetList(filterSearch);
+  }
+
+ const deleteList = ()=> {
+    setBudget([]);
+    setBudgetList([]);
+  }
 
   //cleanUpInputs................................................................
   useEffect(()=> {
@@ -120,6 +140,20 @@ export function App() {
     if(checkState.googleAdds) setTotal(total+=200);
     setTotal(total+((inputsWeb.paginas*inputsWeb.idiomas)*30));
   },[checkState, inputsWeb]);
+
+//Set array budgets into budgetState............................................
+  function addBudget () {
+      setBudget([
+        ...budget,
+      {
+        ...checkState,
+        ...inputsWeb,
+        ...inputsCustomer,
+        total: total,
+        date: new Date(),
+      }
+    ]);
+  }
 
   //get localStorage || SearchParams............................................
   useEffect(() => {
@@ -197,20 +231,6 @@ export function App() {
     }));
   });
 
-  //Set array budgets into budgetState..........................................
-  function addBudget () {
-      setBudget([
-        ...budget,
-      {
-        ...checkState,
-        ...inputsWeb,
-        ...inputsCustomer,
-        total: total,
-        date: new Date(),
-      }
-    ]);
-  }
-
   //Get from localStorage arrayBudgets stored...................................
   useEffect(()=>{
     if (localStorage.getItem(('budgetStorage'))) {
@@ -227,43 +247,10 @@ export function App() {
     setBudgetList([...budget]);
   }, [budget])
 
-  //Filters.....................................................................
-  const filterName = ()=> {
-    let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
-    setBudgetList(filterName);
-  }
-
-  const filterDate = ()=> {
-    let filterDate = [...budget].sort((a, b) => a.date < b.date ? 1 : -1);
-    setBudgetList(filterDate);
-  }
-
-  const deleteList = () => {
-    setBudget([]);
-    setBudgetList([]);
-  }
-
   useEffect(()=>{
     let searchExist = [...budget].find((element)=> element.nameBudget === search);
-    if(searchExist) {
-        let filterSearch = [...budget].filter((element)=> element.nameBudget === search);
-        setBudgetList(filterSearch);
-    } else {
-        resetBudget();
-    }
+    (searchExist) ? filterBudgetName () : resetBudget();
   },[search]);
-
-  useEffect(()=>{
-    if(localStorage.getItem(('dataList'))) {
-        setBudgetList(JSON.parse(localStorage.getItem(('dataList'))));
-    }
-  }, []);
-
-  useEffect(()=>{
-  window.localStorage.setItem('dataList', JSON.stringify(budgetList));
-  },[budgetList]);
-
-  
 
   return (
     <>
@@ -331,7 +318,7 @@ export function App() {
         <WrapperBudget>
           <GroupBtnBudget>
             <BtnBudget onClick={resetBudget}>Reset</BtnBudget>
-            <BtnBudget onClick={filterName}>Filter A-Z</BtnBudget>
+            <BtnBudget onClick={filterUserName}>Filter A-Z</BtnBudget>
             <BtnBudget onClick={filterDate}>Filter date</BtnBudget>
             <BtnBudget onClick={deleteList}>Delete list</BtnBudget>
           </GroupBtnBudget>
