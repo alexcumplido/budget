@@ -21,15 +21,16 @@ export const InputPanel = ({ id, value, addInput, subtractInput, onChange,  moda
           onChange={onChange}
         />
         <ButtonPanel onClick={subtractInput}>-</ButtonPanel>
-        <ButtonModal onClick={handleModal}> Inf.</ButtonModal>
+         <ButtonModal onClick={handleModal}>  Inf.</ButtonModal> 
       </WrapperInputPanel>
-      {modal && 
+       {modal && 
         <Modal 
           textModal={id} 
           handleModal={handleModal}
         />
-      }
+        } 
     </>
     );
 }
 
+// import { Link } from "react-router-dom"/* <Link to="modal">Inf</Link> * Modal implementation via routes pending 

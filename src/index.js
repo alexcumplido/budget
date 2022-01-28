@@ -5,15 +5,17 @@ import { GlobalStyle } from './GlobalStyles.js'
 import { BrowserRouter , Route, Routes } from 'react-router-dom';
 import { Home } from './components/Home.js';
 import { App } from './App.js';
-
+// import { Modal } from './components/Modal.js';
+//  {/* <Route path="modal" element={<Modal/>}/> */} Modal implementation via routing pending
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle/>
         <BrowserRouter>
           <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/App" element={<App/>}/>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/app" element={<App/>} />
+            <Route path="*" element={<p>URL Error</p>}/>
         </Routes> 
     </BrowserRouter>
   </React.StrictMode>,

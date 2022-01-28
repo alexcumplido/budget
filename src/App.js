@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import  { useSearchParams, Link } from 'react-router-dom';
+import  { useSearchParams, Link } from 'react-router-dom'; 
 import { Checkbox } from './components/Checkbox.js';
 import { InputPanel } from './components/InputPanel.js';
 import { Input } from './components/Input.js'
@@ -324,3 +324,6 @@ export function App() {
     </>
   );
 };
+
+
+// Modal implementation via routes pending <Outlet/>
