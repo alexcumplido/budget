@@ -119,12 +119,7 @@ export function App() {
 
   //cleanUpInputs................................................................
   useEffect(()=> {
-    if(checkState.web && !searchParams) {
-      setInputsWeb({ 
-        paginas: 1, 
-        idiomas: 1
-      });
-    } else if (!checkState.web) {
+    if (!checkState.web) {
       setInputsWeb({ 
         paginas: 0, 
         idiomas: 0
