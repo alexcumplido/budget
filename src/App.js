@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import  { useSearchParams, Link } from 'react-router-dom'; 
+import  { useSearchParams, Link, Outlet } from 'react-router-dom'; 
 import { Checkbox } from './components/Checkbox.js';
 import { InputPanel } from './components/InputPanel.js';
 import { Input } from './components/Input.js'
@@ -30,8 +30,6 @@ export function App() {
   });
 
   let [total, setTotal] = useState(0);
-
-  let [modal, setModal] = useState(false);
 
   let [budget, setBudget] = useState([]);
 
@@ -89,8 +87,6 @@ export function App() {
       idiomas: --inputsWeb.idiomas,
     });
   }
-
-  const handleModal = ()=> setModal(!modal)
 
   const setStateSearch = (event) => setSearch(event.target.value);
 
@@ -267,8 +263,6 @@ export function App() {
               addInput={addPage}
               subtractInput={subtractPage}
               onChange={onChangeInputsWeb}
-              modal={modal}
-              handleModal={handleModal}
             />
             <InputPanel  
               id='idiomas' 
@@ -276,8 +270,6 @@ export function App() {
               addInput={addLanguage}
               subtractInput={subtractLanguage}
               onChange={onChangeInputsWeb}
-              modal={modal}
-              handleModal={handleModal}
             />
           </Panel>}
           
@@ -321,9 +313,8 @@ export function App() {
             <ListItems data={budgetList}/>
         </WrapperBudget>
       </Dashboard>
+      <Outlet />
     </>
   );
 };
 
-
-// Modal implementation via routes pending <Outlet/>
