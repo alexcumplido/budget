@@ -60,28 +60,28 @@ export function App() {
     });
   }
 
-  const addPage = ()=>  {
+  const addPage = () =>  {
     setInputsWeb({
       ...inputsWeb, 
       paginas: ++inputsWeb.paginas,
     });  
   } 
 
-  const addLanguage = ()=> {
+  const addLanguage = () => {
     setInputsWeb({
       ...inputsWeb, 
       idiomas: ++inputsWeb.idiomas,
     }); 
   }
 
-  const subtractPage = ()=> {
+  const subtractPage = () => {
     if(inputsWeb.paginas>1) setInputsWeb({
       ...inputsWeb,
       paginas: --inputsWeb.paginas,
     });
   }
 
-  const subtractLanguage = ()=> {
+  const subtractLanguage = () => {
     if(inputsWeb.idiomas>1) setInputsWeb({
       ...inputsWeb, 
       idiomas: --inputsWeb.idiomas,
@@ -93,12 +93,12 @@ export function App() {
   const resetBudget = () => setBudgetList([...budget]);
 
   //Budget filters.....................................................................
-  const filterUserName = ()=> {
+  const filterUserName = () => {
     let filterName = [...budget].sort((a, b) => a.nameUser < b.nameUser ? -1 : 1);
     setBudgetList(filterName);
   }
 
-  const filterDate = ()=> {
+  const filterDate = () => {
     let filterDate = [...budget].sort((a, b) => a.date < b.date ? 1 : -1);
     setBudgetList(filterDate);
   }
@@ -108,7 +108,7 @@ export function App() {
     setBudgetList(filterSearch);
   }
 
- const deleteList = ()=> {
+ const deleteList = () => {
     setBudget([]);
     setBudgetList([]);
   }
@@ -151,7 +151,7 @@ export function App() {
     let locationSearch = window.location.search;
     let formStorage = JSON.parse(localStorage.getItem(('form')));
 
-    if(locationSearch) {
+    if (locationSearch) {
       let state = {};
       searchParams.forEach((value, key)=> {
         if (value === 'true') value = true;
@@ -174,7 +174,7 @@ export function App() {
       });
       setTotal(total = state.total);
     } 
-    if(!locationSearch && formStorage) {
+    if (!locationSearch && formStorage) {
 
       setCheckState({
         web: formStorage.web,
@@ -213,7 +213,7 @@ export function App() {
   },[checkState, inputsWeb, inputsCustomer, total]);
 
   //localSotrage remembers last preferences.....................................
-  useEffect(()=>{
+  useEffect(() => {
     window.localStorage.setItem('form', JSON.stringify({
       ...checkState,
       ...inputsWeb,
@@ -223,22 +223,22 @@ export function App() {
   });
 
   //Get from localStorage arrayBudgets stored...................................
-  useEffect(()=>{
+  useEffect(() => {
     if (localStorage.getItem(('budgetStorage'))) {
       setBudget(JSON.parse(localStorage.getItem(('budgetStorage'))));
     }
   }, []);
 
   //Every time budget state changes send it to localStorage.....................
-  useEffect(()=>{
+  useEffect(() => {
     window.localStorage.setItem('budgetStorage', JSON.stringify(budget));
   }, [budget]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setBudgetList([...budget]);
   }, [budget])
 
-  useEffect(()=>{
+  useEffect(() => {
     let searchExist = [...budget].find((element)=> element.nameBudget === search);
     (searchExist) ? filterBudgetName () : resetBudget();
   },[search]);
