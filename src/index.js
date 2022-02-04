@@ -13,10 +13,8 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/app" element={<App/>} >
-              <Route path="modal" element={<Modal/>}>
-                 <Route path=":id" element={<Modal/>} />
-              </Route>
+            <Route path="/app" element={<App/>}>
+              <Route path="modal/:id" element={<Modal/>}/>
             </Route>
             <Route path="*" element={<p>URL Error</p>}/>
         </Routes> 
