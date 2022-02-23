@@ -3,11 +3,10 @@ import {
     ListItem, 
     HeadingListItem, 
     UlBodyListItem, 
-    FooterListItem } from './Style.js' 
+    FooterListItem } from './/Style.js'
 
-export function ListItems ({ budget }) {
-
-    let listItems = budget.map((element, index) => {
+export function ListItems ( { data }) {
+    let listItems = data.map((element, index) => {
         return (
             <ListItem key={index}>
                 <HeadingListItem>
@@ -22,13 +21,13 @@ export function ListItems ({ budget }) {
                 </UlBodyListItem>
                 <FooterListItem>    
                 <p>Price: {element.total}€</p>
-               </FooterListItem>
+                </FooterListItem>
             </ListItem>
         );
     })
-    return (
+    return(
         <UlBudget>
             {listItems}
         </UlBudget>
-    )
-} 
+    );
+}

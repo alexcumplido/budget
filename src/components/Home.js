@@ -14,7 +14,7 @@ export function Home() {
                 <li>Filter by budget name</li>
                 <li>Reset filters</li>
             </ul>
-           <LinkHomeStyled to="../App"> Dashboard </LinkHomeStyled>
+           <LinkHomeStyled to="/app"> Dashboard </LinkHomeStyled>
             <p>Maintaned by <a href='https://github.com/alexcumplido/'>Alexandre Cumplido Bou</a></p>
         </MainHome>
     )

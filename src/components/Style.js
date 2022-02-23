@@ -85,12 +85,23 @@ export const ButtonPanel =  styled.button`
     }
 `;
 
-export const ButtonModal=  styled.button`
+export const LinkButtonModal = styled(Link)`
+    display: flex;
+    justify-content: center;
+    align-items: center;    
     width: 1.70rem;
     height: 1.70rem;
     background: #dbdbdb;    
     border: none;
+    font-size: 0.90rem;
     border-radius: 1rem;
+    text-decoration: none;
+    color: #000;
+`;
+
+export const LinkBackgroundModal = styled(Link)`
+    text-decoration: none;
+    color: #000;
 `;
 
 export const ModalBackground = styled.div`

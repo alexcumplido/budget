@@ -1,13 +1,11 @@
-import { Modal } from './Modal.js'
 import { 
   WrapperInputPanel, 
   ButtonPanel, 
-  ButtonModal, } from './Style.js';
+  LinkButtonModal
+  } from './Style.js';
 
-
-export const InputPanel = ({ id, value, addInput, subtractInput, onChange,  modal, handleModal}) => {
+export const InputPanel = ({id, value, addInput, subtractInput, onChange}) => {
   return (
-    <>
       <WrapperInputPanel>
         <label htmlFor={id}> 
           {id} 
@@ -21,15 +19,7 @@ export const InputPanel = ({ id, value, addInput, subtractInput, onChange,  moda
           onChange={onChange}
         />
         <ButtonPanel onClick={subtractInput}>-</ButtonPanel>
-        <ButtonModal onClick={handleModal}> Inf.</ButtonModal>
+        <LinkButtonModal to={`modal/${id}`}>Inf</LinkButtonModal> 
       </WrapperInputPanel>
-      {modal && 
-        <Modal 
-          textModal={id} 
-          handleModal={handleModal}
-        />
-      }
-    </>
     );
 }
-

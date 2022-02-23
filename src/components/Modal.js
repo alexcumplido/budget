@@ -1,11 +1,15 @@
-import { ModalBackground, ModalText } from './Style.js';
+import { useParams } from 'react-router-dom';
+import { ModalBackground, ModalText, LinkBackgroundModal } from './Style.js';
 
-export function Modal ({ textModal, handleModal }) {
+export function Modal () {
+    let params = useParams();
     return(
-        <ModalBackground onClick={handleModal}>
-                <ModalText onClick={handleModal}>
-                   Inserte el número de  <strong>{textModal}</strong> que tendrá tu web porfavor.
-                </ModalText>
-        </ModalBackground>
+        <LinkBackgroundModal to="/app">
+            <ModalBackground>
+                    <ModalText>
+                    Inserte el número de <strong>{params.id}</strong> que tendrá tu web porfavor.
+                    </ModalText>
+            </ModalBackground>
+        </LinkBackgroundModal>
     );
 }
